@@ -7,287 +7,286 @@
 <style>
 :root{
   --hue:260;
-  --ac:hsl(var(--hue) 75% 76%);
-  --text:#f2f0f7;--muted:#a9a4b8;--blue:#3d8bff;--danger:#ff6b8a;--ok:#7be0a4;
-  --glass:rgba(255,255,255,.07);--glass-strong:rgba(255,255,255,.13);--glass-b:rgba(255,255,255,.16);
-  --bg:#07070a;--bgrad1:#1d1638;--bgrad2:#0b2a4a;--wave:rgba(255,255,255,.05);
+  --ac:hsl(var(--hue) 78% 78%);
+  --ac2:hsl(calc(var(--hue) + 60) 80% 70%);
+  --text:#f4f2fa;--muted:#aaa5bb;--blue:#4f8cff;--danger:#ff6b8a;--ok:#7be0a4;
+  --glass:rgba(255,255,255,.06);--glass-strong:rgba(255,255,255,.12);--glass-b:rgba(255,255,255,.14);
+  --bg:#06060a;
   --ease:cubic-bezier(.2,.7,.2,1);
+  --radius:26px;
 }
 body.light{
-  --text:#16141f;--muted:#5b5670;--blue:#2f6fe0;--ac:hsl(var(--hue) 55% 46%);--ok:#1f8a52;
-  --bg:#f2f0fa;--bgrad1:#d9ccff;--bgrad2:#bfe0ff;--wave:rgba(255,255,255,.55);
-  --glass:rgba(255,255,255,.58);--glass-strong:rgba(255,255,255,.8);--glass-b:rgba(255,255,255,.95);
+  --text:#17152a;--muted:#5d5873;--blue:#2f6fe0;--ac:hsl(var(--hue) 60% 48%);--ac2:hsl(calc(var(--hue) + 60) 65% 55%);
+  --bg:#f3f1fb;--ok:#1f8a52;
+  --glass:rgba(255,255,255,.55);--glass-strong:rgba(255,255,255,.82);--glass-b:rgba(255,255,255,.95);
 }
 [hidden]{display:none!important}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:90px}
-body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--text);background:var(--bg);min-height:100vh;overflow-x:hidden;line-height:1.55}
+body{margin:0;font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--text);background:var(--bg);min-height:100vh;overflow-x:hidden;line-height:1.6;-webkit-font-smoothing:antialiased}
 ::selection{background:var(--ac);color:#08080c}
 .skip{position:fixed;left:-999px;top:0;z-index:80;background:var(--ac);color:#08080c;padding:8px 14px;border-radius:10px;font-weight:700}
 .skip:focus{left:12px;top:12px}
+:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
 
 /* ---------- intro ---------- */
-#intro{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;background:var(--bg);transition:opacity .9s ease,visibility .9s;cursor:pointer}
+#intro{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;background:var(--bg);transition:opacity 1s ease,visibility 1s;cursor:pointer}
 #intro.done{opacity:0;visibility:hidden;pointer-events:none}
 .intro-core{text-align:center;padding:20px}
 .intro-word{display:flex;justify-content:center;margin:0;font-size:clamp(1.9rem,8vw,4.8rem);letter-spacing:.3em;font-weight:800;perspective:700px}
-.intro-word span{display:inline-block;opacity:0;transform:translateY(40px) rotateX(-70deg);animation:letter .8s var(--ease) forwards;animation-delay:calc(var(--i)*70ms + 200ms);text-shadow:0 0 34px var(--ac)}
-.intro-line{height:2px;width:0;margin:18px auto 12px;background:linear-gradient(90deg,transparent,var(--ac),transparent);animation:line 1.6s .9s var(--ease) forwards}
+.intro-word span{display:inline-block;opacity:0;transform:translateY(40px) rotateX(-70deg);animation:letter .9s var(--ease) forwards;animation-delay:calc(var(--i)*70ms + 200ms);text-shadow:0 0 40px var(--ac)}
+.intro-line{height:2px;width:0;margin:18px auto 12px;background:linear-gradient(90deg,transparent,var(--ac),transparent);animation:line 1.8s .9s var(--ease) forwards}
 .intro-core p{color:var(--muted);font-size:.85rem;opacity:0;animation:fade .8s 1.3s forwards;margin:0}
 @keyframes letter{to{opacity:1;transform:none}}
 @keyframes line{to{width:min(360px,70vw)}}
 @keyframes fade{to{opacity:1}}
 
-/* ---------- latar ---------- */
-.atmos{position:fixed;inset:0;z-index:-4;overflow:hidden;pointer-events:none;background:
-  radial-gradient(circle at 15% 10%,var(--bgrad1),transparent 45%),
-  radial-gradient(circle at 85% 90%,var(--bgrad2),transparent 50%),var(--bg)}
-.blob{position:absolute;border-radius:42% 58% 63% 37%/41% 44% 56% 59%;filter:blur(60px);opacity:.5;will-change:transform,translate,border-radius;transition:translate .8s var(--ease);animation:morph 16s ease-in-out infinite}
+/* ---------- atmosphere ---------- */
+.aurora{position:fixed;inset:-20%;z-index:-4;pointer-events:none;filter:blur(70px) saturate(130%);opacity:.75;
+  background:
+    conic-gradient(from 0deg at 30% 40%,transparent,var(--ac),transparent 25%,var(--blue),transparent 50%,var(--ac2),transparent 75%),
+    radial-gradient(circle at 80% 90%,var(--blue),transparent 40%);
+  animation:aurora 28s linear infinite;mix-blend-mode:screen}
+body.light .aurora{opacity:.45;mix-blend-mode:multiply}
+@keyframes aurora{to{transform:rotate(360deg)}}
+.atmos{position:fixed;inset:0;z-index:-3;overflow:hidden;pointer-events:none;background:
+  radial-gradient(circle at 12% 8%,color-mix(in srgb,var(--ac) 22%,transparent),transparent 45%),
+  radial-gradient(circle at 88% 92%,color-mix(in srgb,var(--blue) 22%,transparent),transparent 50%),var(--bg)}
+.blob{position:absolute;border-radius:42% 58% 63% 37%/41% 44% 56% 59%;filter:blur(60px);opacity:.42;will-change:transform,translate,border-radius;transition:translate 1s var(--ease);animation:morph 18s ease-in-out infinite}
 .blob.b1{width:42vmax;height:42vmax;left:-10vmax;top:-8vmax;background:linear-gradient(135deg,var(--ac),#6b5bd6)}
-.blob.b2{width:36vmax;height:36vmax;right:-8vmax;top:30%;background:linear-gradient(135deg,var(--blue),#7fd3ff);animation-delay:-5s}
-.blob.b3{width:30vmax;height:30vmax;left:30%;bottom:-10vmax;background:linear-gradient(135deg,#8a6cff,var(--blue));animation-delay:-9s}
-body.light .blob{opacity:.32}
-@keyframes morph{
-  0%,100%{border-radius:42% 58% 63% 37%/41% 44% 56% 59%;rotate:0deg}
-  33%{border-radius:61% 39% 35% 65%/55% 58% 42% 45%;rotate:12deg}
-  66%{border-radius:30% 70% 55% 45%/60% 35% 65% 40%;rotate:-8deg}
-}
-.shapes{position:fixed;inset:0;z-index:-3;pointer-events:none;overflow:hidden}
-.sh{position:absolute;border:1px solid var(--glass-b);background:rgba(255,255,255,.02);opacity:.55;animation:floatSh 14s ease-in-out infinite}
-.sh.c1{width:200px;height:200px;border-radius:50%;top:10%;left:5%}
-.sh.c2{width:96px;height:96px;border-radius:18px;top:58%;right:8%;animation-delay:-4s;animation-name:floatSh,spinSh;animation-duration:14s,30s;animation-iteration-count:infinite,infinite}
-.sh.c3{width:280px;height:72px;border-radius:999px;bottom:12%;left:18%;animation-delay:-8s}
-.sh.c4{width:44px;height:44px;border-radius:50%;background:var(--ac);border:0;opacity:.22;top:30%;right:22%;animation-delay:-2s}
-.sh.c5{width:340px;height:340px;border-radius:0 50% 0 50%;top:72%;left:-90px;animation-delay:-6s;opacity:.35}
-.sh.c6{width:20px;height:20px;border-radius:50%;background:var(--blue);border:0;opacity:.35;top:18%;right:30%;animation-delay:-10s}
-@keyframes floatSh{50%{translate:0 -26px}}
-@keyframes spinSh{to{rotate:360deg}}
+.blob.b2{width:36vmax;height:36vmax;right:-8vmax;top:30%;background:linear-gradient(135deg,var(--blue),#7fd3ff);animation-delay:-6s}
+.blob.b3{width:30vmax;height:30vmax;left:30%;bottom:-10vmax;background:linear-gradient(135deg,#8a6cff,var(--blue));animation-delay:-11s}
+body.light .blob{opacity:.28}
+@keyframes morph{0%,100%{border-radius:42% 58% 63% 37%/41% 44% 56% 59%;rotate:0deg}50%{border-radius:61% 39% 35% 65%/55% 58% 42% 45%;rotate:25deg}}
+.gridlines{position:fixed;inset:0;z-index:-2;pointer-events:none;opacity:.06;background-image:linear-gradient(var(--text) 1px,transparent 1px),linear-gradient(90deg,var(--text) 1px,transparent 1px);background-size:72px 72px;mask-image:radial-gradient(circle at 50% 30%,#000,transparent 75%)}
 #fx{position:fixed;inset:0;z-index:-2;width:100%;height:100%;pointer-events:none;transition:opacity 1s}
+.glow-cursor{position:fixed;left:0;top:0;width:340px;height:340px;margin:-170px 0 0 -170px;border-radius:50%;pointer-events:none;z-index:-1;background:radial-gradient(circle,color-mix(in srgb,var(--ac) 28%,transparent),transparent 65%);transition:opacity .5s;opacity:0;will-change:transform}
+.glow-cursor.on{opacity:1}
 .grain{position:fixed;inset:-50%;z-index:-1;pointer-events:none;opacity:.05;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");animation:grain 1.2s steps(6) infinite}
 @keyframes grain{0%{transform:translate(0,0)}20%{transform:translate(-3%,2%)}40%{transform:translate(2%,-3%)}60%{transform:translate(-2%,3%)}80%{transform:translate(3%,-1%)}100%{transform:translate(0,0)}}
 
-/* ---------- kaca ---------- */
+/* ---------- glass ---------- */
 .glass{
   position:relative;overflow:hidden;
-  background:var(--glass);border:1px solid var(--glass-b);border-radius:28px;
-  backdrop-filter:blur(18px) saturate(150%);-webkit-backdrop-filter:blur(18px) saturate(150%);
-  box-shadow:0 20px 60px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.14);
+  background:linear-gradient(145deg,var(--glass),color-mix(in srgb,var(--glass) 40%,transparent));
+  border:1px solid var(--glass-b);border-radius:var(--radius);
+  backdrop-filter:blur(22px) saturate(160%);-webkit-backdrop-filter:blur(22px) saturate(160%);
+  box-shadow:0 24px 60px -12px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.16),inset 0 -1px 0 rgba(255,255,255,.03);
   padding:24px;
   transform:perspective(1000px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));
-  transition:transform .35s var(--ease),box-shadow .4s,border-color .4s,border-radius .8s var(--ease);
+  transition:transform .35s var(--ease),box-shadow .45s,border-color .45s;
 }
-.glass::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .4s;
-  background:radial-gradient(420px circle at var(--mx,50%) var(--my,0%),rgba(255,255,255,.16),transparent 45%)}
+.glass::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;pointer-events:none;background:linear-gradient(135deg,color-mix(in srgb,var(--ac) 60%,transparent),transparent 35%,transparent 65%,color-mix(in srgb,var(--blue) 50%,transparent));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:.55}
+.glass::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .45s;background:radial-gradient(420px circle at var(--mx,50%) var(--my,0%),rgba(255,255,255,.14),transparent 45%)}
 .glass:hover::after{opacity:1}
-.glass:hover{box-shadow:0 30px 70px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.22);border-color:rgba(255,255,255,.28)}
-.glass.arch{border-radius:220px 220px 28px 28px}
-.glass.organic{border-radius:38% 62% 46% 54% / 44% 38% 62% 56%}
-.glass.organic:hover{border-radius:58% 42% 36% 64% / 56% 62% 38% 44%}
-.glass.pill{border-radius:999px}
-body.light .glass{box-shadow:0 20px 50px rgba(80,60,140,.15),inset 0 1px 0 #fff}
-body.light .glass:hover{box-shadow:0 28px 60px rgba(80,60,140,.22),inset 0 1px 0 #fff}
+.glass:hover{box-shadow:0 34px 70px -14px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.22);border-color:rgba(255,255,255,.26)}
+body.light .glass{box-shadow:0 24px 50px -16px rgba(80,60,140,.25),inset 0 1px 0 #fff}
+body.light .glass:hover{box-shadow:0 30px 60px -16px rgba(80,60,140,.3),inset 0 1px 0 #fff}
+.glass > *{position:relative;z-index:1}
 
-/* ---------- progres, nav, tombol melayang ---------- */
-#progress{position:fixed;top:0;left:0;right:0;height:3px;z-index:20;transform-origin:0 50%;transform:scaleX(0);background:linear-gradient(90deg,var(--ac),var(--blue));box-shadow:0 0 14px var(--ac)}
-.nav{position:fixed;top:12px;left:0;right:0;margin:0 auto;z-index:15;width:min(1080px,calc(100% - 24px));padding:10px 14px;border-radius:999px;display:flex;align-items:center;gap:12px;transition:top .5s var(--ease),background .4s,box-shadow .4s}
-.nav.scrolled{top:6px;background:var(--glass-strong);box-shadow:0 14px 40px rgba(0,0,0,.35)}
-.brand{font-weight:800;letter-spacing:.22em;color:var(--ac);white-space:nowrap;font-size:.95rem;text-shadow:0 0 18px var(--ac)}
+/* ---------- progress, nav, floating ---------- */
+#progress{position:fixed;top:0;left:0;right:0;height:3px;z-index:20;transform-origin:0 50%;transform:scaleX(0);background:linear-gradient(90deg,var(--ac),var(--ac2),var(--blue));box-shadow:0 0 16px var(--ac)}
+.nav{position:fixed;top:14px;left:0;right:0;margin:0 auto;z-index:15;width:min(1120px,calc(100% - 24px));padding:10px 14px;border-radius:999px;display:flex;align-items:center;gap:12px;transition:top .5s var(--ease),background .4s,box-shadow .4s}
+.nav.scrolled{top:6px;background:var(--glass-strong);box-shadow:0 18px 44px -10px rgba(0,0,0,.5)}
+.brand{font-weight:800;letter-spacing:.24em;white-space:nowrap;font-size:.92rem;background:linear-gradient(90deg,var(--text),var(--ac));-webkit-background-clip:text;background-clip:text;color:transparent}
 .links{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;margin-left:auto;padding:2px}
 .links::-webkit-scrollbar{display:none}
-.links a{position:relative;color:var(--muted);text-decoration:none;padding:6px 12px;border-radius:999px;font-size:.88rem;white-space:nowrap;transition:color .25s,background .25s}
+.links a{position:relative;color:var(--muted);text-decoration:none;padding:7px 13px;border-radius:999px;font-size:.87rem;white-space:nowrap;transition:color .25s,background .25s}
 .links a:hover,.links a:focus-visible{color:var(--text);background:var(--glass-strong);outline:none}
 .links a[aria-current="true"]{color:var(--text);background:var(--glass-strong);box-shadow:inset 0 0 0 1px var(--glass-b)}
-.links a[aria-current="true"]::after{content:"";position:absolute;left:50%;bottom:-3px;width:14px;height:2px;margin-left:-7px;border-radius:2px;background:var(--ac);box-shadow:0 0 10px var(--ac)}
-.fab{position:fixed;left:16px;bottom:16px;z-index:25;padding:10px 16px;border-radius:999px;color:var(--danger);font-weight:700;text-decoration:none;font-size:.9rem;border-color:rgba(255,107,138,.5)}
-.totop{position:fixed;right:16px;bottom:16px;z-index:25;width:46px;height:46px;border-radius:50%;padding:0;border:1px solid var(--glass-b);background:var(--glass-strong);color:var(--text);font-size:1.1rem;cursor:pointer;opacity:0;translate:0 12px;transition:opacity .4s,translate .4s var(--ease)}
+.links a[aria-current="true"]::after{content:"";position:absolute;left:50%;bottom:-4px;width:16px;height:2px;margin-left:-8px;border-radius:2px;background:var(--ac);box-shadow:0 0 10px var(--ac)}
+.fab{position:fixed;left:16px;bottom:16px;z-index:25;padding:11px 18px;border-radius:999px;color:var(--danger);font-weight:700;text-decoration:none;font-size:.9rem;border-color:rgba(255,107,138,.5)}
+.totop{position:fixed;right:16px;bottom:16px;z-index:25;width:46px;height:46px;border-radius:50%;padding:0;border:1px solid var(--glass-b);background:var(--glass-strong);color:var(--text);font-size:1.15rem;cursor:pointer;opacity:0;translate:0 12px;transition:opacity .4s,translate .4s var(--ease)}
 .totop.show{opacity:1;translate:0 0}
 
-/* ---------- tata letak ---------- */
-main{max-width:1080px;margin:0 auto;padding:0 18px 40px}
-section{padding:110px 0 50px;scroll-margin-top:70px;position:relative}
-.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding-top:120px}
+/* ---------- layout ---------- */
+main{max-width:1120px;margin:0 auto;padding:0 20px 40px}
+section{padding:120px 0 50px;scroll-margin-top:70px;position:relative}
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding-top:130px}
 #hero-inner{will-change:transform,opacity}
 .hero-grid{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center}
-.eyebrow{color:var(--ac);letter-spacing:.2em;font-size:.78rem;text-transform:uppercase;margin:0 0 12px;font-weight:700;display:flex;align-items:center;gap:10px}
+.eyebrow{color:var(--ac);letter-spacing:.22em;font-size:.76rem;text-transform:uppercase;margin:0 0 12px;font-weight:700;display:flex;align-items:center;gap:10px}
 .eyebrow::before{content:"";width:28px;height:1px;background:var(--ac);box-shadow:0 0 8px var(--ac)}
-h1.title{font-size:clamp(2.4rem,7vw,5.2rem);line-height:1;margin:0 0 16px;font-weight:800;letter-spacing:-.03em;background:linear-gradient(100deg,var(--text) 20%,var(--ac) 50%,var(--blue) 80%);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 6s linear infinite}
-@keyframes shine{to{background-position:-200% 0}}
-h2.sub{font-size:clamp(1.6rem,3.8vw,2.5rem);margin:0 0 8px;font-weight:750;letter-spacing:-.015em;line-height:1.15}
-h3{font-size:1.02rem;margin:0 0 12px;color:var(--ac);font-weight:700}
-.lead{color:var(--muted);max-width:640px;margin:0 0 26px;min-height:1.6em}
+h1.title{font-size:clamp(2.6rem,8vw,6rem);line-height:.95;margin:0 0 18px;font-weight:800;letter-spacing:-.04em;background:linear-gradient(100deg,var(--text) 20%,var(--ac) 45%,var(--ac2) 60%,var(--blue) 80%);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 7s linear infinite}
+@keyframes shine{to{background-position:-220% 0}}
+h2.sub{font-size:clamp(1.8rem,4.2vw,2.8rem);margin:0 0 8px;font-weight:750;letter-spacing:-.02em;line-height:1.15}
+h3{font-size:1.02rem;margin:0 0 14px;color:var(--ac);font-weight:700;letter-spacing:.01em}
+.lead{color:var(--muted);max-width:660px;margin:0 0 28px;min-height:1.6em;font-size:1.02rem}
 .muted{color:var(--muted)}
-.split span{display:inline-block;opacity:0;transform:translateY(60px) rotateX(-70deg);animation:letter .9s var(--ease) forwards;animation-delay:calc(var(--i)*70ms + 300ms)}
+.split span{display:inline-block;opacity:0;transform:translateY(60px) rotateX(-70deg);animation:letter 1s var(--ease) forwards;animation-delay:calc(var(--i)*70ms + 300ms)}
 .typing::after{content:"▍";color:var(--ac);margin-left:2px;animation:blink 1s steps(2) infinite}
 .typing.done::after{display:none}
 @keyframes blink{50%{opacity:0}}
 .hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
-.scroll-hint{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);color:var(--muted);font-size:.78rem;display:flex;flex-direction:column;align-items:center;gap:8px;letter-spacing:.12em;text-transform:uppercase}
-.scroll-hint::after{content:"";width:1px;height:38px;background:linear-gradient(var(--ac),transparent);animation:drip 2.2s var(--ease) infinite}
+.scroll-hint{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);color:var(--muted);font-size:.74rem;display:flex;flex-direction:column;align-items:center;gap:8px;letter-spacing:.14em;text-transform:uppercase}
+.scroll-hint::after{content:"";width:1px;height:40px;background:linear-gradient(var(--ac),transparent);animation:drip 2.2s var(--ease) infinite}
 @keyframes drip{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
 
-/* pemandangan 3D */
-.scene{position:relative;width:250px;height:250px;perspective:800px;animation:bob 7s ease-in-out infinite;flex:0 0 auto}
-@keyframes bob{50%{transform:translateY(-12px)}}
-.arch-frame{position:absolute;inset:6%;border-radius:200px 200px 40px 40px;border:1px solid var(--glass-b);background:linear-gradient(180deg,color-mix(in srgb,var(--ac) 18%,transparent),transparent 70%);backdrop-filter:blur(6px);animation:archm 12s ease-in-out infinite}
-@keyframes archm{50%{border-radius:160px 160px 60px 60px}}
-.orb3d{position:absolute;inset:0;transform-style:preserve-3d;transform:rotateX(var(--tx,0deg)) rotateY(var(--ty,0deg));transition:transform .6s var(--ease)}
-.core{position:absolute;inset:24%;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,var(--ac) 35%,color-mix(in srgb,var(--blue) 60%,transparent) 70%,transparent 72%);box-shadow:0 0 70px var(--ac);transform:translateZ(40px);animation:pulse 5s ease-in-out infinite}
-@keyframes pulse{50%{scale:1.08}}
-.ring{position:absolute;inset:6%;border-radius:50%;border:1.5px solid var(--ac);opacity:.6;transform:rotateX(72deg);box-shadow:0 0 18px var(--ac);animation:spin 9s linear infinite}
+.section-num{font-size:.78rem;color:var(--muted);letter-spacing:.2em;font-variant-numeric:tabular-nums;margin-bottom:6px}
+
+/* 3D orb */
+.scene{width:230px;height:230px;perspective:800px;animation:bob 7s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-14px)}}
+.orb3d{position:relative;width:100%;height:100%;transform-style:preserve-3d;transform:rotateX(var(--tx,0deg)) rotateY(var(--ty,0deg));transition:transform .6s var(--ease)}
+.core{position:absolute;inset:22%;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,var(--ac) 35%,color-mix(in srgb,var(--blue) 60%,transparent) 70%,transparent 72%);box-shadow:0 0 80px var(--ac);transform:translateZ(40px);animation:pulse 5s ease-in-out infinite}
+@keyframes pulse{50%{scale:1.1}}
+.ring{position:absolute;inset:0;border-radius:50%;border:1.5px solid var(--ac);opacity:.6;transform:rotateX(72deg);box-shadow:0 0 18px var(--ac);animation:spin 9s linear infinite}
 .ring.r2{transform:rotateY(72deg);border-color:var(--blue);animation-duration:13s;animation-direction:reverse}
-.ring.r3{inset:0;transform:rotateX(60deg) rotateZ(30deg);border-style:dashed;opacity:.35;animation-duration:20s}
+.ring.r3{transform:rotateX(30deg) rotateY(30deg);border-color:var(--ac2);animation-duration:17s;opacity:.35}
 @keyframes spin{from{rotate:0deg}to{rotate:360deg}}
 
-/* pemisah gelombang */
-.wave{display:block;width:100%;height:90px;margin:0;pointer-events:none}
-.wave path{fill:var(--wave);animation:wv 14s ease-in-out infinite alternate}
-.wave path.w2{opacity:.6;animation-duration:19s;animation-direction:alternate-reverse}
-@keyframes wv{to{transform:translateX(-40px)}}
-
 /* marquee */
-.marquee{overflow:hidden;white-space:nowrap;padding:18px 0;border-top:1px solid var(--glass-b);border-bottom:1px solid var(--glass-b);background:var(--glass);backdrop-filter:blur(10px)}
-.marquee-track{display:inline-flex;gap:38px;animation:marq 26s linear infinite;font-weight:700;font-size:clamp(1rem,2.4vw,1.5rem);letter-spacing:.06em;color:var(--muted)}
-.marquee-track span{display:inline-flex;align-items:center;gap:38px}
-.marquee-track span::after{content:"✦";color:var(--ac)}
+.marquee{overflow:hidden;white-space:nowrap;padding:20px 0;border-top:1px solid var(--glass-b);border-bottom:1px solid var(--glass-b);background:var(--glass);backdrop-filter:blur(12px)}
+.marquee-track{display:inline-flex;gap:40px;animation:marq 30s linear infinite;font-weight:700;font-size:clamp(1rem,2.4vw,1.5rem);letter-spacing:.06em;color:var(--muted)}
+.marquee-track span{display:inline-flex;align-items:center;gap:40px}
+.marquee-track span::after{content:"✦";color:var(--ac);text-shadow:0 0 12px var(--ac)}
 @keyframes marq{to{transform:translateX(-50%)}}
 
 .grid{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
-.grid-2{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(290px,1fr))}
+.grid-2{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
 .stack{display:grid;gap:14px}
-.stat-label{color:var(--muted);font-size:.86rem;margin:0}
-.stat{font-size:clamp(1.7rem,3vw,2.4rem);font-weight:800;margin:6px 0 0;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.stat-label{color:var(--muted);font-size:.84rem;margin:0;letter-spacing:.02em}
+.stat{font-size:clamp(1.8rem,3vw,2.5rem);font-weight:800;margin:6px 0 0;font-variant-numeric:tabular-nums;letter-spacing:-.03em}
 .row{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
-.item{padding:12px 0;border-bottom:1px solid var(--glass-b)}
+.item{padding:14px 0;border-bottom:1px solid var(--glass-b)}
 .item:last-child{border-bottom:0}
-.quote{font-size:clamp(1.05rem,2.2vw,1.4rem);line-height:1.5;font-style:italic;margin:0}
+.quote{font-size:clamp(1.1rem,2.3vw,1.45rem);line-height:1.55;font-style:italic;margin:0;font-weight:300}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
-.chip{font:inherit;font-size:.8rem;padding:6px 13px;border-radius:999px;background:var(--glass-strong);border:1px solid var(--glass-b);color:var(--muted);cursor:pointer;transition:transform .3s var(--ease),color .3s,border-color .3s,box-shadow .3s}
-.chip.on{color:var(--text);border-color:var(--ac);box-shadow:0 0 16px -4px var(--ac)}
+.chip{font:inherit;font-size:.82rem;padding:7px 14px;border-radius:999px;background:var(--glass-strong);border:1px solid var(--glass-b);color:var(--muted);cursor:pointer;transition:transform .3s var(--ease),color .3s,border-color .3s,background .3s}
+.chip.on{color:var(--text);border-color:var(--ac);box-shadow:0 0 18px -4px var(--ac);background:color-mix(in srgb,var(--ac) 16%,var(--glass-strong))}
 .chip:hover{transform:translateY(-3px)}
 .spark{width:100%;height:90px;display:block;overflow:visible}
 .spark-line{stroke-dasharray:1;stroke-dashoffset:1;animation:draw 1.8s var(--ease) forwards}
 @keyframes draw{to{stroke-dashoffset:0}}
-.delta{font-size:.9rem;font-weight:700;margin-left:6px}
+.delta{font-size:.88rem;font-weight:700;margin-left:8px}
 .delta.up{color:var(--ok)}
 .delta.down{color:var(--danger)}
-.cmp{display:grid;gap:10px}
-.cmp div{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.cmp{display:grid;gap:12px}
+.cmp > div{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;padding-bottom:10px;border-bottom:1px solid var(--glass-b)}
+.cmp > div:last-child{border-bottom:0;padding-bottom:0}
 
-/* gauge melingkar */
-.gauge{--p:0;position:relative;width:96px;height:96px;border-radius:50%;flex:0 0 auto;background:conic-gradient(var(--ac) calc(var(--p)*1%),rgba(255,255,255,.1) 0);transition:--p 1s;display:grid;place-items:center;box-shadow:0 0 30px color-mix(in srgb,var(--ac) 30%,transparent)}
-.gauge::before{content:"";position:absolute;inset:9px;border-radius:50%;background:color-mix(in srgb,var(--bg) 88%,transparent)}
-.gauge span{position:relative;font-weight:800;font-size:.95rem;font-variant-numeric:tabular-nums}
-
-label{display:block;font-size:.85rem;color:var(--muted);margin:12px 0 6px}
+label{display:block;font-size:.84rem;color:var(--muted);margin:14px 0 6px}
 .check{display:flex;gap:10px;align-items:center;color:var(--text);margin-top:12px;cursor:pointer}
 .check input{width:auto}
-input,textarea,select{width:100%;font:inherit;color:var(--text);background:rgba(0,0,0,.25);border:1px solid var(--glass-b);border-radius:16px;padding:11px 13px;transition:border-color .25s,box-shadow .25s,background .25s}
-body.light input,body.light textarea,body.light select{background:rgba(255,255,255,.72)}
+input,textarea,select{width:100%;font:inherit;color:var(--text);background:rgba(0,0,0,.28);border:1px solid var(--glass-b);border-radius:14px;padding:12px 14px;transition:border-color .25s,box-shadow .25s,background .25s}
+body.light input,body.light textarea,body.light select{background:rgba(255,255,255,.75)}
 input:focus,textarea:focus,select:focus{outline:none;border-color:var(--ac);box-shadow:0 0 0 3px color-mix(in srgb,var(--ac) 30%,transparent)}
 textarea{min-height:90px;resize:vertical}
 input[type=checkbox],input[type=range]{width:auto;accent-color:var(--ac)}
 input[type=range]{width:100%}
 select option{background:#1a1830;color:#f2f0f7}
-body.light select option{background:#fff;color:#16141f}
-.counter{font-size:.78rem;color:var(--muted);text-align:right;margin-top:4px;font-variant-numeric:tabular-nums}
+.counter{font-size:.76rem;color:var(--muted);text-align:right;margin-top:4px;font-variant-numeric:tabular-nums}
 
-/* tombol */
-.btn{position:relative;overflow:hidden;font:inherit;font-weight:700;border:0;border-radius:16px;padding:11px 20px;cursor:pointer;color:#08080c;background:linear-gradient(135deg,var(--ac),var(--blue));translate:var(--mgx,0px) var(--mgy,0px);transition:translate .35s var(--ease),box-shadow .3s,filter .3s,border-radius .5s var(--ease);text-decoration:none;display:inline-block}
-.btn:hover{border-radius:24px 12px 24px 12px;box-shadow:0 12px 30px -6px color-mix(in srgb,var(--blue) 60%,transparent);filter:brightness(1.06)}
+.btn{position:relative;overflow:hidden;font:inherit;font-weight:700;border:0;border-radius:14px;padding:12px 20px;cursor:pointer;color:#08080c;background:linear-gradient(135deg,var(--ac),var(--ac2) 55%,var(--blue));translate:var(--mgx,0px) var(--mgy,0px);transition:translate .35s var(--ease),box-shadow .3s,filter .3s;text-decoration:none;display:inline-block;letter-spacing:.01em}
+.btn:hover{box-shadow:0 14px 34px -8px color-mix(in srgb,var(--blue) 65%,transparent);filter:brightness(1.07)}
 .btn:active{scale:.96}
-.btn:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
 .btn.ghost{background:var(--glass-strong);color:var(--text);border:1px solid var(--glass-b)}
 .btn.danger{background:var(--danger);color:#fff}
-.btn.small{padding:7px 13px;font-size:.85rem;border-radius:12px}
+.btn.small{padding:8px 13px;font-size:.84rem;border-radius:11px}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
 .ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.55);transform:scale(0);animation:rip .65s var(--ease) forwards;pointer-events:none}
 @keyframes rip{to{transform:scale(1.4);opacity:0}}
 
-/* mood dengan bentuk berbeda */
-.moods{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px}
-.mood{position:relative;overflow:hidden;padding:16px 10px;border-radius:var(--shape,24px);border:1px solid var(--glass-b);background:var(--glass);color:var(--text);font:inherit;cursor:pointer;transition:transform .35s var(--ease),box-shadow .35s,background .35s,border-color .35s,border-radius .7s var(--ease)}
-.mood:hover{transform:translateY(-5px) scale(1.03);border-radius:50%}
-.mood[aria-pressed="true"]{background:color-mix(in srgb,var(--ac) 24%,transparent);box-shadow:0 0 30px color-mix(in srgb,var(--ac) 50%,transparent);border-color:var(--ac);transform:scale(1.04);border-radius:50%}
+.moods{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
+.mood{position:relative;overflow:hidden;padding:15px 10px;border-radius:18px;border:1px solid var(--glass-b);background:var(--glass);color:var(--text);font:inherit;cursor:pointer;transition:transform .35s var(--ease),box-shadow .35s,background .35s,border-color .35s}
+.mood:hover{transform:translateY(-5px) scale(1.02)}
+.mood[aria-pressed="true"]{background:color-mix(in srgb,var(--ac) 22%,transparent);box-shadow:0 0 30px color-mix(in srgb,var(--ac) 50%,transparent);border-color:var(--ac);transform:scale(1.03)}
 
-.tag{display:inline-block;font-size:.75rem;padding:3px 10px;border-radius:999px;background:rgba(61,139,255,.18);color:#9cc4ff;margin:2px 4px 2px 0}
-body.light .tag{color:#2a5fb0}
-.badge{display:inline-flex;align-items:center;gap:6px;padding:8px 13px;border-radius:16px 6px 16px 6px;background:var(--glass-strong);border:1px solid var(--glass-b);font-size:.85rem;transition:transform .3s var(--ease),border-radius .5s var(--ease)}
-.badge:hover{transform:translateY(-3px) rotate(-1deg);border-radius:6px 16px 6px 16px}
+.tag{display:inline-block;font-size:.74rem;padding:3px 10px;border-radius:999px;background:color-mix(in srgb,var(--blue) 18%,transparent);color:var(--blue);margin:2px 4px 2px 0;font-weight:600}
+body:not(.light) .tag{color:#9cc4ff}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:8px 13px;border-radius:14px;background:var(--glass-strong);border:1px solid var(--glass-b);font-size:.84rem;transition:transform .3s var(--ease)}
+.badge:hover{transform:translateY(-3px) rotate(-1deg)}
 .badge.locked{opacity:.4;filter:grayscale(1)}
-.streak-num{font-size:clamp(2.4rem,6vw,3.6rem);font-weight:800;line-height:1;background:linear-gradient(135deg,var(--ac),var(--blue));-webkit-background-clip:text;background-clip:text;color:transparent}
+.streak-num{font-size:clamp(2.6rem,6vw,3.8rem);font-weight:800;line-height:1;background:linear-gradient(135deg,var(--ac),var(--blue));-webkit-background-clip:text;background-clip:text;color:transparent}
 .flame{display:inline-block;animation:flicker 1.6s ease-in-out infinite;transform-origin:50% 100%}
 @keyframes flicker{0%,100%{transform:scale(1) rotate(-2deg)}50%{transform:scale(1.12) rotate(3deg)}}
 
 .msg{font-size:.9rem;color:var(--ac);min-height:1.3em;margin:10px 0 0}
 .err{color:var(--danger)!important}
-.bar-wrap{height:8px;background:rgba(255,255,255,.1);border-radius:8px;overflow:hidden;margin-top:10px}
+.bar-wrap{height:8px;background:rgba(255,255,255,.1);border-radius:8px;overflow:hidden;margin-top:12px}
 .bar{height:100%;width:0;background:linear-gradient(90deg,var(--ac),var(--blue));border-radius:8px;transition:width 1.2s var(--ease);box-shadow:0 0 12px var(--ac)}
 
-/* kalender */
 .cal{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
-.cal .dow{font-size:.72rem;color:var(--muted);text-align:center;padding:4px 0}
-.cal button{position:relative;aspect-ratio:1;border-radius:14px;border:1px solid var(--glass-b);background:var(--glass);color:var(--text);font:inherit;font-size:.85rem;cursor:pointer;transition:transform .25s var(--ease),background .25s,border-radius .5s var(--ease)}
-.cal button:hover{transform:scale(1.1);border-radius:50%}
+.cal .dow{font-size:.7rem;color:var(--muted);text-align:center;padding:4px 0;letter-spacing:.06em}
+.cal button{position:relative;aspect-ratio:1;border-radius:12px;border:1px solid var(--glass-b);background:var(--glass);color:var(--text);font:inherit;font-size:.86rem;cursor:pointer;transition:transform .25s var(--ease),background .25s}
+.cal button:hover{transform:scale(1.1)}
 .cal button.out{opacity:.3}
 .cal button.today{outline:1px solid var(--blue)}
-.cal button[aria-pressed="true"]{background:color-mix(in srgb,var(--ac) 25%,transparent);box-shadow:0 0 0 2px var(--ac);border-radius:50%}
+.cal button[aria-pressed="true"]{background:color-mix(in srgb,var(--ac) 25%,transparent);box-shadow:0 0 0 2px var(--ac)}
 .cal .dot{position:absolute;bottom:5px;left:50%;transform:translateX(-50%);width:6px;height:6px;border-radius:50%;box-shadow:0 0 8px currentColor}
 
 .seg{display:inline-flex;gap:6px;padding:4px;border-radius:999px;background:var(--glass);border:1px solid var(--glass-b)}
-.seg button{font:inherit;border:0;background:transparent;color:var(--muted);padding:7px 15px;border-radius:999px;cursor:pointer;transition:background .3s,color .3s}
+.seg button{font:inherit;border:0;background:transparent;color:var(--muted);padding:8px 16px;border-radius:999px;cursor:pointer;transition:background .3s,color .3s}
 .seg button[aria-pressed="true"]{background:var(--glass-strong);color:var(--text);box-shadow:0 4px 14px rgba(0,0,0,.2)}
 canvas{width:100%;height:240px;display:block}
 
 .wd{display:flex;align-items:flex-end;gap:8px;height:150px;margin-top:6px}
-.wd-col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;font-size:.75rem;color:var(--muted)}
-.wd-bar{width:100%;height:0;border-radius:14px 14px 4px 4px;background:linear-gradient(var(--ac),color-mix(in srgb,var(--blue) 40%,transparent));box-shadow:0 0 14px color-mix(in srgb,var(--ac) 35%,transparent);transition:height 1.2s var(--ease);margin-bottom:6px}
+.wd-col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;font-size:.74rem;color:var(--muted)}
+.wd-bar{width:100%;height:0;border-radius:10px 10px 4px 4px;background:linear-gradient(var(--ac),color-mix(in srgb,var(--blue) 40%,transparent));box-shadow:0 0 14px color-mix(in srgb,var(--ac) 35%,transparent);transition:height 1.2s var(--ease);margin-bottom:6px}
 
-/* rentang & siklus */
-.spectrum{position:relative;height:14px;border-radius:999px;background:linear-gradient(90deg,#5b4bd6,var(--ac) 50%,var(--blue));margin:28px 0 8px}
-.marker{position:absolute;top:50%;left:8%;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 0 22px #fff9;transform:translate(-50%,-50%);transition:left 1.8s var(--ease)}
-.spec-labels{display:flex;justify-content:space-between;font-size:.78rem;color:var(--muted)}
-.cycle{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
-#cycle-text{min-height:3.4em;margin:0;color:var(--text);transition:opacity .3s}
+.spectrum{position:relative;height:14px;border-radius:999px;background:linear-gradient(90deg,#5b4bd6,var(--ac) 50%,var(--blue));margin:30px 0 8px}
+.marker{position:absolute;top:50%;left:8%;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 0 24px #fff9;transform:translate(-50%,-50%);transition:left 1.8s var(--ease)}
+.spec-labels{display:flex;justify-content:space-between;font-size:.76rem;color:var(--muted)}
 
-/* pengetahuan */
-.kb-tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:18px}
-.kb-progress{flex:1;min-width:200px;max-width:340px}
-.kb-grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(290px,1fr))}
-.kb{padding:0;border-radius:24px}
-.kb details{border:0;padding:0}
-.kb summary{padding:20px 22px;display:block;list-style:none;cursor:pointer}
-.kb summary::after{content:"+";position:absolute;right:22px;top:18px;font-size:1.5rem;color:var(--ac);transition:transform .35s var(--ease)}
-.kb details[open] summary::after{transform:rotate(45deg)}
-.kb summary::-webkit-details-marker{display:none}
-.kb .kb-cat{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ac);font-weight:700}
-.kb .kb-title{font-size:1.05rem;font-weight:700;margin:6px 28px 6px 0;line-height:1.3}
-.kb .kb-sum{color:var(--muted);font-size:.9rem;margin:0}
-.kb .kb-body{padding:0 22px 22px;border-top:1px solid var(--glass-b);margin:0 22px;padding-left:0;padding-right:0}
-.kb .kb-body p{margin:14px 0 0;color:var(--text);font-size:.93rem}
-.kb .kb-tip{margin:14px 0 0;padding:12px 14px;border-radius:16px;background:color-mix(in srgb,var(--ac) 12%,transparent);border:1px solid color-mix(in srgb,var(--ac) 30%,transparent);font-size:.88rem}
-.kb.read .kb-cat::after{content:" · dibaca ✓";color:var(--ok);text-transform:none;letter-spacing:0}
-.kb-quiz{display:grid;gap:12px;margin-top:6px}
-.qz{padding:16px 18px;border-radius:20px;background:var(--glass);border:1px solid var(--glass-b)}
-.qz p{margin:0 0 10px;font-weight:600}
-.qz .btns{display:flex;gap:8px;flex-wrap:wrap}
-.qz .ex{margin:10px 0 0;font-size:.88rem;color:var(--muted)}
-.qz.right{border-color:var(--ok)}
-.qz.wrong{border-color:var(--danger)}
-.kb-empty{color:var(--muted)}
+.cycle{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+#cycle-text{min-height:3em;margin:0;color:var(--text)}
 
-/* keselamatan */
+/* knowledge */
+.k-tools{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-bottom:18px}
+.k-search{flex:1;min-width:220px;max-width:420px}
+.k-grid{display:grid;gap:18px;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));margin-top:18px}
+.k-card{display:flex;flex-direction:column;gap:10px}
+.k-icon{width:48px;height:48px;border-radius:16px;display:grid;place-items:center;font-size:1.35rem;background:linear-gradient(135deg,color-mix(in srgb,var(--ac) 35%,transparent),color-mix(in srgb,var(--blue) 25%,transparent));border:1px solid var(--glass-b);box-shadow:0 0 24px -6px var(--ac)}
+.k-card h4{margin:0;font-size:1.05rem;line-height:1.3}
+.k-card .sum{color:var(--muted);margin:0;font-size:.92rem}
+.k-card details{border:0;padding:0;margin-top:4px}
+.k-card details summary{color:var(--ac);font-size:.9rem;padding:4px 0}
+.k-card details summary::after{content:none}
+.k-card details summary::before{content:"Baca selengkapnya ↓";}
+.k-card details[open] summary::before{content:"Tutup ↑"}
+.k-card details .body p{color:var(--muted);margin:10px 0 0;font-size:.93rem}
+.k-card .tips{margin:12px 0 0;padding-left:18px;color:var(--text);font-size:.9rem}
+.k-card .tips li{margin:6px 0}
+.k-card .key{margin:12px 0 0;padding:10px 12px;border-radius:12px;background:color-mix(in srgb,var(--ac) 12%,transparent);border-left:3px solid var(--ac);font-size:.9rem}
+.k-empty{color:var(--muted);text-align:center;padding:30px 0}
+.k-section-title{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:70px 0 0}
+.tool-step{font-size:clamp(1.15rem,2.6vw,1.5rem);line-height:1.5;min-height:4.5em;margin:6px 0 14px;font-weight:300}
+.tool-count{font-size:3rem;font-weight:800;background:linear-gradient(135deg,var(--ac),var(--blue));-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1;margin:0}
+.progress-dots{display:flex;gap:8px;margin:12px 0 0}
+.progress-dots span{flex:1;height:4px;border-radius:4px;background:var(--glass-strong);transition:background .4s,box-shadow .4s}
+.progress-dots span.on{background:var(--ac);box-shadow:0 0 10px var(--ac)}
+.quiz-q{font-weight:700;margin:0 0 12px}
+.quiz-opts{display:grid;gap:8px}
+.quiz-opt{text-align:left;font:inherit;color:var(--text);padding:12px 14px;border-radius:14px;border:1px solid var(--glass-b);background:var(--glass);cursor:pointer;transition:background .25s,border-color .25s,transform .25s var(--ease)}
+.quiz-opt:hover{transform:translateX(4px)}
+.quiz-opt.right{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 18%,transparent)}
+.quiz-opt.wrong{border-color:var(--danger);background:color-mix(in srgb,var(--danger) 16%,transparent)}
+.quiz-fb{margin:12px 0 0;min-height:1.4em;font-size:.92rem}
+.recap{white-space:pre-wrap;font-size:.92rem;margin:14px 0 0;padding:14px;border-radius:14px;background:rgba(0,0,0,.22);border:1px solid var(--glass-b);max-height:260px;overflow:auto}
+body.light .recap{background:rgba(255,255,255,.6)}
+
+.breath-wrap{display:flex;flex-direction:column;align-items:center;gap:16px;padding:8px 0}
+.breath{width:170px;height:170px;border-radius:50%;display:flex;align-items:center;justify-content:center;text-align:center;font-size:.92rem;font-weight:600;background:radial-gradient(circle at 35% 35%,rgba(255,255,255,.65),var(--ac) 45%,color-mix(in srgb,var(--blue) 50%,transparent) 75%,transparent 78%);transform:scale(.65);box-shadow:0 0 56px color-mix(in srgb,var(--ac) 40%,transparent)}
+.breath.on{animation:breathe 14s ease-in-out infinite}
+@keyframes breathe{0%{transform:scale(.65)}29%{transform:scale(1)}57%{transform:scale(1)}100%{transform:scale(.65)}}
 .emergency{border-color:rgba(255,107,138,.5)}
 .emergency h3{color:var(--danger)}
-.breath-wrap{display:flex;flex-direction:column;align-items:center;gap:16px;padding:8px 0}
-.breath{width:170px;height:170px;border-radius:50%;display:flex;align-items:center;justify-content:center;text-align:center;font-size:.9rem;font-weight:600;background:radial-gradient(circle at 35% 35%,rgba(255,255,255,.65),var(--ac) 45%,color-mix(in srgb,var(--blue) 50%,transparent) 75%,transparent 78%);transform:scale(.65);box-shadow:0 0 50px color-mix(in srgb,var(--ac) 40%,transparent)}
-.breath.on{animation:breathe 14s ease-in-out infinite}
-@keyframes breathe{0%{transform:scale(.65);border-radius:50%}29%{transform:scale(1);border-radius:46% 54% 50% 50%}57%{transform:scale(1);border-radius:50%}100%{transform:scale(.65);border-radius:50%}}
 
-.reveal{opacity:0;translate:0 40px;filter:blur(8px);transition:opacity 1s var(--ease),translate 1s var(--ease),filter 1s var(--ease);transition-delay:var(--d,0ms)}
+.details-plain{border-bottom:1px solid var(--glass-b);padding:14px 0}
+details.plain{border-bottom:1px solid var(--glass-b);padding:14px 0}
+details.plain:last-child{border-bottom:0}
+details.plain summary{cursor:pointer;font-weight:700;list-style:none;display:flex;justify-content:space-between;align-items:center}
+details.plain summary::-webkit-details-marker{display:none}
+details.plain summary::after{content:"+";font-size:1.4rem;color:var(--ac);transition:transform .35s var(--ease)}
+details.plain[open] summary::after{transform:rotate(45deg)}
+details.plain p{margin:10px 0 0;color:var(--muted)}
+
+.reveal{opacity:0;translate:0 42px;filter:blur(8px);transition:opacity 1.1s var(--ease),translate 1.1s var(--ease),filter 1.1s var(--ease);transition-delay:var(--d,0ms)}
 .reveal.in{opacity:1;translate:0 0;filter:none}
 .d1{--d:90ms}.d2{--d:180ms}.d3{--d:270ms}.d4{--d:360ms}
 
-footer{text-align:center;color:var(--muted);font-size:.85rem;padding:30px 16px 80px}
-#toast{position:fixed;left:0;right:0;margin:0 auto;bottom:22px;width:max-content;max-width:90vw;z-index:30;padding:12px 20px;border-radius:999px;background:var(--glass-strong);border:1px solid var(--glass-b);backdrop-filter:blur(16px);box-shadow:0 12px 40px rgba(0,0,0,.35);opacity:0;translate:0 24px;transition:opacity .4s,translate .5s var(--ease);pointer-events:none}
+footer{text-align:center;color:var(--muted);font-size:.85rem;padding:30px 16px 90px}
+#toast{position:fixed;left:0;right:0;margin:0 auto;bottom:24px;width:max-content;max-width:90vw;z-index:30;padding:12px 22px;border-radius:999px;background:var(--glass-strong);border:1px solid var(--glass-b);backdrop-filter:blur(18px);box-shadow:0 14px 44px rgba(0,0,0,.4);opacity:0;translate:0 24px;transition:opacity .4s,translate .5s var(--ease);pointer-events:none}
 #toast.show{opacity:1;translate:0 0}
 
 body.reduce *,body.reduce *::before,body.reduce *::after{animation:none!important;transition-duration:.01ms!important}
@@ -296,13 +295,15 @@ body.reduce .split span,body.reduce .intro-word span{opacity:1;transform:none}
 body.reduce .intro-line{width:min(360px,70vw)}
 body.reduce .intro-core p{opacity:1}
 body.reduce .glass{transform:none!important}
+body.reduce .marquee-track{animation:none}
 
-@media (max-width:820px){
+@media (max-width:860px){
   .hero-grid{grid-template-columns:1fr;justify-items:center;text-align:center}
-  .lead{margin-inline:auto}
-  .hero-cta{justify-content:center}
   .eyebrow{justify-content:center}
   .eyebrow::before{display:none}
+  .lead{margin-inline:auto}
+  .hero-cta{justify-content:center}
+  .scene{width:170px;height:170px}
 }
 @media (max-width:720px){
   .nav{border-radius:24px;flex-wrap:wrap;justify-content:center}
@@ -311,12 +312,12 @@ body.reduce .glass{transform:none!important}
   section{padding-top:170px}
   .hero{padding-top:210px}
   .scroll-hint{display:none}
-  .scene{width:200px;height:200px}
+  .glow-cursor{display:none}
 }
 @media print{
-  .nav,.fab,.totop,#intro,.atmos,.shapes,#fx,.grain,#progress,footer,#toast,.wave,.marquee{display:none!important}
+  .nav,.fab,.totop,#intro,.aurora,.atmos,.gridlines,#fx,.grain,#progress,footer,#toast,.glow-cursor,.k-tools,.k-section-title{display:none!important}
   body{background:#fff;color:#000}
-  .glass{background:none;box-shadow:none;border:1px solid #999;backdrop-filter:none;border-radius:8px}
+  .glass{background:none;box-shadow:none;border:1px solid #999;backdrop-filter:none}
   section{padding:10px 0}
   .reveal{opacity:1;translate:none;filter:none}
 }
@@ -334,20 +335,19 @@ body.reduce .glass{transform:none!important}
   </div>
 </div>
 
+<div class="aurora" aria-hidden="true"></div>
 <div class="atmos" aria-hidden="true">
   <div class="blob b1" data-speed="-0.08"></div>
   <div class="blob b2" data-speed="0.06"></div>
   <div class="blob b3" data-speed="-0.04"></div>
 </div>
-<div class="shapes" aria-hidden="true" data-speed="0.12">
-  <span class="sh c1"></span><span class="sh c2"></span><span class="sh c3"></span>
-  <span class="sh c4"></span><span class="sh c5"></span><span class="sh c6"></span>
-</div>
+<div class="gridlines" aria-hidden="true"></div>
 <canvas id="fx" aria-hidden="true"></canvas>
+<div class="glow-cursor" id="glow" aria-hidden="true"></div>
 <div class="grain" aria-hidden="true"></div>
 <div id="progress" aria-hidden="true"></div>
 
-<header class="nav glass pill" id="nav">
+<header class="nav glass" id="nav">
   <div class="brand">MINDSPACE</div>
   <nav class="links" aria-label="Navigasi bagian">
     <a href="#beranda">Beranda</a>
@@ -363,7 +363,7 @@ body.reduce .glass{transform:none!important}
 </header>
 
 <div id="toast" role="status" aria-live="polite"></div>
-<a class="fab glass pill" href="#keselamatan">Bantuan darurat</a>
+<a class="fab glass" href="#keselamatan">Bantuan darurat</a>
 <button class="totop glass" id="totop" type="button" aria-label="Kembali ke atas">↑</button>
 
 <main>
@@ -378,57 +378,46 @@ body.reduce .glass{transform:none!important}
         <p class="lead typing" id="greet"></p>
         <div class="hero-cta reveal d2">
           <a class="btn" href="#mood">Catat mood</a>
-          <a class="btn ghost" href="#analitik" style="color:var(--text)">Lihat analitik</a>
+          <a class="btn ghost" href="#analitik">Lihat analitik</a>
         </div>
       </div>
       <div class="scene reveal d1" aria-hidden="true">
-        <div class="arch-frame"></div>
         <div class="orb3d" id="orb3d">
           <span class="ring"></span><span class="ring r2"></span><span class="ring r3"></span><span class="core"></span>
         </div>
       </div>
     </div>
 
-    <div class="grid" style="margin-top:44px">
-      <div class="glass organic reveal d1"><p class="stat-label">Mood terakhir</p><div class="stat" id="h-mood">—</div></div>
-      <div class="glass organic reveal d2"><p class="stat-label">Rata-rata mood 7 hari</p><div class="stat" id="h-avg">—</div></div>
-      <div class="glass organic reveal d3">
-        <div class="row" style="align-items:center;flex-wrap:nowrap">
-          <div><p class="stat-label">Obat hari ini</p><div class="stat" id="h-meds">—</div></div>
-          <div class="gauge" id="g-meds" aria-hidden="true"><span id="g-meds-t">0%</span></div>
-        </div>
-      </div>
-      <div class="glass organic reveal d4"><p class="stat-label">Entri jurnal</p><div class="stat" id="h-journal">0</div></div>
+    <div class="grid" style="margin-top:48px">
+      <div class="glass reveal d1"><p class="stat-label">Mood terakhir</p><div class="stat" id="h-mood">—</div></div>
+      <div class="glass reveal d2"><p class="stat-label">Rata-rata mood 7 hari</p><div class="stat" id="h-avg">—</div></div>
+      <div class="glass reveal d3"><p class="stat-label">Obat hari ini</p><div class="stat" id="h-meds">—</div><div class="bar-wrap"><div class="bar" id="h-meds-bar"></div></div></div>
+      <div class="glass reveal d4"><p class="stat-label">Entri jurnal</p><div class="stat" id="h-journal">0</div></div>
     </div>
 
     <div class="grid-2" style="margin-top:18px">
-      <div class="glass arch reveal d1">
+      <div class="glass reveal d1">
         <p class="stat-label">Streak mencatat</p>
-        <div class="row" style="justify-content:flex-start;gap:16px;margin-top:10px">
+        <div class="row" style="justify-content:flex-start;gap:14px;margin-top:8px">
           <span class="flame" aria-hidden="true">🔥</span>
           <span class="streak-num" id="streak">0</span>
           <span class="muted">hari berturut-turut</span>
         </div>
         <div class="chips" id="badges"></div>
       </div>
-      <div class="glass organic reveal d2">
+      <div class="glass reveal d2">
         <p class="stat-label">Tren 14 hari</p>
         <div id="spark-wrap"></div>
       </div>
     </div>
 
-    <div class="glass pill reveal" style="margin-top:18px;padding:26px 32px">
-      <p class="stat-label" style="margin-bottom:10px">Kutipan hari ini</p>
+    <div class="glass reveal" style="margin-top:18px">
+      <p class="stat-label" style="margin-bottom:14px">Kutipan hari ini</p>
       <p class="quote" id="quote"></p>
     </div>
   </div>
   <div class="scroll-hint" aria-hidden="true">Gulir</div>
 </section>
-
-<svg class="wave" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true">
-  <path d="M0,64 C240,120 480,0 720,56 C960,112 1200,8 1440,60 L1440,120 L0,120 Z"/>
-  <path class="w2" d="M0,88 C280,40 520,120 760,80 C1000,40 1200,110 1440,74 L1440,120 L0,120 Z"/>
-</svg>
 
 <div class="marquee" aria-hidden="true">
   <div class="marquee-track">
@@ -439,12 +428,13 @@ body.reduce .glass{transform:none!important}
 
 <!-- MOOD -->
 <section id="mood">
+  <p class="section-num reveal">01 — MOOD</p>
   <p class="eyebrow reveal">Mood Space</p>
   <h2 class="sub reveal">Bagaimana perasaanmu?</h2>
   <p class="lead reveal">Pilih satu mood, atur intensitas, lalu tambahkan konteks seperlunya.</p>
 
   <div class="grid-2">
-    <div class="glass arch reveal">
+    <div class="glass reveal">
       <h3 id="mood-form-title">Catat mood hari ini</h3>
       <div class="moods" id="mood-buttons"></div>
       <label for="intensity">Intensitas: <output id="int-out">5</output>/10</label>
@@ -465,7 +455,7 @@ body.reduce .glass{transform:none!important}
       </div>
     </div>
 
-    <div class="glass organic reveal d1">
+    <div class="glass reveal d1">
       <div class="row" style="margin-bottom:14px">
         <button class="btn ghost small" id="cal-prev" type="button" aria-label="Bulan sebelumnya">‹</button>
         <h3 id="cal-title" style="margin:0"></h3>
@@ -479,21 +469,18 @@ body.reduce .glass{transform:none!important}
     </div>
   </div>
 
-  <div class="glass pill reveal" style="margin-top:18px;padding:26px 30px">
+  <div class="glass reveal" style="margin-top:20px">
     <h3>Riwayat mood</h3>
     <div id="mood-list"></div>
   </div>
 </section>
 
-<svg class="wave" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true" style="transform:scaleY(-1)">
-  <path d="M0,64 C240,120 480,0 720,56 C960,112 1200,8 1440,60 L1440,120 L0,120 Z"/>
-</svg>
-
 <!-- ANALITIK -->
 <section id="analitik">
+  <p class="section-num reveal">02 — ANALYTICS</p>
   <p class="eyebrow reveal">Mind Analytics</p>
   <h2 class="sub reveal">Pola dari catatanmu</h2>
-  <div class="row reveal" style="margin:14px 0 22px;justify-content:space-between">
+  <div class="row reveal" style="margin:16px 0 24px;justify-content:space-between">
     <div class="seg" role="group" aria-label="Rentang waktu">
       <button type="button" data-range="7" aria-pressed="true">7 hari</button>
       <button type="button" data-range="30" aria-pressed="false">30 hari</button>
@@ -502,36 +489,36 @@ body.reduce .glass{transform:none!important}
   </div>
 
   <div class="grid">
-    <div class="glass organic reveal"><p class="stat-label">Rata-rata mood</p><div class="stat" id="a-mood">—</div></div>
-    <div class="glass organic reveal d1"><p class="stat-label">Rata-rata tidur</p><div class="stat" id="a-sleep">—</div></div>
-    <div class="glass organic reveal d2"><p class="stat-label">Rata-rata aktivitas</p><div class="stat" id="a-act">—</div></div>
-    <div class="glass organic reveal d3"><p class="stat-label">Korelasi tidur–mood</p><div class="stat" id="a-corr">—</div></div>
+    <div class="glass reveal"><p class="stat-label">Rata-rata mood</p><div class="stat" id="a-mood">—</div></div>
+    <div class="glass reveal d1"><p class="stat-label">Rata-rata tidur</p><div class="stat" id="a-sleep">—</div></div>
+    <div class="glass reveal d2"><p class="stat-label">Rata-rata aktivitas</p><div class="stat" id="a-act">—</div></div>
+    <div class="glass reveal d3"><p class="stat-label">Korelasi tidur–mood</p><div class="stat" id="a-corr">—</div></div>
   </div>
 
-  <div class="glass reveal" style="margin-top:18px">
+  <div class="glass reveal" style="margin-top:20px">
     <h3>Dibandingkan periode sebelumnya</h3>
     <div class="cmp" id="cmp"></div>
   </div>
 
-  <div class="glass arch reveal" style="margin-top:18px">
+  <div class="glass reveal" style="margin-top:20px">
     <h3>14 hari terakhir</h3>
     <canvas id="chart" role="img" aria-label="Grafik mood dan tidur 14 hari terakhir"></canvas>
-    <p class="muted" style="margin:8px 0 0;font-size:.85rem">Batang: mood rata-rata (skala 1–5). Garis biru: jam tidur.</p>
+    <p class="muted" style="margin:10px 0 0;font-size:.85rem">Batang: mood rata-rata (skala 1–5). Garis biru: jam tidur.</p>
   </div>
 
-  <div class="grid-2" style="margin-top:18px">
+  <div class="grid-2" style="margin-top:20px">
     <div class="glass reveal">
       <h3>Pola per hari dalam seminggu</h3>
       <p class="muted" style="margin:0 0 4px;font-size:.85rem">Rata-rata mood 90 hari terakhir</p>
       <div class="wd" id="wd"></div>
     </div>
-    <div class="glass organic reveal d1">
+    <div class="glass reveal d1">
       <h3>Insight</h3>
       <p id="a-insight" class="muted" style="margin:0"></p>
     </div>
   </div>
 
-  <div class="grid-2" style="margin-top:18px">
+  <div class="grid-2" style="margin-top:20px">
     <div class="glass reveal">
       <h3>Ringkasan minggu ini</h3>
       <div id="weekly" class="muted"></div>
@@ -545,10 +532,11 @@ body.reduce .glass{transform:none!important}
 
 <!-- OBAT -->
 <section id="obat">
+  <p class="section-num reveal">03 — MEDICATION</p>
   <p class="eyebrow reveal">Medication</p>
   <h2 class="sub reveal">Jadwal dan adherence</h2>
-  <div class="grid-2" style="margin-top:20px">
-    <div class="glass arch reveal">
+  <div class="grid-2" style="margin-top:24px">
+    <div class="glass reveal">
       <h3>Tambah pengingat obat</h3>
       <label for="med-name">Nama obat</label>
       <input id="med-name" maxlength="80">
@@ -558,13 +546,13 @@ body.reduce .glass{transform:none!important}
       <p class="msg" id="med-msg"></p>
       <button class="btn" id="med-save" type="button" style="margin-top:10px">Tambah</button>
     </div>
-    <div class="glass organic reveal d1">
+    <div class="glass reveal d1">
       <h3>Jadwal hari ini (<span id="med-date"></span>)</h3>
       <p class="muted" id="med-next" style="margin:0 0 8px;font-size:.9rem"></p>
       <div id="med-list"></div>
     </div>
   </div>
-  <div class="grid-2" style="margin-top:18px">
+  <div class="grid-2" style="margin-top:20px">
     <div class="glass reveal">
       <h3>Adherence 7 hari</h3>
       <div class="stat" id="med-adh">—</div>
@@ -575,21 +563,22 @@ body.reduce .glass{transform:none!important}
       <div id="med-per"></div>
     </div>
   </div>
-  <p class="muted reveal" style="margin-top:18px;font-size:.88rem">MINDSPACE hanya mencatat. Ikuti resep dan konsultasikan perubahan obat dengan dokter atau apoteker.</p>
+  <p class="muted reveal" style="margin-top:20px;font-size:.88rem">MINDSPACE hanya mencatat. Ikuti resep dan konsultasikan perubahan obat dengan dokter atau apoteker.</p>
 </section>
 
 <!-- JURNAL -->
 <section id="jurnal">
+  <p class="section-num reveal">04 — JOURNAL</p>
   <p class="eyebrow reveal">Journal</p>
   <h2 class="sub reveal">Tulis tanpa tekanan</h2>
-  <div class="glass organic reveal" style="margin-top:20px">
+  <div class="glass reveal" style="margin-top:24px">
     <h3 id="j-form-title">Entri baru</h3>
     <label for="j-title">Judul</label>
     <input id="j-title" maxlength="120">
     <label for="j-mood">Mood</label>
     <select id="j-mood"><option value="">Tidak disebutkan</option></select>
     <label for="j-body">Tulis di sini</label>
-    <textarea id="j-body" style="min-height:170px" maxlength="5000"></textarea>
+    <textarea id="j-body" style="min-height:180px" maxlength="5000"></textarea>
     <div class="counter" id="j-count">0 kata</div>
     <p class="msg" id="j-msg"></p>
     <div class="row" style="justify-content:flex-start">
@@ -597,7 +586,7 @@ body.reduce .glass{transform:none!important}
       <button class="btn ghost" id="j-cancel" type="button" hidden>Batal edit</button>
     </div>
   </div>
-  <div class="glass reveal" style="margin-top:18px">
+  <div class="glass reveal" style="margin-top:20px">
     <div class="grid" style="grid-template-columns:2fr 1fr 1fr">
       <input id="j-search" placeholder="Cari di jurnal…" aria-label="Cari jurnal">
       <select id="j-filter" aria-label="Filter mood"><option value="">Semua mood</option></select>
@@ -608,16 +597,13 @@ body.reduce .glass{transform:none!important}
   </div>
 </section>
 
-<svg class="wave" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true">
-  <path d="M0,64 C240,120 480,0 720,56 C960,112 1200,8 1440,60 L1440,120 L0,120 Z"/>
-</svg>
-
 <!-- REFLEKSI -->
 <section id="refleksi">
+  <p class="section-num reveal">05 — REFLECTION</p>
   <p class="eyebrow reveal">Guided Reflection</p>
   <h2 class="sub reveal">Berhenti sebentar, lalu tanyakan</h2>
-  <div class="grid-2" style="margin-top:20px">
-    <div class="glass arch reveal">
+  <div class="grid-2" style="margin-top:24px">
+    <div class="glass reveal">
       <h3>Check-in emosi</h3>
       <label for="r-emotion">Emosi dominan</label>
       <select id="r-emotion"></select>
@@ -626,78 +612,126 @@ body.reduce .glass{transform:none!important}
       <label for="r-grat">Tiga hal yang kusyukuri hari ini</label>
       <textarea id="r-grat" maxlength="600" placeholder="Hal kecil juga boleh"></textarea>
     </div>
-    <div class="glass organic reveal d1">
+    <div class="glass reveal d1">
       <h3>Pertanyaan hari ini</h3>
       <div id="r-questions" class="stack"></div>
       <p class="msg" id="r-msg"></p>
       <button class="btn" id="r-save" type="button" style="margin-top:10px">Simpan refleksi</button>
     </div>
   </div>
-  <div class="glass reveal" style="margin-top:18px">
+  <div class="glass reveal" style="margin-top:20px">
     <div class="row">
       <h3 style="margin:0">Riwayat refleksi</h3>
       <select id="r-filter" aria-label="Filter emosi" style="width:auto;min-width:180px"></select>
     </div>
-    <div class="chips" id="r-tally" style="margin:12px 0 4px"></div>
+    <div class="chips" id="r-tally" style="margin:14px 0 4px"></div>
     <div id="r-list" style="margin-top:10px"></div>
   </div>
 </section>
 
 <!-- PENGETAHUAN -->
 <section id="pengetahuan">
+  <p class="section-num reveal">06 — KNOWLEDGE</p>
   <p class="eyebrow reveal">Knowledge Space</p>
   <h2 class="sub reveal">Memahami pola suasana hati</h2>
-  <p class="lead reveal">Informasi edukatif, bukan pengganti diagnosis atau perawatan profesional. Baca pelan-pelan, dan bicarakan hal yang relevan dengan tenaga kesehatan.</p>
+  <p class="lead reveal">Informasi edukatif berbasis praktik klinis umum. Bukan pengganti diagnosis atau perawatan profesional.</p>
 
-  <div class="glass organic reveal">
+  <div class="glass reveal">
     <h3>Rentang suasana hati (ilustrasi)</h3>
     <div class="spectrum" aria-hidden="true"><div class="marker" id="spec-mark"></div></div>
     <div class="spec-labels"><span>Rendah</span><span>Stabil</span><span>Tinggi</span></div>
-    <p class="muted" style="margin:14px 0 0">Naik turun mood dalam rentang yang wajar adalah bagian dari hidup. Pada gangguan bipolar, perubahan mood cenderung lebih intens, berlangsung lebih lama, dan mengganggu fungsi harian. Penilaian hanya bisa dilakukan oleh tenaga profesional.</p>
+    <p class="muted" style="margin:16px 0 0">Naik turun mood dalam rentang yang wajar adalah bagian dari hidup. Pada gangguan bipolar, perubahan mood cenderung lebih intens, berlangsung lebih lama, dan mengganggu fungsi harian. Penilaian hanya bisa dilakukan oleh tenaga profesional.</p>
   </div>
 
-  <div class="glass reveal" style="margin-top:18px">
-    <h3>Siklus harian</h3>
-    <p class="muted" style="margin:0 0 12px;font-size:.9rem">Pilih topik untuk melihat mengapa kebiasaan ini berpengaruh pada suasana hati.</p>
-    <div class="cycle" id="cycle" role="group" aria-label="Pilih topik"></div>
-    <p id="cycle-text" class="muted"></p>
-  </div>
-
-  <div class="kb-tools reveal" style="margin-top:30px">
-    <div class="chips" id="kb-chips" role="group" aria-label="Filter kategori" style="margin:0"></div>
-    <div class="kb-progress">
-      <div class="row" style="justify-content:space-between"><span class="muted" style="font-size:.85rem" id="kb-count"></span><span class="muted" style="font-size:.85rem" id="kb-read"></span></div>
-      <div class="bar-wrap" style="margin-top:6px"><div class="bar" id="kb-bar"></div></div>
+  <div class="grid-2" style="margin-top:20px">
+    <div class="glass reveal">
+      <h3>Siklus harian yang saling berkaitan</h3>
+      <div class="cycle" id="cycle" role="group" aria-label="Pilih topik"></div>
+      <p id="cycle-text" class="muted"></p>
+    </div>
+    <div class="glass reveal d1">
+      <h3>Cari artikel</h3>
+      <input id="k-search" class="k-search" placeholder="Cari topik, misalnya: tidur, panik, obat…" aria-label="Cari artikel">
+      <div class="chips" id="k-cats" role="group" aria-label="Kategori"></div>
+      <p class="muted" id="k-count" style="margin:14px 0 0;font-size:.88rem"></p>
     </div>
   </div>
-  <div class="kb-grid" id="kb-grid"></div>
 
-  <svg class="wave" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true" style="margin-top:20px">
-    <path d="M0,64 C240,120 480,0 720,56 C960,112 1200,8 1440,60 L1440,120 L0,120 Z"/>
-  </svg>
+  <div class="k-grid" id="k-grid"></div>
+  <div class="k-empty" id="k-empty" hidden>Tidak ada artikel yang cocok. Coba kata kunci lain.</div>
 
-  <div class="glass arch reveal" style="margin-top:18px">
-    <h3>Mitos atau fakta?</h3>
-    <p class="muted" style="margin:0 0 14px;font-size:.9rem">Jawab setiap pernyataan. Penjelasan muncul setelah kamu memilih.</p>
-    <p class="muted" id="qz-score" style="margin:0 0 14px;font-weight:700"></p>
-    <div class="kb-quiz" id="quiz"></div>
+  <div class="k-section-title reveal">
+    <h2 class="sub" style="font-size:clamp(1.4rem,3vw,1.9rem)">Alat latihan</h2>
+    <span class="muted" style="font-size:.9rem">Dapat digunakan kapan saja</span>
+  </div>
+
+  <div class="grid-2" style="margin-top:20px">
+    <div class="glass reveal">
+      <h3>Grounding 5-4-3-2-1</h3>
+      <p class="muted" style="margin:0 0 16px;font-size:.9rem">Saat cemas atau terasa lepas dari kenyataan, bawa perhatianmu kembali ke sekitar.</p>
+      <p class="tool-count" id="gr-count">5</p>
+      <p class="tool-step" id="gr-text"></p>
+      <div class="progress-dots" id="gr-dots"></div>
+      <div class="row" style="margin-top:18px;justify-content:flex-start">
+        <button class="btn small" id="gr-next" type="button">Lanjut</button>
+        <button class="btn ghost small" id="gr-reset" type="button">Ulangi</button>
+      </div>
+    </div>
+
+    <div class="glass reveal d1">
+      <h3>Pencatatan pikiran</h3>
+      <p class="muted" style="margin:0 0 6px;font-size:.9rem">Tuliskan pikiran yang mengganggu, lalu uji seberapa kuat buktinya. Hasil hanya ditampilkan di halaman ini.</p>
+      <label for="tr-sit">Situasi apa yang terjadi?</label>
+      <textarea id="tr-sit" maxlength="400" style="min-height:70px"></textarea>
+      <label for="tr-auto">Pikiran otomatis apa yang muncul?</label>
+      <textarea id="tr-auto" maxlength="400" style="min-height:70px"></textarea>
+      <label for="tr-for">Bukti yang mendukung pikiran itu</label>
+      <textarea id="tr-for" maxlength="400" style="min-height:70px"></textarea>
+      <label for="tr-against">Bukti yang tidak mendukung atau bisa menjadi sudut pandang lain</label>
+      <textarea id="tr-against" maxlength="400" style="min-height:70px"></textarea>
+      <label for="tr-alt">Pikiran yang lebih seimbang</label>
+      <textarea id="tr-alt" maxlength="400" style="min-height:70px"></textarea>
+      <div class="row" style="justify-content:flex-start;margin-top:14px">
+        <button class="btn small" id="tr-show" type="button">Lihat ringkasan</button>
+        <button class="btn ghost small" id="tr-copy" type="button">Salin</button>
+      </div>
+      <div class="recap" id="tr-recap" hidden></div>
+    </div>
+  </div>
+
+  <div class="grid-2" style="margin-top:20px">
+    <div class="glass reveal">
+      <h3>Cek pemahaman</h3>
+      <p class="quiz-q" id="quiz-q"></p>
+      <div class="quiz-opts" id="quiz-opts"></div>
+      <p class="quiz-fb muted" id="quiz-fb"></p>
+      <div class="row" style="justify-content:flex-start;margin-top:10px">
+        <button class="btn ghost small" id="quiz-next" type="button">Soal berikutnya</button>
+        <span class="muted" id="quiz-score" style="font-size:.9rem"></span>
+      </div>
+    </div>
+    <div class="glass reveal d1">
+      <h3>Kapan harus mencari bantuan?</h3>
+      <p class="muted" style="margin:0">Segera hubungi tenaga profesional jika perubahan mood mengganggu pekerjaan, sekolah, hubungan, atau keselamatanmu. Jika ada pikiran untuk menyakiti diri sendiri, hubungi 112 atau layanan darurat terdekat sekarang juga. Halaman Keselamatan berisi langkah yang bisa kamu siapkan sebelumnya.</p>
+    </div>
   </div>
 </section>
 
 <!-- KESELAMATAN -->
 <section id="keselamatan">
+  <p class="section-num reveal">07 — SAFETY</p>
   <p class="eyebrow reveal">Safety Space</p>
   <h2 class="sub reveal">Kamu tidak harus menghadapi ini sendirian</h2>
-  <div class="grid-2" style="margin-top:20px">
-    <div class="glass emergency arch reveal">
+  <div class="grid-2" style="margin-top:24px">
+    <div class="glass emergency reveal">
       <h3>Jika kamu dalam bahaya sekarang</h3>
-      <p style="margin:0 0 12px">Hubungi <strong>112</strong> atau pergi ke IGD terdekat. Layanan SEJIWA Kemenkes: <strong>119 ext 8</strong>. Pastikan nomor masih berlaku sebelum digunakan.</p>
+      <p style="margin:0 0 14px">Hubungi <strong>112</strong> atau pergi ke IGD terdekat. Layanan SEJIWA Kemenkes: <strong>119 ext 8</strong>. Pastikan nomor masih berlaku sebelum digunakan.</p>
       <div class="row" style="justify-content:flex-start">
         <button class="btn ghost small" id="s-copy" type="button">Salin nomor darurat</button>
         <button class="btn ghost small" id="s-print" type="button">Cetak rencana</button>
       </div>
     </div>
-    <div class="glass organic reveal d1">
+    <div class="glass reveal d1">
       <h3>Latihan napas 1 menit</h3>
       <div class="breath-wrap">
         <div class="breath" id="breath" aria-hidden="true"><span id="breath-text">Mulai</span></div>
@@ -706,7 +740,7 @@ body.reduce .glass{transform:none!important}
       <p class="muted" style="margin:0;font-size:.88rem">Tarik napas 4 detik, tahan 4 detik, hembuskan 6 detik.</p>
     </div>
   </div>
-  <div class="glass reveal" style="margin-top:18px">
+  <div class="glass reveal" style="margin-top:20px">
     <h3>Rencana keselamatan pribadi</h3>
     <label for="s-warn">Tanda-tanda peringatan dini</label>
     <textarea id="s-warn" maxlength="1000"></textarea>
@@ -715,16 +749,17 @@ body.reduce .glass{transform:none!important}
     <label for="s-contacts">Kontak darurat dan orang yang bisa dihubungi</label>
     <textarea id="s-contacts" maxlength="1000"></textarea>
     <p class="msg" id="s-msg"></p>
-    <button class="btn" id="s-save" type="button" style="margin-top:8px">Simpan rencana</button>
+    <button class="btn" id="s-save" type="button" style="margin-top:10px">Simpan rencana</button>
   </div>
 </section>
 
 <!-- PENGATURAN -->
 <section id="pengaturan">
+  <p class="section-num reveal">08 — SETTINGS</p>
   <p class="eyebrow reveal">Settings</p>
   <h2 class="sub reveal">Sesuaikan ruangmu</h2>
-  <div class="grid-2" style="margin-top:20px">
-    <div class="glass arch reveal">
+  <div class="grid-2" style="margin-top:24px">
+    <div class="glass reveal">
       <h3>Tampilan dan pengingat</h3>
       <label for="set-theme">Tema</label>
       <select id="set-theme"><option value="dark">Gelap</option><option value="light">Terang</option></select>
@@ -734,9 +769,9 @@ body.reduce .glass{transform:none!important}
       <label for="set-time">Waktu pengingat check-in</label>
       <input type="time" id="set-time" value="20:00">
       <label class="check"><input type="checkbox" id="set-backup"> Ingatkan ekspor cadangan tiap 7 hari</label>
-      <button class="btn" id="set-save" type="button" style="margin-top:14px">Simpan pengaturan</button>
+      <button class="btn" id="set-save" type="button" style="margin-top:16px">Simpan pengaturan</button>
     </div>
-    <div class="glass organic reveal d1">
+    <div class="glass reveal d1">
       <h3>Data lokal</h3>
       <p class="muted" style="margin-top:0">Data disimpan di perangkat ini (localStorage). Ekspor secara berkala sebagai cadangan.</p>
       <p class="muted" id="backup-info" style="font-size:.88rem"></p>
@@ -759,13 +794,7 @@ body.reduce .glass{transform:none!important}
 
 /* ---------- konstanta ---------- */
 const KEY = 'mindspace.v1';
-const MOODS = [
-  ['sangat-baik','😄 Sangat baik',5,'60% 40% 30% 70% / 60% 30% 70% 40%'],
-  ['baik','🙂 Baik',4,'30% 70% 70% 30% / 30% 30% 70% 70%'],
-  ['netral','😐 Netral',3,'50%'],
-  ['rendah','😔 Rendah',2,'40% 60% 60% 40% / 40% 50% 50% 60%'],
-  ['sangat-rendah','😢 Sangat rendah',1,'70% 30% 40% 60% / 50% 70% 30% 50%']
-];
+const MOODS = [['sangat-baik','😄 Sangat baik',5],['baik','🙂 Baik',4],['netral','😐 Netral',3],['rendah','😔 Rendah',2],['sangat-rendah','😢 Sangat rendah',1]];
 const EMOTIONS = ['Tenang','Cemas','Sedih','Marah','Bersemangat','Lelah'];
 const POOL = [
   'Apa satu hal yang membuatku merasa sedikit lebih baik hari ini?',
@@ -785,189 +814,168 @@ const QUOTES = [
 ];
 const BADGES = [[3,'Mulai konsisten','🌱'],[7,'Seminggu penuh','🌿'],[14,'Dua minggu','🌊'],[30,'Sebulan','🌙']];
 const BREATH = [['Tarik napas',4000],['Tahan',4000],['Hembuskan',6000]];
-const CYCLE = [
-  ['Tidur','Jadwal tidur yang relatif konsisten membantu ritme harian tetap stabil. Coba catat jam tidurmu selama beberapa hari untuk melihat polanya.'],
-  ['Makan','Makan secara teratur membantu energi tetap stabil sepanjang hari. Melewatkan makan sering berdampak pada suasana hati dan konsentrasi.'],
-  ['Gerak','Aktivitas ringan seperti jalan kaki sering membantu suasana hati. Tidak perlu langsung berat, mulai dari 10 menit sudah berarti.'],
-  ['Terhubung','Berbicara dengan orang yang kamu percaya dapat mengurangi rasa sendirian. Kamu juga bisa mencantumkan kontak itu di Rencana Keselamatan.']
-];
 const WD = ['Sen','Sel','Rab','Kam','Jum','Sab','Min'];
 
-/* ---------- basis pengetahuan ---------- */
-const KB_CATS = [
-  ['dasar','Dasar'],['tipe','Tipe'],['tanda','Tanda'],['ritme','Tidur & ritme'],
-  ['emosi','Regulasi emosi'],['gaya','Gaya hidup'],['dukungan','Dukungan']
-];
-const KB = [
-  { id:'k1', cat:'dasar', title:'Apa itu gangguan bipolar?',
-    sum:'Kondisi yang ditandai perubahan suasana hati yang lebih ekstrem dan berlangsung lebih lama dari naik turun biasa.',
-    body:[
-      'Gangguan bipolar ditandai episode suasana hati tinggi (mania atau hipomania) dan episode suasana hati rendah (depresi). Di antara episode, sebagian orang bisa kembali berfungsi normal, sementara sebagian lain mengalami gejala yang lebih ringan secara terus-menerus.',
-      'Diagnosis dibuat oleh tenaga profesional berdasarkan riwayat, gejala, dan durasi. Aplikasi seperti ini hanya membantu mencatat pola, bukan menggantikan penilaian klinis.'
-    ],
-    tip:'Jika kamu merasa perubahan mood sering mengganggu sekolah, kerja, atau hubungan, catat polanya lalu bawa catatan itu ke dokter atau psikolog.' },
-  { id:'k2', cat:'dasar', title:'Mood normal dan episode: apa bedanya?',
-    sum:'Perbedaan utama ada pada durasi, intensitas, dan dampaknya terhadap fungsi sehari-hari.',
-    body:[
-      'Perubahan mood yang normal biasanya dipicu peristiwa tertentu dan mereda dalam waktu yang wajar. Episode gangguan mood cenderung muncul tanpa pemicu jelas, bertahan beberapa hari hingga minggu, dan memengaruhi tidur, pekerjaan, atau hubungan.',
-      'Yang membantu adalah membandingkan catatanmu dari waktu ke waktu, bukan hanya satu hari. Pola yang berulang lebih berarti daripada satu hari yang buruk.'
-    ],
-    tip:'Gunakan grafik 30 hari di Analitik untuk melihat apakah ada pola yang terulang setiap beberapa minggu.' },
-  { id:'k3', cat:'tipe', title:'Bipolar I',
-    sum:'Ditandai minimal satu episode mania yang cukup berat, dan sering disertai episode depresi.',
-    body:[
-      'Episode mania pada bipolar I berlangsung cukup lama dan cukup berat sehingga bisa mengganggu pekerjaan, hubungan, atau memerlukan rawat inap. Pada sebagian orang, episode ini disertai gejala psikotik.',
-      'Episode depresi sering muncul, tetapi tidak selalu harus ada untuk diagnosis. Setiap orang memiliki pola yang berbeda, sehingga penilaian profesional sangat penting.'
-    ],
-    tip:'Jika kamu pernah mengalami episode tinggi yang sangat intens, sampaikan itu secara jujur kepada tenaga kesehatanmu.' },
-  { id:'k4', cat:'tipe', title:'Bipolar II',
-    sum:'Ditandai episode hipomania yang lebih ringan dan episode depresi yang berulang.',
-    body:[
-      'Hipomania adalah periode energi dan produktivitas yang meningkat, tetapi tidak seberat mania. Orang di sekitarnya kadang menganggapnya sebagai fase bersemangat, sehingga sering terlewat.',
-      'Karena episode depresinya sering menjadi keluhan utama, bipolar II kadang salah dikenali sebagai depresi saja. Riwayat periode energi tinggi menjadi informasi penting untuk dibahas dengan dokter.'
-    ],
-    tip:'Perhatikan periode ketika kamu merasa sangat bersemangat dan tidur hanya sedikit, lalu catat di jurnal sebagai bahan diskusi.' },
-  { id:'k5', cat:'tipe', title:'Siklotimia',
-    sum:'Naik turun mood yang ringan tetapi berlangsung lama dan sering dalam kurun waktu bertahun-tahun.',
-    body:[
-      'Siklotimia ditandai periode suasana hati tinggi dan rendah yang tidak memenuhi kriteria episode penuh, tetapi berlangsung terus-menerus. Pada orang dewasa, gejalanya perlu bertahan cukup lama untuk dipertimbangkan sebagai diagnosis.',
-      'Karena gejalanya ringan, siklotimia sering dianggap sebagai sifat kepribadian. Mencatat pola selama beberapa bulan dapat membantu membedakannya.'
-    ],
-    tip:'Tidak perlu menilai dirimu sendiri. Cukup catat dan biarkan tenaga profesional yang menafsirkannya.' },
-  { id:'k6', cat:'tanda', title:'Tanda mania atau hipomania',
-    sum:'Energi yang sangat tinggi, tidur berkurang tanpa merasa lelah, dan keputusan yang terburu-buru.',
-    body:[
-      'Tanda yang sering muncul meliputi tidur sangat sedikit tetapi tetap merasa segar, bicara cepat, ide yang berloncatan, mudah teralihkan, rasa percaya diri yang berlebihan, dan dorongan untuk mengambil risiko seperti belanja besar atau keputusan finansial mendadak.',
-      'Jika tanda ini berlangsung beberapa hari dan terasa berbeda dari kebiasaanmu, sebaiknya segera hubungi tenaga kesehatan. Orang terdekat sering lebih cepat menyadarinya daripada diri sendiri.'
-    ],
-    tip:'Catat jam tidur dan tingkat energi harian. Perubahan yang berkelanjutan sering terlihat jelas di catatan.' },
-  { id:'k7', cat:'tanda', title:'Tanda depresi',
-    sum:'Sedih atau hampa berkepanjangan, kehilangan minat, dan perubahan tidur serta nafsu makan.',
-    body:[
-      'Depresi dapat terlihat sebagai rasa sedih atau hampa hampir sepanjang hari, hilangnya minat pada aktivitas yang biasa dinikmati, lelah terus-menerus, sulit berkonsentrasi, serta perubahan tidur dan nafas makan. Sebagian orang juga merasa bersalah atau tidak berharga.',
-      'Jika muncul pikiran untuk menyakiti diri sendiri atau mengakhiri hidup, jangan menunggu. Hubungi layanan darurat atau orang yang kamu percaya sekarang juga.'
-    ],
-    tip:'Jika mood rendah berlangsung lebih dari dua minggu, bicarakan dengan tenaga profesional, meskipun gejalanya terasa ringan.' },
-  { id:'k8', cat:'tanda', title:'Membuat tanda peringatan dini pribadi',
-    sum:'Setiap orang memiliki tanda awal yang khas. Mengenalinya lebih awal memberi lebih banyak pilihan.',
-    body:[
-      'Tanda peringatan dini bisa berupa perubahan kecil: tidur lebih sedikit dari biasanya, menarik diri dari teman, pikiran yang berlomba, atau kebiasaan belanja yang berubah. Tanda ini berbeda untuk setiap orang dan sering terlihat pertama kali oleh orang terdekat.',
-      'Setelah kamu mengenali tanda pribadimu, tuliskan di Rencana Keselamatan beserta langkah yang bisa dilakukan, dan siapa yang akan dihubungi.'
-    ],
-    tip:'Mulai dari tiga tanda awal yang paling sering kamu rasakan, lalu tambahkan seiring waktu.' },
-  { id:'k9', cat:'ritme', title:'Ritme sirkadian dan tidur',
-    sum:'Jam biologis tubuh mengatur tidur, energi, dan mood. Jadwal yang teratur membantu menjaga ritme itu.',
-    body:[
-      'Ritme sirkadian dipengaruhi cahaya, waktu makan, dan jadwal tidur. Pada sebagian orang dengan kondisi mood tertentu, perubahan jadwal tidur yang tiba-tiba dapat memicu perubahan mood.',
-      'Beberapa kebiasaan yang sering membantu: paparan cahaya alami di pagi hari, mengurangi layar terang menjelang tidur, dan menjaga jam bangun yang relatif sama setiap hari, termasuk akhir pekan.'
-    ],
-    tip:'Coba jam bangun yang sama selama 7 hari ke depan, lalu lihat apakah mood pagimu berubah.' },
-  { id:'k10', cat:'ritme', title:'Hubungan tidur dan mood',
-    sum:'Tidur dan mood saling memengaruhi. Kurang tidur sering membuat mood lebih rendah, dan mood yang rendah sering mengganggu tidur.',
-    body:[
-      'Kurang tidur dapat membuat emosi lebih sulit dikendalikan, menurunkan kemampuan berpikir, dan pada sebagian orang meningkatkan risiko perubahan mood. Hubungan ini bekerja dua arah, sehingga pola tidur perlu diperhatikan saat mood berubah.',
-      'Di Analitik, korelasi tidur–mood menunjukkan seberapa searah keduanya dalam catatanmu. Angka mendekati 1 berarti tidur lebih panjang cenderung diikuti mood lebih baik.'
-    ],
-    tip:'Jika rata-rata tidurmu di bawah 6 jam selama beberapa hari, pertimbangkan untuk menyesuaikan jadwal dan bicarakan dengan dokter bila kesulitan tidur berlanjut.' },
-  { id:'k11', cat:'emosi', title:'Menamai emosi',
-    sum:'Memberi nama pada perasaan dapat membuat emosi terasa sedikit lebih terkendali.',
-    body:[
-      'Penelitian tentang "affect labeling" menunjukkan bahwa menyebut perasaan dengan kata-kata dapat mengurangi intensitas respons emosional, terutama saat perasaan terasa membingungkan. Kalimat sederhana seperti "aku sedang merasa cemas" sudah cukup.',
-      'Latihan ini mudah dibawa ke mana saja. Berhenti sejenak, lalu sebutkan satu atau dua kata untuk perasaan yang kamu rasakan saat itu.'
-    ],
-    tip:'Gunakan check-in emosi di Refleksi setiap hari. Lama-kelamaan kosakata perasaanmu akan semakin kaya.' },
-  { id:'k12', cat:'emosi', title:'Pernapasan yang menenangkan',
-    sum:'Napas yang lebih lambat dan ekshalasi yang lebih panjang dapat membantu tubuh kembali tenang.',
-    body:[
-      'Saat cemas, napas biasanya menjadi cepat dan dangkal. Dengan memperpanjang hembusan napas, sistem saraf cenderung bergeser ke kondisi yang lebih tenang. Latihan ini sederhana dan dapat dilakukan di mana saja.',
-      'Latihan napas bukan pengganti pengobatan, tetapi dapat menjadi alat bantu saat perasaan mulai terasa berat.'
-    ],
-    tip:'Gunakan latihan napas di halaman Keselamatan. Ulangi beberapa siklus sampai tubuh terasa lebih rileks.' },
-  { id:'k13', cat:'emosi', title:'Menulis dan membedakan fakta dari tafsiran',
-    sum:'Menulis membantu melihat pikiran dari jarak. Membedakan fakta dan tafsiran membuat pikiran lebih seimbang.',
-    body:[
-      'Terapi kognitif perilaku sering menggunakan latihan sederhana: menuliskan kejadian, pikiran yang muncul, lalu bertanya apa bukti yang mendukung dan apa bukti yang bertentangan. Cara ini membantu melihat situasi dengan lebih utuh.',
-      'Jurnal juga dapat dipakai untuk mencatat apa yang terjadi, apa yang kamu rasakan, dan apa yang kamu lakukan, tanpa harus langsung menilai.'
-    ],
-    tip:'Saat menulis di jurnal, coba pisahkan satu kalimat fakta ("aku tidak membalas pesan") dan satu kalimat tafsiran ("mereka pasti marah").' },
-  { id:'k14', cat:'gaya', title:'Aktivitas fisik dan suasana hati',
-    sum:'Gerak yang teratur sering berkaitan dengan mood yang lebih stabil dan tidur yang lebih baik.',
-    body:[
-      'Aktivitas fisik ringan hingga sedang, seperti jalan kaki, bersepeda, atau berenang, sering dikaitkan dengan peningkatan suasana hati. Efeknya biasanya lebih terasa jika dilakukan secara rutin.',
-      'Hindari memaksakan latihan berat saat sedang dalam episode energi tinggi atau kelelahan ekstrem. Sesuaikan intensitas dengan kondisimu.'
-    ],
-    tip:'Mulai dari 10 menit berjalan kaki setiap hari, lalu catat aktivitasmu di MINDSPACE untuk melihat dampaknya.' },
-  { id:'k15', cat:'gaya', title:'Alkohol, kafein, dan zat lain',
-    sum:'Zat tertentu dapat mengganggu tidur dan memperburuk mood, bahkan jika awalnya terasa membantu.',
-    body:[
-      'Alkohol sering terasa menenangkan di awal, tetapi dapat mengacaukan tidur dan membuat mood lebih rendah keesokan harinya. Kafein dalam jumlah besar atau dikonsumsi sore hari dapat mengurangi kualitas tidur.',
-      'Zat stimulan maupun zat ilegal dapat memicu atau memperburuk episode. Jika kamu merasa perlu menggunakan zat untuk mengatasi perasaan, bicarakan dengan tenaga profesional secara terbuka.'
-    ],
-    tip:'Coba batasi kafein setelah siang hari selama satu minggu dan perhatikan perubahan tidurmu di catatan.' },
-  { id:'k16', cat:'gaya', title:'Obat dan kepatuhan minum obat',
-    sum:'Pengobatan sering menjadi bagian penting dari perawatan. Konsistensi dan komunikasi dengan dokter sama pentingnya.',
-    body:[
-      'Obat untuk menstabilkan mood biasanya diresepkan dan dipantau oleh dokter. Pilihan obat dan dosisnya bersifat sangat personal, sehingga tidak ada satu jawaban yang berlaku untuk semua orang.',
-      'Jangan menghentikan atau mengubah dosis tanpa berkonsultasi, meskipun merasa sudah lebih baik. Jika ada efek samping atau kendala minum obat, sampaikan kepada dokter atau apoteker. Pengingat dan catatan di MINDSPACE dapat membantu.'
-    ],
-    tip:'Tulis pertanyaan tentang obat sebelum kunjungan dokter agar tidak ada yang terlewat.' },
-  { id:'k17', cat:'gaya', title:'Rutinitas yang menopang',
-    sum:'Rutinitas kecil yang konsisten dapat memberi pijakan saat perasaan terasa tidak menentu.',
-    body:[
-      'Beberapa rutinitas yang sering membantu meliputi makan pada jam yang relatif teratur, menyediakan waktu untuk hal yang disukai, dan membatasi komitmen berlebihan pada periode yang sulit.',
-      'Rutinitas tidak harus sempurna. Kembali ke rutinitas setelah terlewat juga bagian dari perawatan diri.'
-    ],
-    tip:'Pilih satu rutinitas kecil untuk minggu ini, misalnya minum air setelah bangun, lalu lihat apakah terasa membantu.' },
-  { id:'k18', cat:'dukungan', title:'Memulai percakapan dengan orang terpercaya',
-    sum:'Tidak perlu kalimat sempurna. Menjelaskan apa yang kamu alami sudah merupakan langkah besar.',
-    body:[
-      'Kamu dapat memulai dengan kalimat sederhana seperti "Aku sedang merasa tidak seperti biasanya dan ingin cerita." Jelaskan apa yang kamu butuhkan: didengarkan, ditemani, atau dibantu mencari bantuan profesional.',
-      'Jika orang tersebut belum memahami, tidak apa-apa. Kamu bisa memberikan bacaan ini atau catatan dari aplikasi sebagai gambaran.'
-    ],
-    tip:'Tentukan satu orang yang bisa dihubungi kapan saja, lalu tuliskan namanya di Rencana Keselamatan.' },
-  { id:'k19', cat:'dukungan', title:'Mendukung orang terdekat',
-    sum:'Kehadiran yang tenang dan pertanyaan yang langsung sering lebih membantu daripada nasihat panjang.',
-    body:[
-      'Dengarkan tanpa langsung menghakimi atau menyalahkan. Tanyakan secara langsung bagaimana keadaannya, termasuk apakah dia merasa aman. Menanyakan hal ini tidak akan menambah risiko.',
-      'Bantu mencari tenaga profesional dan temani jika dia bersedia. Dalam situasi darurat, jangan ditinggal sendirian, dan hubungi layanan darurat.'
-    ],
-    tip:'Tanyakan "Apa yang bisa kulakukan untukmu hari ini?" lebih berguna daripada "Kamu kenapa?"' },
-  { id:'k20', cat:'dukungan', title:'Kapan harus mencari bantuan segera',
-    sum:'Beberapa tanda membutuhkan bantuan sekarang juga, bukan nanti.',
-    body:[
-      'Cari bantuan segera jika muncul pikiran untuk menyakiti diri sendiri atau orang lain, perilaku yang membahayakan, kebingungan yang berat, halusinasi, atau kehilangan kontak dengan kenyataan. Hubungi 112 atau pergi ke IGD terdekat.',
-      'Bantuan darurat tidak harus menunggu sampai keadaan benar-benar parah. Meminta bantuan lebih awal adalah keputusan yang tepat.'
-    ],
-    tip:'Simpan nomor darurat di ponsel dan di Rencana Keselamatan agar mudah diakses saat dibutuhkan.' },
-  { id:'k21', cat:'dukungan', title:'Stigma dan pemulihan',
-    sum:'Banyak orang dengan gangguan mood menjalani hidup yang produktif dan bermakna dengan perawatan yang tepat.',
-    body:[
-      'Stigma sering membuat orang menunda mencari bantuan. Padahal, perawatan yang tepat dapat membantu banyak orang mengenali pemicu, menjaga stabilitas, dan kembali menjalani aktivitas yang mereka pedulikan.',
-      'Pemulihan bukan garis lurus. Ada hari baik dan hari sulit. Yang penting adalah tetap terhubung dengan perawatan dan dukungan.'
-    ],
-    tip:'Ingat bahwa mencatat, mencari informasi, dan bertanya sudah merupakan bagian dari pemulihan.' }
-];
-const QUIZ = [
-  { q:'Gangguan bipolar hanya berupa perubahan suasana hati yang sedikit dan sebentar.', a:false, ex:'Mitos. Episode bisa intens, berlangsung lama, dan mengganggu fungsi harian.' },
-  { q:'Banyak orang dengan gangguan bipolar tetap bisa bekerja atau kuliah dengan perawatan yang tepat.', a:true, ex:'Fakta. Dengan pengobatan, dukungan, dan pengelolaan pemicu, banyak orang menjalani aktivitas sehari-hari dengan baik.' },
-  { q:'Kurang tidur tidak berpengaruh pada suasana hati.', a:false, ex:'Mitos. Tidur dan mood saling memengaruhi, dan kurang tidur dapat memperburuk keduanya.' },
-  { q:'Mencatat mood dapat membantu mengenali pola.', a:true, ex:'Fakta. Catatan membantu melihat pola dari waktu ke waktu, meskipun bukan alat diagnosis.' },
-  { q:'Obat bisa dihentikan begitu merasa sudah lebih baik.', a:false, ex:'Mitos. Hentikan atau ubah obat hanya setelah berkonsultasi dengan dokter.' },
-  { q:'Hanya dengan kemauan keras, mood bisa dikendalikan sepenuhnya tanpa bantuan profesional.', a:false, ex:'Mitos. Kemauan membantu, tetapi perawatan profesional sering tetap diperlukan.' }
+const CYCLE = [
+  ['Tidur','Jadwal tidur yang relatif konsisten membantu ritme harian tetap stabil. Catat jam tidurmu selama beberapa hari untuk melihat polanya.'],
+  ['Makan','Makan secara teratur membantu energi tetap stabil sepanjang hari. Melewatkan makan sering berdampak pada suasana hati dan konsentrasi.'],
+  ['Gerak','Aktivitas ringan seperti jalan kaki sering membantu suasana hati. Tidak perlu langsung berat, mulai dari 10 menit sudah berarti.'],
+  ['Terhubung','Berbicara dengan orang yang kamu percaya dapat mengurangi rasa sendirian. Kamu bisa mencantumkan kontak itu di Rencana Keselamatan.']
 ];
 
-/* ---------- state ---------- */
+/* Artikel pengetahuan: konten edukatif umum, bukan saran medis personal */
+const ARTICLES = [
+  { cat:'Dasar', icon:'🧭', title:'Apa itu gangguan bipolar?',
+    sum:'Kondisi yang ditandai perubahan suasana hati yang lebih ekstrem dan berlangsung lebih lama dibanding naik-turun mood sehari-hari.',
+    body:[
+      'Gangguan bipolar adalah kondisi kesehatan mental yang ditandai episode suasana hati yang sangat tinggi (mania atau hipomania) dan episode depresi. Di antara episode, sebagian orang bisa kembali ke kondisi yang relatif stabil.',
+      'Yang membedakannya dari perubahan mood biasa adalah intensitas, durasi, dan dampaknya terhadap fungsi harian, seperti pekerjaan, sekolah, hubungan, dan keselamatan. Diagnosis hanya dapat ditegakkan oleh tenaga profesional melalui wawancara klinis yang menyeluruh.'
+    ],
+    tips:['Perubahan yang berlangsung berhari-hari atau berminggu-minggu lebih penting dicatat daripada perubahan satu hari.','Catat tidur, energi, dan pola pikir selama episode untuk membantu percakapan dengan dokter.'],
+    key:'Yang dinilai bukan hanya perasaan, tetapi seberapa lama dan seberapa besar dampaknya.' },
+  { cat:'Dasar', icon:'🌗', title:'Mengenal jenis episode',
+    sum:'Mania, hipomania, depresi, dan episode campuran memiliki ciri yang berbeda, dan keparahannya pun bervariasi.',
+    body:[
+      'Mania ditandai suasana hati yang sangat meninggi atau mudah tersinggung disertai energi berlebih, kebutuhan tidur yang menurun drastis, pikiran yang berlomba, dan dorongan yang tidak biasa. Hipomania memiliki ciri serupa tetapi lebih ringan dan tidak selalu mengganggu fungsi secara besar.',
+      'Episode depresi dapat berupa sedih berkepanjangan, kehilangan minat, lelah, perubahan nafsu makan atau tidur, dan sulit berkonsentrasi. Episode campuran terjadi ketika gejala mania dan depresi muncul bersamaan, dan sering terasa sangat tidak nyaman.'
+    ],
+    tips:['Hipomania sering terasa menyenangkan pada awalnya, sehingga sulit dikenali sendiri. Catatan dari orang terdekat bisa membantu.','Jika kamu mengalami gejala campuran, segera konsultasikan ke profesional.'],
+    key:'Episode yang terlihat "produktif" pun tetap perlu dievaluasi bila disertai tidur sangat sedikit.' },
+  { cat:'Dasar', icon:'💭', title:'Mitos dan fakta',
+    sum:'Beberapa anggapan umum tentang gangguan bipolar tidak sesuai dengan kenyataan klinis.',
+    body:[
+      'Mitos: orang dengan bipolar selalu berganti mood setiap hari. Fakta: episode dapat berlangsung berminggu-minggu atau berbulan-bulan, dan di antaranya ada periode relatif stabil.',
+      'Mitos: kreativitas selalu berasal dari bipolar. Fakta: kreativitas adalah sifat manusia yang luas. Episode yang tidak terkontrol justru sering mengganggu proses kreatif dan kesehatan.',
+      'Mitos: gangguan ini bisa disembuhkan dengan kemauan saja. Fakta: pengelolaan jangka panjang biasanya melibatkan pengobatan, psikoterapi, rutinitas, dan dukungan sosial.'
+    ],
+    tips:['Hindari menggunakan label diagnosis untuk diri sendiri atau orang lain tanpa penilaian profesional.','Sumber informasi yang kredibel biasanya merujuk pada pedoman klinis dan tenaga kesehatan.'],
+    key:'Memahami fakta membantu kita bersikap lebih adil dan lebih peduli.' },
+  { cat:'Keselamatan', icon:'🚨', title:'Tanda peringatan dini',
+    sum:'Mengenali perubahan kecil sejak awal memberi kesempatan untuk bertindak lebih cepat.',
+    body:[
+      'Tanda peringatan dini bersifat pribadi. Bagi sebagian orang, tidur yang berkurang selama beberapa malam tanpa terasa lelah adalah tanda pertama. Bagi yang lain, mudah tersinggung, menarik diri dari teman, atau pikiran yang terasa semakin cepat.',
+      'Buat daftar tanda-tanda milikmu saat kondisi sedang baik, lalu simpan di Rencana Keselamatan. Saat tanda itu muncul, daftar tersebut menjadi pengingat untuk menghubungi orang yang dipercaya atau tenaga profesional.'
+    ],
+    tips:['Tidur kurang dari 5 jam selama beberapa malam berturut-turut layak dicatat dan dibicarakan.','Pengeluaran atau keputusan besar yang tidak biasa sebaiknya ditunda dan didiskusikan dulu.','Jika muncul pikiran menyakiti diri sendiri, segera cari bantuan darurat.'],
+    key:'Tidak perlu menunggu sampai parah untuk meminta bantuan.' },
+  { cat:'Tidur', icon:'🌙', title:'Tidur dan ritme harian',
+    sum:'Tidur yang teratur adalah salah satu faktor paling berpengaruh pada stabilitas suasana hati.',
+    body:[
+      'Ritme sirkadian mengatur kapan tubuh terasa mengantuk dan waspada. Pergeseran jam tidur yang besar, misalnya begadang di akhir pekan lalu bangun sangat siang, dapat memengaruhi mood dan energi pada hari-hari berikutnya.',
+      'Kebiasaan tidur yang baik tidak selalu rumit. Yang penting adalah jam bangun yang relatif konsisten, lingkungan kamar yang gelap dan tenang, serta jeda dari layar terang sebelum tidur.'
+    ],
+    tips:['Usahakan jam bangun yang sama setiap hari, termasuk akhir pekan.','Kurangi kafein setelah siang hari.','Gunakan kamar hanya untuk tidur dan istirahat bila memungkinkan.','Catat jam tidur dan bangun di MINDSPACE untuk melihat polamu.'],
+    key:'Konsistensi jam bangun sering lebih berpengaruh daripada jumlah jam tidur semata.' },
+  { cat:'Tidur', icon:'⏰', title:'Ritme sosial dan rutinitas',
+    sum:'Jadwal harian yang stabil membantu menjaga ritme biologis dan mengurangi pemicu perubahan mood.',
+    body:[
+      'Terapi ritme sosial berangkat dari gagasan bahwa perubahan rutinitas, seperti jadwal makan, interaksi sosial, dan waktu tidur yang berantakan, dapat memicu episode pada orang yang rentan. Karena itu, rutinitas dianggap bagian penting dari perawatan.',
+      'Rutinitas tidak harus kaku. Cukup pegang beberapa jangkar seperti waktu bangun, makan utama, dan satu aktivitas sosial dalam sehari.'
+    ],
+    tips:['Tentukan tiga jangkar harian: bangun, makan utama, dan waktu tidur.','Jika jadwal berubah karena perjalanan atau shift kerja, rencanakan cara menjaga jangkar tersebut.'],
+    key:'Rutinitas kecil yang konsisten lebih bermanfaat daripada jadwal sempurna yang sulit dijaga.' },
+  { cat:'Perawatan', icon:'☕', title:'Kafein, alkohol, dan zat lain',
+    sum:'Zat yang kamu konsumsi dapat memengaruhi tidur, energi, dan suasana hati.',
+    body:[
+      'Kafein dapat mengganggu tidur bahkan bila diminum beberapa jam sebelum tidur. Alkohol mungkin terasa menenangkan sesaat, tetapi sering mengganggu kualitas tidur dan memperburuk mood keesokan harinya.',
+      'Penggunaan zat lain seperti ganja, stimulan, atau obat tanpa resep dapat memicu atau memperburuk episode dan berinteraksi dengan obat yang diresepkan. Jika kamu menggunakannya, sampaikan kepada dokter secara jujur.'
+    ],
+    tips:['Batasi kafein setelah siang hari.','Hindari alkohol sebagai cara untuk tidur atau menenangkan diri.','Jujur dengan dokter tentang semua zat yang kamu gunakan.'],
+    key:'Zat yang membuatmu merasa lebih baik sesaat bisa memperburuk pola dalam jangka panjang.' },
+  { cat:'Perawatan', icon:'🏃', title:'Aktivitas fisik dan mood',
+    sum:'Bergerak secara teratur memiliki manfaat nyata bagi tidur, energi, dan kesehatan mental.',
+    body:[
+      'Aktivitas fisik ringan hingga sedang, seperti jalan kaki, bersepeda, atau berenang, dapat membantu tidur dan menurunkan rasa tegang. Bagi sebagian orang, olahraga juga membantu mengatur energi yang terasa berlebih.',
+      'Intensitas yang terlalu berat, terutama dilakukan larut malam atau sampai kelelahan ekstrem, justru dapat mengganggu tidur. Mulailah dari sedikit dan konsisten.'
+    ],
+    tips:['Mulai dengan 10 menit jalan kaki setiap hari.','Lakukan aktivitas lebih awal di hari agar tidak mengganggu tidur.','Catat menit aktivitasmu di MINDSPACE dan lihat hubungannya dengan mood.'],
+    key:'Gerak kecil yang rutin lebih mudah dipertahankan daripada latihan berat yang sesekali.' },
+  { cat:'Perawatan', icon:'💊', title:'Obat dan kepatuhan',
+    sum:'Obat yang diresepkan hanya bekerja optimal bila diminum sesuai petunjuk dokter.',
+    body:[
+      'Pengobatan gangguan bipolar sering melibatkan obat seperti penstabil suasana hati atau antipsikotik atipikal, dan dapat dikombinasikan dengan psikoterapi. Jenis dan dosis ditentukan oleh dokter berdasarkan kondisi masing-masing orang.',
+      'Berhenti minum obat tiba-tiba, terutama setelah merasa membaik, sering menjadi penyebab kambuhnya episode. Jika ada efek samping atau keraguan, bicarakan dengan dokter atau apoteker sebelum mengubah apa pun.'
+    ],
+    tips:['Gunakan pengingat di MINDSPACE sebagai bantuan, bukan pengganti resep.','Catat efek samping yang muncul agar mudah dibahas saat kontrol.','Bawa daftar semua obat dan suplemen saat berkonsultasi.'],
+    key:'Jangan mengubah dosis atau menghentikan obat tanpa berdiskusi dengan dokter.' },
+  { cat:'Emosi', icon:'🏷️', title:'Menamai emosi',
+    sum:'Memberi nama pada perasaan dapat mengurangi intensitasnya dan memberi ruang antara perasaan dan reaksi.',
+    body:[
+      'Penelitian tentang pelabelan afek menunjukkan bahwa menyebutkan emosi dengan jelas, misalnya "saya merasa cemas" alih-alih hanya "saya kacau", dapat membantu otak memproses emosi dengan lebih tenang.',
+      'Kamu bisa memperluas kosakata emosimu dengan memilih kata yang lebih spesifik: kecewa, gelisah, malu, lega, atau jenuh. Setiap kata membantu mengenali kebutuhan di baliknya.'
+    ],
+    tips:['Gunakan pola "saya merasa ___ karena ___" untuk latihan harian.','Perhatikan di mana emosi itu terasa di tubuh.','Gunakan roda emosi atau daftar kata sebagai pembantu.'],
+    key:'Semakin spesifik nama emosinya, semakin mudah memilih respons yang sesuai.' },
+  { cat:'Emosi', icon:'🌿', title:'Teknik grounding',
+    sum:'Grounding membantu menurunkan kecemasan dengan mengarahkan perhatian ke hal konkret di sekitar.',
+    body:[
+      'Saat panik atau pikiran terasa melayang, tubuh dan pikiran sering sulit diajak tenang dengan logika saja. Grounding bekerja melalui indra: fokus pada hal yang bisa dilihat, disentuh, didengar, dicium, dan dirasakan.',
+      'Latihan 5-4-3-2-1 adalah salah satu teknik yang paling mudah dilakukan di mana saja. Alat latihannya tersedia di bawah artikel ini.'
+    ],
+    tips:['Lakukan latihan saat kondisi tenang agar lebih mudah diingat saat genting.','Hembuskan napas lebih panjang dari tarikan napas.','Jika grounding tidak membantu, cari dukungan segera.'],
+    key:'Kembali ke tubuh dan lingkungan sering lebih efektif daripada memaksa diri berpikir jernih.' },
+  { cat:'Emosi', icon:'🧩', title:'Pencatatan pikiran',
+    sum:'Menguji pikiran otomatis dengan bukti dapat membuatnya terasa lebih proporsional.',
+    body:[
+      'Pikiran otomatis adalah kalimat yang muncul cepat dan sering terasa seperti kenyataan, misalnya "saya pasti gagal". Pencatatan pikiran membantu memisahkan fakta, tafsiran, dan ketakutan.',
+      'Langkah dasarnya: tulis situasi, pikiran yang muncul, bukti pendukung, bukti yang berlawanan, lalu pikiran yang lebih seimbang. Latihan ini paling efektif bila dilakukan rutin, bukan hanya saat krisis.'
+    ],
+    tips:['Tulis pikiran persis seperti muncul, tanpa menghakimi.','Cari sudut pandang lain: apa yang akan dikatakan teman terdekatmu?','Pikiran seimbang tidak harus positif, cukup realistis.'],
+    key:'Tujuannya bukan menggantikan pikiran negatif dengan pikiran manis, melainkan melihat keseluruhan gambarnya.' },
+  { cat:'Dasar', icon:'📈', title:'Membaca pola dari catatan mood',
+    sum:'Catatan yang konsisten lebih berguna daripada catatan sesekali yang panjang.',
+    body:[
+      'Pola sering baru terlihat setelah beberapa minggu. Perhatikan hubungan antara tidur, aktivitas, dan mood, tetapi ingat bahwa korelasi tidak selalu berarti sebab-akibat.',
+      'Bawa ringkasan catatanmu ke pertemuan dengan tenaga profesional. Data yang jelas membantu mereka memahami perjalananmu dengan lebih cepat.'
+    ],
+    tips:['Catat setiap hari, bahkan saat mood terasa biasa saja.','Gunakan filter 30 hari untuk melihat tren yang lebih panjang.','Ekspor CSV bila ingin dibagikan ke dokter.'],
+    key:'Satu hari yang buruk bukan kesimpulan. Tren beberapa minggu lebih bermakna.' },
+  { cat:'Keselamatan', icon:'🤝', title:'Berbicara dengan orang terdekat',
+    sum:'Membuka percakapan dengan keluarga atau teman dapat memperkuat dukunganmu.',
+    body:[
+      'Tidak semua orang memahami bipolar, dan itu wajar. Kamu bisa menjelaskan apa yang kamu alami, apa yang membantu, dan apa yang sebaiknya tidak dilakukan saat sedang sulit.',
+      'Pilih satu atau dua orang yang kamu percaya, dan jelaskan tanda peringatan milikmu. Dengan begitu mereka tahu kapan perlu menanyakan kabarmu atau membantumu menghubungi tenaga profesional.'
+    ],
+    tips:['Mulai dengan kalimat sederhana: "Aku sedang berjuang dan butuh bantuan untuk…".','Tentukan kode atau kata sandi untuk memberi tahu bahwa kamu butuh bantuan.','Masukkan kontak mereka ke Rencana Keselamatan.'],
+    key:'Kamu tidak harus menjelaskan semuanya sekaligus. Mulai dari yang paling kamu butuhkan.' },
+  { cat:'Keselamatan', icon:'🏥', title:'Kapan mencari bantuan profesional',
+    sum:'Bantuan profesional diperlukan saat gejala mengganggu fungsi atau keselamatan, bahkan jika kamu merasa "masih bisa bertahan".',
+    body:[
+      'Hubungi dokter, psikiater, atau psikolog jika perubahan mood berlangsung lama, mengganggu pekerjaan atau hubungan, atau membuatmu khawatir dengan keputusan yang diambil. Tenaga profesional dapat menilai kondisi dan merencanakan perawatan.',
+      'Jika ada pikiran untuk menyakiti diri sendiri atau orang lain, atau kamu merasa tidak aman, jangan menunggu. Hubungi 112 atau pergi ke IGD terdekat, dan minta seseorang menemanimu.'
+    ],
+    tips:['Siapkan daftar gejala dan pertanyaan sebelum janji temu.','Jangan merasa malu meminta rujukan kedua jika kurang nyaman dengan dokter pertama.','Ketahui layanan darurat dan nomor kontak di wilayahmu sebelum dibutuhkan.'],
+    key:'Mencari bantuan adalah langkah perawatan, bukan tanda kegagalan.' }
+];
+
+const QUIZ = [
+  { q:'Apakah naik-turun mood sehari-hari sama dengan gangguan bipolar?',
+    opts:['Ya, sama saja','Tidak, episode berbeda dalam intensitas, durasi, dan dampaknya','Hanya berbeda pada usia tertentu'], a:1,
+    fb:'Benar. Perubahan mood biasa umumnya tidak sekuat dan selama episode bipolar, serta tidak selalu mengganggu fungsi harian.' },
+  { q:'Beberapa malam kurang tidur tetapi merasa sangat berenergi. Apa yang sebaiknya dilakukan?',
+    opts:['Dianggap sebagai produktivitas','Dicatat dan dibicarakan dengan tenaga profesional','Diabaikan selama tidak merasa lelah'], a:1,
+    fb:'Tepat. Pengurangan tidur yang signifikan tanpa rasa lelah adalah tanda yang layak dievaluasi.' },
+  { q:'Kamu merasa sudah jauh lebih baik. Apakah boleh berhenti minum obat?',
+    opts:['Boleh, jika tidak ada keluhan','Jangan berhenti tanpa berdiskusi dengan dokter','Boleh, asalkan mengurangi dosis sedikit demi sedikit sendiri'], a:1,
+    fb:'Benar. Perubahan atau penghentian obat sebaiknya selalu dibahas dengan dokter.' },
+  { q:'Saat panik dan merasa lepas dari kenyataan, teknik apa yang bisa membantu?',
+    opts:['Memaksa diri berpikir logis dengan cepat','Grounding dan napas yang lebih panjang saat menghembuskan','Menghindari semua aktivitas sampai besok'], a:1,
+    fb:'Benar. Grounding dan pernapasan membantu mengarahkan perhatian kembali ke tubuh dan lingkungan.' }
+];
+
 const DEF = {
   moods:[], journal:[], meds:[], medLogs:{}, medRemSent:{}, reflections:[],
   safety:{warn:'',cope:'',contacts:''},
   settings:{theme:'dark',reminder:false,time:'20:00',reduce:false,fx:true,backup:true},
-  lastReminder:'', lastBackup:'', lastBackupRem:'', read:{}
+  lastReminder:'', lastBackup:'', lastBackupRem:''
 };
+
+/* ---------- state ---------- */
 let S = structuredClone(DEF);
 let selMood = null, editM = null, editJ = null, range = 7, jSort = 'desc';
-let calRef = new Date(), calSel = null, kbCat = 'semua';
+let calRef = new Date(), calSel = null;
 let breathTimer = null, breathPhase = 0, reflQs = [], fxColor = '#d9ccff';
-let quizState = {};
+let kCat = 'Semua', kQuery = '', grStep = 0, quizIdx = 0, quizScore = 0, quizAnswered = false;
 calRef.setDate(1);
 
 /* ---------- utilitas ---------- */
@@ -1043,7 +1051,7 @@ function download(name, type, content) {
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 function accentColor() {
-  return getComputedStyle(document.body).getPropertyValue('--ac').trim() || '#b8a6e6';
+  return getComputedStyle(document.body).getPropertyValue('--ac').trim() || '#d9ccff';
 }
 
 /* ---------- angka dan teks animasi ---------- */
@@ -1059,11 +1067,6 @@ function countTo(el, to, dec = 0, suffix = '') {
     if (k < 1) requestAnimationFrame(step);
   };
   requestAnimationFrame(step);
-}
-function setGauge(el, pct, label) {
-  el.style.setProperty('--p', Math.max(0, Math.min(100, pct)));
-  const t = el.querySelector('span');
-  if (t) t.textContent = label;
 }
 function typeInto(el, text) {
   el.classList.remove('done');
@@ -1132,7 +1135,7 @@ function runIntro() {
   if (seen || isReduced()) { end(); return; }
   el.addEventListener('click', end);
   document.addEventListener('keydown', end, {once:true});
-  setTimeout(end, 3000);
+  setTimeout(end, 3200);
 }
 
 /* ---------- scroll & reveal ---------- */
@@ -1189,9 +1192,12 @@ let lastCard = null, lastBtn = null;
 function resetCard(c) { if (c) { c.style.setProperty('--rx','0deg'); c.style.setProperty('--ry','0deg'); } }
 function resetBtn(b) { if (b) { b.style.setProperty('--mgx','0px'); b.style.setProperty('--mgy','0px'); } }
 function setupPointer() {
+  const glow = $('#glow');
   document.addEventListener('pointermove', e => {
     if (e.pointerType !== 'mouse') return;
     mouse.x = e.clientX; mouse.y = e.clientY;
+    glow.classList.add('on');
+    glow.style.transform = `translate(${e.clientX}px,${e.clientY}px)`;
     if (isReduced()) return;
 
     const orb = $('#orb3d');
@@ -1229,11 +1235,11 @@ function setupPointer() {
   }, { passive:true });
 
   document.addEventListener('pointerout', e => {
-    if (!e.relatedTarget) { resetCard(lastCard); resetBtn(lastBtn); lastCard = lastBtn = null; }
+    if (!e.relatedTarget) { resetCard(lastCard); resetBtn(lastBtn); lastCard = lastBtn = null; glow.classList.remove('on'); }
   });
 
   document.addEventListener('pointerdown', e => {
-    const b = e.target.closest?.('.btn,.mood,.seg button,.cal button,.chip');
+    const b = e.target.closest?.('.btn,.mood,.seg button,.cal button,.chip,.quiz-opt');
     if (!b || isReduced()) return;
     const r = b.getBoundingClientRect(), s = document.createElement('span');
     const size = Math.max(r.width, r.height);
@@ -1246,7 +1252,7 @@ function setupPointer() {
   });
 }
 
-/* ---------- analisis dasar ---------- */
+/* ---------- analisis: streak, sparkline, warna ambient ---------- */
 function streak() {
   const days = new Set(S.moods.map(m => m.date));
   let n = 0, off = days.has(today()) ? 0 : 1;
@@ -1282,12 +1288,10 @@ function renderHome() {
   const last = S.moods[0];
   $('#h-mood').textContent = last ? moodLabel(last.mood) : 'Belum ada';
   countTo($('#h-avg'), avg(between(S.moods, dayStr(6), today()), m => moodVal(m.mood)), 1, ' / 5');
-
   const n = S.meds.length, log = S.medLogs[today()] || {};
   const taken = S.meds.filter(m => log[m.id]).length;
   $('#h-meds').textContent = n ? `${taken}/${n}` : '—';
-  setGauge($('#g-meds'), n ? taken/n*100 : 0, n ? Math.round(taken/n*100)+'%' : '—');
-
+  $('#h-meds-bar').style.width = n ? (taken/n*100)+'%' : '0';
   countTo($('#h-journal'), S.journal.length, 0);
 
   const st = streak();
@@ -1300,9 +1304,8 @@ function renderHome() {
 
 /* ---------- RENDER: MOOD ---------- */
 function renderMood() {
-  $('#mood-buttons').replaceChildren(...MOODS.map(([k,l,,shape]) =>
-    h('button', {class:'mood', type:'button', style:`--shape:${shape}`, 'aria-pressed':String(selMood===k),
-      onclick:()=>{ selMood = k; renderMood(); }}, l)));
+  $('#mood-buttons').replaceChildren(...MOODS.map(([k,l]) =>
+    h('button', {class:'mood', type:'button', 'aria-pressed':String(selMood===k), onclick:()=>{ selMood = k; renderMood(); }}, l)));
   renderCal();
   const list = $('#mood-list');
   if (!S.moods.length) { list.replaceChildren(h('p', {class:'muted'}, 'Belum ada catatan. Pilih mood di atas untuk memulai.')); return; }
@@ -1324,8 +1327,7 @@ function renderMood() {
     )));
 }
 function editMood(m) {
-  editM = m.id;
-  selMood = m.mood;
+  editM = m.id; selMood = m.mood;
   $('#intensity').value = m.intensity; $('#int-out').textContent = m.intensity;
   $('#sleep').value = m.sleep; $('#act-min').value = m.activity || 0;
   $('#mood-tags').value = m.tags.join(', ');
@@ -1353,10 +1355,7 @@ function saveMood() {
   const activity = parseInt($('#act-min').value, 10) || 0;
   if (activity < 0 || activity > 600) return formMsg('#mood-msg', 'Aktivitas fisik harus antara 0 dan 600 menit.', true);
   const tags = $('#mood-tags').value.split(',').map(t => t.trim().toLowerCase().slice(0,30)).filter(Boolean).slice(0,8);
-  const data = {
-    mood: selMood, intensity: +$('#intensity').value, sleep, activity, tags,
-    note: $('#mood-note').value.trim().slice(0,1000)
-  };
+  const data = { mood: selMood, intensity: +$('#intensity').value, sleep, activity, tags, note: $('#mood-note').value.trim().slice(0,1000) };
   const wasEdit = !!editM;
   if (editM) {
     const m = S.moods.find(x => x.id === editM);
@@ -1470,15 +1469,15 @@ function renderWeekdays() {
     const i = (new Date(y, mo-1, d).getDay() + 6) % 7;
     sum[i] += moodVal(m.mood); cnt[i]++;
   }
-  const cols = WD.map((label, i) => {
-    const v = cnt[i] ? sum[i]/cnt[i] : null;
+  const vals = WD.map((_, i) => cnt[i] ? sum[i]/cnt[i] : null);
+  $('#wd').replaceChildren(...WD.map((label, i) => {
+    const v = vals[i];
     return h('div', {class:'wd-col'},
       h('div', {class:'wd-bar', title: v == null ? 'Belum ada data' : v.toFixed(1)+' / 5'}), label);
-  });
-  $('#wd').replaceChildren(...cols);
+  }));
   requestAnimationFrame(() => requestAnimationFrame(() => {
     $$('#wd .wd-bar').forEach((bar, i) => {
-      const v = cnt[i] ? sum[i]/cnt[i] : null;
+      const v = vals[i];
       bar.style.height = v == null ? '4px' : (((v-1)/4)*100).toFixed(1)+'%';
     });
   }));
@@ -1514,9 +1513,8 @@ function renderMonthly() {
   const tags = {};
   for (const m of w) for (const t of m.tags) tags[t] = (tags[t]||0)+1;
   const top = Object.entries(tags).sort((a,b) => b[1]-a[1])[0];
-  const consistency = Math.round(days/30*100);
   $('#monthly').replaceChildren(
-    h('p', {style:'margin:0 0 8px'}, `Konsistensi mencatat: ${consistency}% (${days} dari 30 hari).`),
+    h('p', {style:'margin:0 0 8px'}, `Konsistensi mencatat: ${Math.round(days/30*100)}% (${days} dari 30 hari).`),
     h('p', {style:'margin:0 0 8px'}, `Total catatan: ${w.length}. Rata-rata mood: ${avg(w, m => moodVal(m.mood)).toFixed(1)}/5.`),
     med != null ? h('p', {style:'margin:0 0 8px'}, `Adherence obat 30 hari: ${med}%.`) : null,
     top ? h('p', {style:'margin:0'}, 'Tag terbanyak: ', h('span', {class:'tag'}, top[0]), ` (${top[1]}×)`) : null);
@@ -1545,7 +1543,7 @@ function drawChart() {
     }
     if (i % 3 === 0) { ctx.fillStyle = '#a9a4b8'; ctx.fillText(d.slice(8), x, H-M+14); }
   });
-  ctx.strokeStyle = '#3d8bff'; ctx.lineWidth = 2.5; ctx.shadowColor = '#3d8bff'; ctx.shadowBlur = 10;
+  ctx.strokeStyle = '#4f8cff'; ctx.lineWidth = 2.5; ctx.shadowColor = '#4f8cff'; ctx.shadowBlur = 10;
   ctx.beginPath(); let started = false;
   pts.forEach((p,i) => {
     if (p.sleep == null) return;
@@ -1745,72 +1743,109 @@ function showCycle(i) {
   $$('#cycle button').forEach((b,j) => { b.classList.toggle('on', i===j); b.setAttribute('aria-pressed', String(i===j)); });
   $('#cycle-text').textContent = CYCLE[i][1];
 }
-function buildKbChips() {
-  const all = [['semua','Semua'], ...KB_CATS];
-  $('#kb-chips').replaceChildren(...all.map(([id,label]) =>
-    h('button', {class:'chip'+(kbCat===id?' on':''), type:'button', 'aria-pressed':String(kbCat===id),
-      onclick:()=>{ kbCat = id; buildKbChips(); renderKb(); }}, label)));
+function buildKCats() {
+  const cats = ['Semua', ...new Set(ARTICLES.map(a => a.cat))];
+  $('#k-cats').replaceChildren(...cats.map(c =>
+    h('button', {class:'chip'+(c===kCat?' on':''), type:'button', 'aria-pressed':String(c===kCat), onclick:()=>{ kCat = c; buildKCats(); renderArticles(); }}, c)));
 }
-function renderKb() {
-  const items = KB.filter(k => kbCat === 'semua' || k.cat === kbCat);
-  const catLabel = Object.fromEntries(KB_CATS);
-  const grid = $('#kb-grid');
-  grid.replaceChildren(...items.map(k => {
-    const read = !!S.read[k.id];
-    const det = h('details', {}, 
-      h('summary', {},
-        h('div', {class:'kb-cat'}, catLabel[k.cat]),
-        h('div', {class:'kb-title'}, k.title),
-        h('p', {class:'kb-sum'}, k.sum)),
-      h('div', {class:'kb-body'},
-        ...k.body.map(p => h('p', {}, p)),
-        h('p', {class:'kb-tip'}, h('strong', {}, 'Coba ini: '), k.tip)));
-    det.addEventListener('toggle', () => {
-      if (det.open && !S.read[k.id]) {
-        S.read[k.id] = true; save();
-        det.parentElement.classList.add('read');
-        updateKbProgress();
-      }
-    });
-    return h('article', {class:'glass kb reveal'+(read?' read':'')}, det);
-  }));
-  if (!items.length) grid.replaceChildren(h('p', {class:'kb-empty'}, 'Belum ada artikel di kategori ini.'));
-  setupReveal();
-  updateKbProgress();
+function renderArticles() {
+  const q = kQuery.trim().toLowerCase();
+  const items = ARTICLES.filter(a =>
+    (kCat === 'Semua' || a.cat === kCat) &&
+    (!q || (a.title+' '+a.sum+' '+a.body.join(' ')+' '+a.tips.join(' ')).toLowerCase().includes(q)));
+  $('#k-count').textContent = `Menampilkan ${items.length} dari ${ARTICLES.length} artikel.`;
+  $('#k-empty').hidden = items.length > 0;
+  $('#k-grid').replaceChildren(...items.map((a,i) =>
+    h('article', {class:'glass k-card reveal', style:`--d:${Math.min(i,6)*60}ms`},
+      h('div', {class:'row', style:'justify-content:space-between;align-items:flex-start'},
+        h('div', {class:'k-icon', 'aria-hidden':'true'}, a.icon),
+        h('span', {class:'tag'}, a.cat)),
+      h('h4', {}, a.title),
+      h('p', {class:'sum'}, a.sum),
+      h('details', {},
+        h('summary', {}),
+        h('div', {class:'body'}, ...a.body.map(p => h('p', {}, p))),
+        h('ul', {class:'tips'}, ...a.tips.map(t => h('li', {}, t))),
+        h('p', {class:'key'}, '💡 ' + a.key)))));
+  requestAnimationFrame(() => setupReveal());
 }
-function updateKbProgress() {
-  const total = KB.length, read = KB.filter(k => S.read[k.id]).length;
-  $('#kb-count').textContent = `${total} artikel`;
-  $('#kb-read').textContent = `${read} dibaca`;
-  $('#kb-bar').style.width = (read/total*100).toFixed(1)+'%';
+
+/* grounding 5-4-3-2-1 */
+const GROUND = [
+  [5,'Lihat','Sebutkan lima hal yang bisa kamu lihat di sekitarmu. Perhatikan warna, bentuk, dan cahaya.'],
+  [4,'Sentuh','Sebutkan empat hal yang bisa kamu sentuh. Rasakan tekstur, suhu, dan berat benda itu.'],
+  [3,'Dengar','Sebutkan tiga suara yang bisa kamu dengar, dari yang paling dekat sampai yang paling jauh.'],
+  [2,'Cium','Sebutkan dua aroma yang bisa kamu cium. Jika tidak ada, ingat dua aroma yang kamu sukai.'],
+  [1,'Rasakan','Sebutkan satu hal yang bisa kamu rasakan di tubuhmu, misalnya telapak kaki di lantai. Tarik napas pelan.']
+];
+function renderGround() {
+  const [n, label, text] = GROUND[grStep];
+  $('#gr-count').textContent = n;
+  $('#gr-text').textContent = `${label}: ${text}`;
+  $('#gr-next').textContent = grStep === GROUND.length-1 ? 'Selesai' : 'Lanjut';
+  $('#gr-dots').replaceChildren(...GROUND.map((_, i) => h('span', {class: i <= grStep ? 'on' : ''})));
 }
-function buildQuiz() {
-  $('#quiz').replaceChildren(...QUIZ.map((item, i) => {
-    const box = h('div', {class:'qz', id:'qz'+i},
-      h('p', {}, item.q),
-      h('div', {class:'btns'},
-        h('button', {class:'btn small', type:'button', onclick:()=>answerQuiz(i, true)}, 'Fakta'),
-        h('button', {class:'btn ghost small', type:'button', onclick:()=>answerQuiz(i, false)}, 'Mitos')),
-      h('p', {class:'ex', hidden:''}, item.ex));
-    return box;
-  }));
-  updateQuizScore();
+function nextGround() {
+  if (grStep < GROUND.length-1) grStep++;
+  else { toast('Latihan selesai. Tarik napas pelan dan perlahan.'); grStep = 0; }
+  renderGround();
 }
-function answerQuiz(i, val) {
-  if (quizState[i] !== undefined) return;
-  const correct = QUIZ[i].a === val;
-  quizState[i] = correct;
-  const box = $('#qz'+i);
-  box.classList.add(correct ? 'right' : 'wrong');
-  box.querySelector('.btns').replaceChildren();
-  const ex = box.querySelector('.ex'); ex.hidden = false;
-  ex.textContent = (correct ? 'Tepat. ' : 'Belum tepat. ') + QUIZ[i].ex;
-  updateQuizScore();
+
+/* pencatatan pikiran */
+function trFields() {
+  return {
+    sit: $('#tr-sit').value.trim(), auto: $('#tr-auto').value.trim(),
+    forE: $('#tr-for').value.trim(), against: $('#tr-against').value.trim(), alt: $('#tr-alt').value.trim()
+  };
 }
-function updateQuizScore() {
-  const answered = Object.keys(quizState).length;
-  const right = Object.values(quizState).filter(Boolean).length;
-  $('#qz-score').textContent = answered ? `Skor: ${right} dari ${QUIZ.length} (sudah dijawab ${answered})` : `Belum ada jawaban. Ada ${QUIZ.length} pernyataan.`;
+function trText() {
+  const f = trFields();
+  return `Situasi: ${f.sit}\nPikiran otomatis: ${f.auto}\nBukti pendukung: ${f.forE}\nBukti berlawanan: ${f.against}\nPikiran seimbang: ${f.alt}`;
+}
+function showRecap() {
+  const f = trFields();
+  if (!f.sit || !f.auto) return toast('Isi situasi dan pikiran otomatis terlebih dahulu.', true);
+  const r = $('#tr-recap');
+  r.textContent = trText();
+  r.hidden = false;
+}
+async function copyRecap() {
+  if (!trFields().sit) return toast('Belum ada yang bisa disalin.', true);
+  try { await navigator.clipboard.writeText(trText()); toast('Ringkasan disalin'); }
+  catch (e) { toast('Tidak bisa menyalin di perangkat ini.', true); }
+}
+
+/* kuis */
+function renderQuiz() {
+  const q = QUIZ[quizIdx];
+  $('#quiz-q').textContent = `${quizIdx+1}. ${q.q}`;
+  $('#quiz-fb').textContent = '';
+  quizAnswered = false;
+  $('#quiz-opts').replaceChildren(...q.opts.map((o,i) =>
+    h('button', {class:'quiz-opt', type:'button', onclick:()=>answerQuiz(i)}, o)));
+  $('#quiz-score').textContent = `Skor: ${quizScore} / ${QUIZ.length}`;
+}
+function answerQuiz(i) {
+  if (quizAnswered) return;
+  quizAnswered = true;
+  const q = QUIZ[quizIdx];
+  const btns = $$('#quiz-opts .quiz-opt');
+  btns.forEach((b,j) => {
+    if (j === q.a) b.classList.add('right');
+    else if (j === i) b.classList.add('wrong');
+  });
+  if (i === q.a) quizScore++;
+  $('#quiz-fb').textContent = (i === q.a ? 'Tepat. ' : 'Belum tepat. ') + q.fb;
+  $('#quiz-score').textContent = `Skor: ${quizScore} / ${QUIZ.length}`;
+}
+function nextQuiz() {
+  quizIdx++;
+  if (quizIdx >= QUIZ.length) {
+    const s = quizScore;
+    quizIdx = 0; quizScore = 0;
+    toast(`Skor akhirmu ${s} dari ${QUIZ.length}. Kuis dimulai ulang.`);
+  }
+  renderQuiz();
 }
 
 /* ---------- KESELAMATAN ---------- */
@@ -1892,16 +1927,16 @@ async function importData(file) {
     const data = JSON.parse(await file.text());
     if (!data || typeof data !== 'object' || !Array.isArray(data.moods) || !Array.isArray(data.journal)) throw new Error('format');
     S = {...structuredClone(DEF), ...data, settings:{...DEF.settings, ...(data.settings||{})}};
-    if (save()) { toast('Data berhasil diimpor'); resetMoodForm(); resetJournalForm(); renderSettings(); renderAll(); }
+    if (save()) { toast('Data berhasil diimpor'); resetMoodForm(); resetJournalForm(); loadSafety(); renderSettings(); renderAll(); }
   } catch (e) { toast('File tidak valid.', true); }
   $('#imp').value = '';
 }
 function clearAll() {
   if (!confirm('Hapus semua data MINDSPACE di perangkat ini? Tindakan ini tidak bisa dibatalkan.')) return;
   try { localStorage.removeItem(KEY); } catch (e) {}
-  S = structuredClone(DEF); calSel = null; quizState = {};
-  resetMoodForm(); resetJournalForm();
-  renderSettings(); renderAll(); buildQuiz(); renderKb(); toast('Semua data dihapus');
+  S = structuredClone(DEF); calSel = null;
+  resetMoodForm(); resetJournalForm(); loadSafety();
+  renderSettings(); renderAll(); toast('Semua data dihapus');
 }
 
 /* ---------- PENGINGAT ---------- */
@@ -1952,9 +1987,10 @@ function init() {
   buildTitles();
   buildReflect();
   buildCycle();
-  buildKbChips();
-  renderKb();
-  buildQuiz();
+  buildKCats();
+  renderArticles();
+  renderGround();
+  renderQuiz();
   loadSafety();
 
   $('#j-mood').append(...MOODS.map(([k,l]) => h('option', {value:k}, l)));
@@ -1983,6 +2019,14 @@ function init() {
 
   $('#r-save').onclick = saveReflect;
   $('#r-filter').onchange = renderReflect;
+
+  $('#k-search').addEventListener('input', e => { kQuery = e.target.value; renderArticles(); });
+  $('#gr-next').onclick = nextGround;
+  $('#gr-reset').onclick = () => { grStep = 0; renderGround(); };
+  $('#tr-show').onclick = showRecap;
+  $('#tr-copy').onclick = copyRecap;
+  $('#quiz-next').onclick = nextQuiz;
+
   $('#breath-btn').onclick = toggleBreath;
   $('#s-copy').onclick = copyEmergency;
   $('#s-print').onclick = () => window.print();
