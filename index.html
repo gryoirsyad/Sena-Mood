@@ -10,18 +10,18 @@
   --ac:hsl(var(--hue) 75% 76%);
   --text:#f2f0f7;--muted:#a9a4b8;--blue:#3d8bff;--danger:#ff6b8a;--ok:#7be0a4;
   --glass:rgba(255,255,255,.07);--glass-strong:rgba(255,255,255,.13);--glass-b:rgba(255,255,255,.16);
-  --bg:#07070a;--bgrad1:#1d1638;--bgrad2:#0b2a4a;
+  --bg:#07070a;--bgrad1:#1d1638;--bgrad2:#0b2a4a;--wave:rgba(255,255,255,.05);
   --ease:cubic-bezier(.2,.7,.2,1);
 }
 body.light{
-  --text:#16141f;--muted:#5b5670;--blue:#2f6fe0;--ac:hsl(var(--hue) 55% 46%);
-  --bg:#f2f0fa;--bgrad1:#d9ccff;--bgrad2:#bfe0ff;--ok:#1f8a52;
+  --text:#16141f;--muted:#5b5670;--blue:#2f6fe0;--ac:hsl(var(--hue) 55% 46%);--ok:#1f8a52;
+  --bg:#f2f0fa;--bgrad1:#d9ccff;--bgrad2:#bfe0ff;--wave:rgba(255,255,255,.55);
   --glass:rgba(255,255,255,.58);--glass-strong:rgba(255,255,255,.8);--glass-b:rgba(255,255,255,.95);
 }
 [hidden]{display:none!important}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:90px}
-body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--text);background:var(--bg);min-height:100vh;overflow-x:hidden;line-height:1.5}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--text);background:var(--bg);min-height:100vh;overflow-x:hidden;line-height:1.55}
 ::selection{background:var(--ac);color:#08080c}
 .skip{position:fixed;left:-999px;top:0;z-index:80;background:var(--ac);color:#08080c;padding:8px 14px;border-radius:10px;font-weight:700}
 .skip:focus{left:12px;top:12px}
@@ -38,41 +38,56 @@ body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;c
 @keyframes line{to{width:min(360px,70vw)}}
 @keyframes fade{to{opacity:1}}
 
-/* ---------- atmosphere ---------- */
-.atmos{position:fixed;inset:0;z-index:-3;overflow:hidden;pointer-events:none;background:
+/* ---------- latar ---------- */
+.atmos{position:fixed;inset:0;z-index:-4;overflow:hidden;pointer-events:none;background:
   radial-gradient(circle at 15% 10%,var(--bgrad1),transparent 45%),
   radial-gradient(circle at 85% 90%,var(--bgrad2),transparent 50%),var(--bg)}
-.blob{position:absolute;border-radius:42% 58% 63% 37%/41% 44% 56% 59%;filter:blur(55px);opacity:.5;will-change:transform,translate,border-radius;transition:translate .8s var(--ease);animation:morph 16s ease-in-out infinite}
+.blob{position:absolute;border-radius:42% 58% 63% 37%/41% 44% 56% 59%;filter:blur(60px);opacity:.5;will-change:transform,translate,border-radius;transition:translate .8s var(--ease);animation:morph 16s ease-in-out infinite}
 .blob.b1{width:42vmax;height:42vmax;left:-10vmax;top:-8vmax;background:linear-gradient(135deg,var(--ac),#6b5bd6)}
 .blob.b2{width:36vmax;height:36vmax;right:-8vmax;top:30%;background:linear-gradient(135deg,var(--blue),#7fd3ff);animation-delay:-5s}
 .blob.b3{width:30vmax;height:30vmax;left:30%;bottom:-10vmax;background:linear-gradient(135deg,#8a6cff,var(--blue));animation-delay:-9s}
 body.light .blob{opacity:.32}
 @keyframes morph{
   0%,100%{border-radius:42% 58% 63% 37%/41% 44% 56% 59%;rotate:0deg}
-  50%{border-radius:61% 39% 35% 65%/55% 58% 42% 45%;rotate:25deg}
+  33%{border-radius:61% 39% 35% 65%/55% 58% 42% 45%;rotate:12deg}
+  66%{border-radius:30% 70% 55% 45%/60% 35% 65% 40%;rotate:-8deg}
 }
+.shapes{position:fixed;inset:0;z-index:-3;pointer-events:none;overflow:hidden}
+.sh{position:absolute;border:1px solid var(--glass-b);background:rgba(255,255,255,.02);opacity:.55;animation:floatSh 14s ease-in-out infinite}
+.sh.c1{width:200px;height:200px;border-radius:50%;top:10%;left:5%}
+.sh.c2{width:96px;height:96px;border-radius:18px;top:58%;right:8%;animation-delay:-4s;animation-name:floatSh,spinSh;animation-duration:14s,30s;animation-iteration-count:infinite,infinite}
+.sh.c3{width:280px;height:72px;border-radius:999px;bottom:12%;left:18%;animation-delay:-8s}
+.sh.c4{width:44px;height:44px;border-radius:50%;background:var(--ac);border:0;opacity:.22;top:30%;right:22%;animation-delay:-2s}
+.sh.c5{width:340px;height:340px;border-radius:0 50% 0 50%;top:72%;left:-90px;animation-delay:-6s;opacity:.35}
+.sh.c6{width:20px;height:20px;border-radius:50%;background:var(--blue);border:0;opacity:.35;top:18%;right:30%;animation-delay:-10s}
+@keyframes floatSh{50%{translate:0 -26px}}
+@keyframes spinSh{to{rotate:360deg}}
 #fx{position:fixed;inset:0;z-index:-2;width:100%;height:100%;pointer-events:none;transition:opacity 1s}
 .grain{position:fixed;inset:-50%;z-index:-1;pointer-events:none;opacity:.05;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");animation:grain 1.2s steps(6) infinite}
 @keyframes grain{0%{transform:translate(0,0)}20%{transform:translate(-3%,2%)}40%{transform:translate(2%,-3%)}60%{transform:translate(-2%,3%)}80%{transform:translate(3%,-1%)}100%{transform:translate(0,0)}}
 
-/* ---------- glass ---------- */
+/* ---------- kaca ---------- */
 .glass{
   position:relative;overflow:hidden;
-  background:var(--glass);border:1px solid var(--glass-b);border-radius:24px;
-  backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);
+  background:var(--glass);border:1px solid var(--glass-b);border-radius:28px;
+  backdrop-filter:blur(18px) saturate(150%);-webkit-backdrop-filter:blur(18px) saturate(150%);
   box-shadow:0 20px 60px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.14);
-  padding:22px;
+  padding:24px;
   transform:perspective(1000px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));
-  transition:transform .35s var(--ease),box-shadow .4s,border-color .4s;
+  transition:transform .35s var(--ease),box-shadow .4s,border-color .4s,border-radius .8s var(--ease);
 }
-.glass:not(.nav)::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .4s;
+.glass::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .4s;
   background:radial-gradient(420px circle at var(--mx,50%) var(--my,0%),rgba(255,255,255,.16),transparent 45%)}
-.glass:not(.nav):hover::after{opacity:1}
-.glass:not(.nav):hover{box-shadow:0 30px 70px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.22);border-color:rgba(255,255,255,.28)}
+.glass:hover::after{opacity:1}
+.glass:hover{box-shadow:0 30px 70px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.22);border-color:rgba(255,255,255,.28)}
+.glass.arch{border-radius:220px 220px 28px 28px}
+.glass.organic{border-radius:38% 62% 46% 54% / 44% 38% 62% 56%}
+.glass.organic:hover{border-radius:58% 42% 36% 64% / 56% 62% 38% 44%}
+.glass.pill{border-radius:999px}
 body.light .glass{box-shadow:0 20px 50px rgba(80,60,140,.15),inset 0 1px 0 #fff}
 body.light .glass:hover{box-shadow:0 28px 60px rgba(80,60,140,.22),inset 0 1px 0 #fff}
 
-/* ---------- progress, nav, floating buttons ---------- */
+/* ---------- progres, nav, tombol melayang ---------- */
 #progress{position:fixed;top:0;left:0;right:0;height:3px;z-index:20;transform-origin:0 50%;transform:scaleX(0);background:linear-gradient(90deg,var(--ac),var(--blue));box-shadow:0 0 14px var(--ac)}
 .nav{position:fixed;top:12px;left:0;right:0;margin:0 auto;z-index:15;width:min(1080px,calc(100% - 24px));padding:10px 14px;border-radius:999px;display:flex;align-items:center;gap:12px;transition:top .5s var(--ease),background .4s,box-shadow .4s}
 .nav.scrolled{top:6px;background:var(--glass-strong);box-shadow:0 14px 40px rgba(0,0,0,.35)}
@@ -84,19 +99,20 @@ body.light .glass:hover{box-shadow:0 28px 60px rgba(80,60,140,.22),inset 0 1px 0
 .links a[aria-current="true"]{color:var(--text);background:var(--glass-strong);box-shadow:inset 0 0 0 1px var(--glass-b)}
 .links a[aria-current="true"]::after{content:"";position:absolute;left:50%;bottom:-3px;width:14px;height:2px;margin-left:-7px;border-radius:2px;background:var(--ac);box-shadow:0 0 10px var(--ac)}
 .fab{position:fixed;left:16px;bottom:16px;z-index:25;padding:10px 16px;border-radius:999px;color:var(--danger);font-weight:700;text-decoration:none;font-size:.9rem;border-color:rgba(255,107,138,.5)}
-.totop{position:fixed;right:16px;bottom:16px;z-index:25;width:44px;height:44px;border-radius:50%;padding:0;border:1px solid var(--glass-b);background:var(--glass-strong);color:var(--text);font-size:1.1rem;cursor:pointer;opacity:0;translate:0 12px;transition:opacity .4s,translate .4s var(--ease)}
+.totop{position:fixed;right:16px;bottom:16px;z-index:25;width:46px;height:46px;border-radius:50%;padding:0;border:1px solid var(--glass-b);background:var(--glass-strong);color:var(--text);font-size:1.1rem;cursor:pointer;opacity:0;translate:0 12px;transition:opacity .4s,translate .4s var(--ease)}
 .totop.show{opacity:1;translate:0 0}
 
-/* ---------- layout ---------- */
+/* ---------- tata letak ---------- */
 main{max-width:1080px;margin:0 auto;padding:0 18px 40px}
-section{padding:110px 0 40px;scroll-margin-top:70px;position:relative}
+section{padding:110px 0 50px;scroll-margin-top:70px;position:relative}
 .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding-top:120px}
 #hero-inner{will-change:transform,opacity}
-.hero-grid{display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center}
-.eyebrow{color:var(--ac);letter-spacing:.2em;font-size:.78rem;text-transform:uppercase;margin:0 0 10px;font-weight:700}
+.hero-grid{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center}
+.eyebrow{color:var(--ac);letter-spacing:.2em;font-size:.78rem;text-transform:uppercase;margin:0 0 12px;font-weight:700;display:flex;align-items:center;gap:10px}
+.eyebrow::before{content:"";width:28px;height:1px;background:var(--ac);box-shadow:0 0 8px var(--ac)}
 h1.title{font-size:clamp(2.4rem,7vw,5.2rem);line-height:1;margin:0 0 16px;font-weight:800;letter-spacing:-.03em;background:linear-gradient(100deg,var(--text) 20%,var(--ac) 50%,var(--blue) 80%);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 6s linear infinite}
 @keyframes shine{to{background-position:-200% 0}}
-h2.sub{font-size:clamp(1.6rem,3.8vw,2.4rem);margin:0 0 6px;font-weight:750;letter-spacing:-.01em}
+h2.sub{font-size:clamp(1.6rem,3.8vw,2.5rem);margin:0 0 8px;font-weight:750;letter-spacing:-.015em;line-height:1.15}
 h3{font-size:1.02rem;margin:0 0 12px;color:var(--ac);font-weight:700}
 .lead{color:var(--muted);max-width:640px;margin:0 0 26px;min-height:1.6em}
 .muted{color:var(--muted)}
@@ -109,18 +125,27 @@ h3{font-size:1.02rem;margin:0 0 12px;color:var(--ac);font-weight:700}
 .scroll-hint::after{content:"";width:1px;height:38px;background:linear-gradient(var(--ac),transparent);animation:drip 2.2s var(--ease) infinite}
 @keyframes drip{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
 
-/* 3D orb */
-.scene{width:210px;height:210px;perspective:800px;animation:bob 7s ease-in-out infinite}
+/* pemandangan 3D */
+.scene{position:relative;width:250px;height:250px;perspective:800px;animation:bob 7s ease-in-out infinite;flex:0 0 auto}
 @keyframes bob{50%{transform:translateY(-12px)}}
-.orb3d{position:relative;width:100%;height:100%;transform-style:preserve-3d;transform:rotateX(var(--tx,0deg)) rotateY(var(--ty,0deg));transition:transform .6s var(--ease)}
-.core{position:absolute;inset:20%;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,var(--ac) 35%,color-mix(in srgb,var(--blue) 60%,transparent) 70%,transparent 72%);box-shadow:0 0 70px var(--ac);transform:translateZ(40px);animation:pulse 5s ease-in-out infinite}
+.arch-frame{position:absolute;inset:6%;border-radius:200px 200px 40px 40px;border:1px solid var(--glass-b);background:linear-gradient(180deg,color-mix(in srgb,var(--ac) 18%,transparent),transparent 70%);backdrop-filter:blur(6px);animation:archm 12s ease-in-out infinite}
+@keyframes archm{50%{border-radius:160px 160px 60px 60px}}
+.orb3d{position:absolute;inset:0;transform-style:preserve-3d;transform:rotateX(var(--tx,0deg)) rotateY(var(--ty,0deg));transition:transform .6s var(--ease)}
+.core{position:absolute;inset:24%;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,var(--ac) 35%,color-mix(in srgb,var(--blue) 60%,transparent) 70%,transparent 72%);box-shadow:0 0 70px var(--ac);transform:translateZ(40px);animation:pulse 5s ease-in-out infinite}
 @keyframes pulse{50%{scale:1.08}}
-.ring{position:absolute;inset:0;border-radius:50%;border:1.5px solid var(--ac);opacity:.6;transform:rotateX(72deg);box-shadow:0 0 18px var(--ac);animation:spin 9s linear infinite}
+.ring{position:absolute;inset:6%;border-radius:50%;border:1.5px solid var(--ac);opacity:.6;transform:rotateX(72deg);box-shadow:0 0 18px var(--ac);animation:spin 9s linear infinite}
 .ring.r2{transform:rotateY(72deg);border-color:var(--blue);animation-duration:13s;animation-direction:reverse}
+.ring.r3{inset:0;transform:rotateX(60deg) rotateZ(30deg);border-style:dashed;opacity:.35;animation-duration:20s}
 @keyframes spin{from{rotate:0deg}to{rotate:360deg}}
 
+/* pemisah gelombang */
+.wave{display:block;width:100%;height:90px;margin:0;pointer-events:none}
+.wave path{fill:var(--wave);animation:wv 14s ease-in-out infinite alternate}
+.wave path.w2{opacity:.6;animation-duration:19s;animation-direction:alternate-reverse}
+@keyframes wv{to{transform:translateX(-40px)}}
+
 /* marquee */
-.marquee{overflow:hidden;white-space:nowrap;padding:18px 0;border-top:1px solid var(--glass-b);border-bottom:1px solid var(--glass-b);margin:10px 0 0;background:var(--glass);backdrop-filter:blur(10px)}
+.marquee{overflow:hidden;white-space:nowrap;padding:18px 0;border-top:1px solid var(--glass-b);border-bottom:1px solid var(--glass-b);background:var(--glass);backdrop-filter:blur(10px)}
 .marquee-track{display:inline-flex;gap:38px;animation:marq 26s linear infinite;font-weight:700;font-size:clamp(1rem,2.4vw,1.5rem);letter-spacing:.06em;color:var(--muted)}
 .marquee-track span{display:inline-flex;align-items:center;gap:38px}
 .marquee-track span::after{content:"✦";color:var(--ac)}
@@ -134,9 +159,9 @@ h3{font-size:1.02rem;margin:0 0 12px;color:var(--ac);font-weight:700}
 .row{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
 .item{padding:12px 0;border-bottom:1px solid var(--glass-b)}
 .item:last-child{border-bottom:0}
-.quote{font-size:clamp(1.05rem,2.2vw,1.35rem);line-height:1.5;font-style:italic;margin:0}
+.quote{font-size:clamp(1.05rem,2.2vw,1.4rem);line-height:1.5;font-style:italic;margin:0}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
-.chip{font:inherit;font-size:.8rem;padding:6px 12px;border-radius:999px;background:var(--glass-strong);border:1px solid var(--glass-b);color:var(--muted);cursor:pointer;transition:transform .3s var(--ease),color .3s,border-color .3s}
+.chip{font:inherit;font-size:.8rem;padding:6px 13px;border-radius:999px;background:var(--glass-strong);border:1px solid var(--glass-b);color:var(--muted);cursor:pointer;transition:transform .3s var(--ease),color .3s,border-color .3s,box-shadow .3s}
 .chip.on{color:var(--text);border-color:var(--ac);box-shadow:0 0 16px -4px var(--ac)}
 .chip:hover{transform:translateY(-3px)}
 .spark{width:100%;height:90px;display:block;overflow:visible}
@@ -148,37 +173,45 @@ h3{font-size:1.02rem;margin:0 0 12px;color:var(--ac);font-weight:700}
 .cmp{display:grid;gap:10px}
 .cmp div{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
 
+/* gauge melingkar */
+.gauge{--p:0;position:relative;width:96px;height:96px;border-radius:50%;flex:0 0 auto;background:conic-gradient(var(--ac) calc(var(--p)*1%),rgba(255,255,255,.1) 0);transition:--p 1s;display:grid;place-items:center;box-shadow:0 0 30px color-mix(in srgb,var(--ac) 30%,transparent)}
+.gauge::before{content:"";position:absolute;inset:9px;border-radius:50%;background:color-mix(in srgb,var(--bg) 88%,transparent)}
+.gauge span{position:relative;font-weight:800;font-size:.95rem;font-variant-numeric:tabular-nums}
+
 label{display:block;font-size:.85rem;color:var(--muted);margin:12px 0 6px}
 .check{display:flex;gap:10px;align-items:center;color:var(--text);margin-top:12px;cursor:pointer}
 .check input{width:auto}
-input,textarea,select{width:100%;font:inherit;color:var(--text);background:rgba(0,0,0,.25);border:1px solid var(--glass-b);border-radius:14px;padding:11px 13px;transition:border-color .25s,box-shadow .25s,background .25s}
+input,textarea,select{width:100%;font:inherit;color:var(--text);background:rgba(0,0,0,.25);border:1px solid var(--glass-b);border-radius:16px;padding:11px 13px;transition:border-color .25s,box-shadow .25s,background .25s}
 body.light input,body.light textarea,body.light select{background:rgba(255,255,255,.72)}
 input:focus,textarea:focus,select:focus{outline:none;border-color:var(--ac);box-shadow:0 0 0 3px color-mix(in srgb,var(--ac) 30%,transparent)}
 textarea{min-height:90px;resize:vertical}
 input[type=checkbox],input[type=range]{width:auto;accent-color:var(--ac)}
 input[type=range]{width:100%}
 select option{background:#1a1830;color:#f2f0f7}
+body.light select option{background:#fff;color:#16141f}
 .counter{font-size:.78rem;color:var(--muted);text-align:right;margin-top:4px;font-variant-numeric:tabular-nums}
 
-.btn{position:relative;overflow:hidden;font:inherit;font-weight:700;border:0;border-radius:14px;padding:11px 18px;cursor:pointer;color:#08080c;background:linear-gradient(135deg,var(--ac),var(--blue));translate:var(--mgx,0px) var(--mgy,0px);transition:translate .35s var(--ease),box-shadow .3s,filter .3s;text-decoration:none;display:inline-block}
-.btn:hover{box-shadow:0 12px 30px -6px color-mix(in srgb,var(--blue) 60%,transparent);filter:brightness(1.06)}
+/* tombol */
+.btn{position:relative;overflow:hidden;font:inherit;font-weight:700;border:0;border-radius:16px;padding:11px 20px;cursor:pointer;color:#08080c;background:linear-gradient(135deg,var(--ac),var(--blue));translate:var(--mgx,0px) var(--mgy,0px);transition:translate .35s var(--ease),box-shadow .3s,filter .3s,border-radius .5s var(--ease);text-decoration:none;display:inline-block}
+.btn:hover{border-radius:24px 12px 24px 12px;box-shadow:0 12px 30px -6px color-mix(in srgb,var(--blue) 60%,transparent);filter:brightness(1.06)}
 .btn:active{scale:.96}
 .btn:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
 .btn.ghost{background:var(--glass-strong);color:var(--text);border:1px solid var(--glass-b)}
 .btn.danger{background:var(--danger);color:#fff}
-.btn.small{padding:7px 12px;font-size:.85rem;border-radius:10px}
+.btn.small{padding:7px 13px;font-size:.85rem;border-radius:12px}
 .ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.55);transform:scale(0);animation:rip .65s var(--ease) forwards;pointer-events:none}
 @keyframes rip{to{transform:scale(1.4);opacity:0}}
 
-.moods{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
-.mood{position:relative;overflow:hidden;padding:14px 10px;border-radius:18px;border:1px solid var(--glass-b);background:var(--glass);color:var(--text);font:inherit;cursor:pointer;transition:transform .35s var(--ease),box-shadow .35s,background .35s,border-color .35s}
-.mood:hover{transform:translateY(-5px) scale(1.02)}
-.mood[aria-pressed="true"]{background:color-mix(in srgb,var(--ac) 22%,transparent);box-shadow:0 0 28px color-mix(in srgb,var(--ac) 50%,transparent);border-color:var(--ac);transform:scale(1.03)}
+/* mood dengan bentuk berbeda */
+.moods{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px}
+.mood{position:relative;overflow:hidden;padding:16px 10px;border-radius:var(--shape,24px);border:1px solid var(--glass-b);background:var(--glass);color:var(--text);font:inherit;cursor:pointer;transition:transform .35s var(--ease),box-shadow .35s,background .35s,border-color .35s,border-radius .7s var(--ease)}
+.mood:hover{transform:translateY(-5px) scale(1.03);border-radius:50%}
+.mood[aria-pressed="true"]{background:color-mix(in srgb,var(--ac) 24%,transparent);box-shadow:0 0 30px color-mix(in srgb,var(--ac) 50%,transparent);border-color:var(--ac);transform:scale(1.04);border-radius:50%}
 
-.tag{display:inline-block;font-size:.75rem;padding:3px 9px;border-radius:999px;background:rgba(61,139,255,.18);color:#9cc4ff;margin:2px 4px 2px 0}
+.tag{display:inline-block;font-size:.75rem;padding:3px 10px;border-radius:999px;background:rgba(61,139,255,.18);color:#9cc4ff;margin:2px 4px 2px 0}
 body.light .tag{color:#2a5fb0}
-.badge{display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border-radius:14px;background:var(--glass-strong);border:1px solid var(--glass-b);font-size:.85rem;transition:transform .3s var(--ease)}
-.badge:hover{transform:translateY(-3px) rotate(-1deg)}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:8px 13px;border-radius:16px 6px 16px 6px;background:var(--glass-strong);border:1px solid var(--glass-b);font-size:.85rem;transition:transform .3s var(--ease),border-radius .5s var(--ease)}
+.badge:hover{transform:translateY(-3px) rotate(-1deg);border-radius:6px 16px 6px 16px}
 .badge.locked{opacity:.4;filter:grayscale(1)}
 .streak-num{font-size:clamp(2.4rem,6vw,3.6rem);font-weight:800;line-height:1;background:linear-gradient(135deg,var(--ac),var(--blue));-webkit-background-clip:text;background-clip:text;color:transparent}
 .flame{display:inline-block;animation:flicker 1.6s ease-in-out infinite;transform-origin:50% 100%}
@@ -189,44 +222,65 @@ body.light .tag{color:#2a5fb0}
 .bar-wrap{height:8px;background:rgba(255,255,255,.1);border-radius:8px;overflow:hidden;margin-top:10px}
 .bar{height:100%;width:0;background:linear-gradient(90deg,var(--ac),var(--blue));border-radius:8px;transition:width 1.2s var(--ease);box-shadow:0 0 12px var(--ac)}
 
+/* kalender */
 .cal{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
 .cal .dow{font-size:.72rem;color:var(--muted);text-align:center;padding:4px 0}
-.cal button{position:relative;aspect-ratio:1;border-radius:12px;border:1px solid var(--glass-b);background:var(--glass);color:var(--text);font:inherit;font-size:.85rem;cursor:pointer;transition:transform .25s var(--ease),background .25s}
-.cal button:hover{transform:scale(1.1)}
+.cal button{position:relative;aspect-ratio:1;border-radius:14px;border:1px solid var(--glass-b);background:var(--glass);color:var(--text);font:inherit;font-size:.85rem;cursor:pointer;transition:transform .25s var(--ease),background .25s,border-radius .5s var(--ease)}
+.cal button:hover{transform:scale(1.1);border-radius:50%}
 .cal button.out{opacity:.3}
 .cal button.today{outline:1px solid var(--blue)}
-.cal button[aria-pressed="true"]{background:color-mix(in srgb,var(--ac) 25%,transparent);box-shadow:0 0 0 2px var(--ac)}
+.cal button[aria-pressed="true"]{background:color-mix(in srgb,var(--ac) 25%,transparent);box-shadow:0 0 0 2px var(--ac);border-radius:50%}
 .cal .dot{position:absolute;bottom:5px;left:50%;transform:translateX(-50%);width:6px;height:6px;border-radius:50%;box-shadow:0 0 8px currentColor}
 
 .seg{display:inline-flex;gap:6px;padding:4px;border-radius:999px;background:var(--glass);border:1px solid var(--glass-b)}
-.seg button{font:inherit;border:0;background:transparent;color:var(--muted);padding:7px 14px;border-radius:999px;cursor:pointer;transition:background .3s,color .3s}
+.seg button{font:inherit;border:0;background:transparent;color:var(--muted);padding:7px 15px;border-radius:999px;cursor:pointer;transition:background .3s,color .3s}
 .seg button[aria-pressed="true"]{background:var(--glass-strong);color:var(--text);box-shadow:0 4px 14px rgba(0,0,0,.2)}
 canvas{width:100%;height:240px;display:block}
 
-.wd{display:flex;align-items:flex-end;gap:8px;height:140px;margin-top:6px}
+.wd{display:flex;align-items:flex-end;gap:8px;height:150px;margin-top:6px}
 .wd-col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;font-size:.75rem;color:var(--muted)}
-.wd-bar{width:100%;height:0;border-radius:10px 10px 4px 4px;background:linear-gradient(var(--ac),color-mix(in srgb,var(--blue) 40%,transparent));box-shadow:0 0 14px color-mix(in srgb,var(--ac) 35%,transparent);transition:height 1.2s var(--ease);margin-bottom:6px}
+.wd-bar{width:100%;height:0;border-radius:14px 14px 4px 4px;background:linear-gradient(var(--ac),color-mix(in srgb,var(--blue) 40%,transparent));box-shadow:0 0 14px color-mix(in srgb,var(--ac) 35%,transparent);transition:height 1.2s var(--ease);margin-bottom:6px}
 
+/* rentang & siklus */
 .spectrum{position:relative;height:14px;border-radius:999px;background:linear-gradient(90deg,#5b4bd6,var(--ac) 50%,var(--blue));margin:28px 0 8px}
 .marker{position:absolute;top:50%;left:8%;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 0 22px #fff9;transform:translate(-50%,-50%);transition:left 1.8s var(--ease)}
 .spec-labels{display:flex;justify-content:space-between;font-size:.78rem;color:var(--muted)}
-details{border-bottom:1px solid var(--glass-b);padding:12px 0}
-details:last-child{border-bottom:0}
-summary{cursor:pointer;font-weight:700;list-style:none;display:flex;justify-content:space-between;align-items:center}
-summary::-webkit-details-marker{display:none}
-summary::after{content:"+";font-size:1.4rem;color:var(--ac);transition:transform .35s var(--ease)}
-details[open] summary::after{transform:rotate(45deg)}
-details p{margin:10px 0 0;color:var(--muted)}
-
 .cycle{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
-#cycle-text{min-height:3em;margin:0;color:var(--text);transition:opacity .3s}
+#cycle-text{min-height:3.4em;margin:0;color:var(--text);transition:opacity .3s}
 
-.breath-wrap{display:flex;flex-direction:column;align-items:center;gap:16px;padding:8px 0}
-.breath{width:160px;height:160px;border-radius:50%;display:flex;align-items:center;justify-content:center;text-align:center;font-size:.9rem;font-weight:600;background:radial-gradient(circle at 35% 35%,rgba(255,255,255,.65),var(--ac) 45%,color-mix(in srgb,var(--blue) 50%,transparent) 75%,transparent 78%);transform:scale(.65);box-shadow:0 0 50px color-mix(in srgb,var(--ac) 40%,transparent)}
-.breath.on{animation:breathe 14s ease-in-out infinite}
-@keyframes breathe{0%{transform:scale(.65)}29%{transform:scale(1)}57%{transform:scale(1)}100%{transform:scale(.65)}}
+/* pengetahuan */
+.kb-tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:18px}
+.kb-progress{flex:1;min-width:200px;max-width:340px}
+.kb-grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(290px,1fr))}
+.kb{padding:0;border-radius:24px}
+.kb details{border:0;padding:0}
+.kb summary{padding:20px 22px;display:block;list-style:none;cursor:pointer}
+.kb summary::after{content:"+";position:absolute;right:22px;top:18px;font-size:1.5rem;color:var(--ac);transition:transform .35s var(--ease)}
+.kb details[open] summary::after{transform:rotate(45deg)}
+.kb summary::-webkit-details-marker{display:none}
+.kb .kb-cat{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ac);font-weight:700}
+.kb .kb-title{font-size:1.05rem;font-weight:700;margin:6px 28px 6px 0;line-height:1.3}
+.kb .kb-sum{color:var(--muted);font-size:.9rem;margin:0}
+.kb .kb-body{padding:0 22px 22px;border-top:1px solid var(--glass-b);margin:0 22px;padding-left:0;padding-right:0}
+.kb .kb-body p{margin:14px 0 0;color:var(--text);font-size:.93rem}
+.kb .kb-tip{margin:14px 0 0;padding:12px 14px;border-radius:16px;background:color-mix(in srgb,var(--ac) 12%,transparent);border:1px solid color-mix(in srgb,var(--ac) 30%,transparent);font-size:.88rem}
+.kb.read .kb-cat::after{content:" · dibaca ✓";color:var(--ok);text-transform:none;letter-spacing:0}
+.kb-quiz{display:grid;gap:12px;margin-top:6px}
+.qz{padding:16px 18px;border-radius:20px;background:var(--glass);border:1px solid var(--glass-b)}
+.qz p{margin:0 0 10px;font-weight:600}
+.qz .btns{display:flex;gap:8px;flex-wrap:wrap}
+.qz .ex{margin:10px 0 0;font-size:.88rem;color:var(--muted)}
+.qz.right{border-color:var(--ok)}
+.qz.wrong{border-color:var(--danger)}
+.kb-empty{color:var(--muted)}
+
+/* keselamatan */
 .emergency{border-color:rgba(255,107,138,.5)}
 .emergency h3{color:var(--danger)}
+.breath-wrap{display:flex;flex-direction:column;align-items:center;gap:16px;padding:8px 0}
+.breath{width:170px;height:170px;border-radius:50%;display:flex;align-items:center;justify-content:center;text-align:center;font-size:.9rem;font-weight:600;background:radial-gradient(circle at 35% 35%,rgba(255,255,255,.65),var(--ac) 45%,color-mix(in srgb,var(--blue) 50%,transparent) 75%,transparent 78%);transform:scale(.65);box-shadow:0 0 50px color-mix(in srgb,var(--ac) 40%,transparent)}
+.breath.on{animation:breathe 14s ease-in-out infinite}
+@keyframes breathe{0%{transform:scale(.65);border-radius:50%}29%{transform:scale(1);border-radius:46% 54% 50% 50%}57%{transform:scale(1);border-radius:50%}100%{transform:scale(.65);border-radius:50%}}
 
 .reveal{opacity:0;translate:0 40px;filter:blur(8px);transition:opacity 1s var(--ease),translate 1s var(--ease),filter 1s var(--ease);transition-delay:var(--d,0ms)}
 .reveal.in{opacity:1;translate:0 0;filter:none}
@@ -242,26 +296,27 @@ body.reduce .split span,body.reduce .intro-word span{opacity:1;transform:none}
 body.reduce .intro-line{width:min(360px,70vw)}
 body.reduce .intro-core p{opacity:1}
 body.reduce .glass{transform:none!important}
-body.reduce .marquee-track{animation:none}
 
 @media (max-width:820px){
   .hero-grid{grid-template-columns:1fr;justify-items:center;text-align:center}
   .lead{margin-inline:auto}
   .hero-cta{justify-content:center}
+  .eyebrow{justify-content:center}
+  .eyebrow::before{display:none}
 }
 @media (max-width:720px){
-  .nav{border-radius:22px;flex-wrap:wrap;justify-content:center}
+  .nav{border-radius:24px;flex-wrap:wrap;justify-content:center}
   .brand{width:100%;text-align:center}
   .links{margin-left:0;width:100%;justify-content:flex-start}
-  section{padding-top:160px}
-  .hero{padding-top:200px}
+  section{padding-top:170px}
+  .hero{padding-top:210px}
   .scroll-hint{display:none}
-  .scene{width:160px;height:160px}
+  .scene{width:200px;height:200px}
 }
 @media print{
-  .nav,.fab,.totop,#intro,.atmos,#fx,.grain,#progress,footer,#toast{display:none!important}
+  .nav,.fab,.totop,#intro,.atmos,.shapes,#fx,.grain,#progress,footer,#toast,.wave,.marquee{display:none!important}
   body{background:#fff;color:#000}
-  .glass{background:none;box-shadow:none;border:1px solid #999;backdrop-filter:none}
+  .glass{background:none;box-shadow:none;border:1px solid #999;backdrop-filter:none;border-radius:8px}
   section{padding:10px 0}
   .reveal{opacity:1;translate:none;filter:none}
 }
@@ -284,11 +339,15 @@ body.reduce .marquee-track{animation:none}
   <div class="blob b2" data-speed="0.06"></div>
   <div class="blob b3" data-speed="-0.04"></div>
 </div>
+<div class="shapes" aria-hidden="true" data-speed="0.12">
+  <span class="sh c1"></span><span class="sh c2"></span><span class="sh c3"></span>
+  <span class="sh c4"></span><span class="sh c5"></span><span class="sh c6"></span>
+</div>
 <canvas id="fx" aria-hidden="true"></canvas>
 <div class="grain" aria-hidden="true"></div>
 <div id="progress" aria-hidden="true"></div>
 
-<header class="nav glass" id="nav">
+<header class="nav glass pill" id="nav">
   <div class="brand">MINDSPACE</div>
   <nav class="links" aria-label="Navigasi bagian">
     <a href="#beranda">Beranda</a>
@@ -304,7 +363,7 @@ body.reduce .marquee-track{animation:none}
 </header>
 
 <div id="toast" role="status" aria-live="polite"></div>
-<a class="fab glass" href="#keselamatan">Bantuan darurat</a>
+<a class="fab glass pill" href="#keselamatan">Bantuan darurat</a>
 <button class="totop glass" id="totop" type="button" aria-label="Kembali ke atas">↑</button>
 
 <main>
@@ -323,42 +382,53 @@ body.reduce .marquee-track{animation:none}
         </div>
       </div>
       <div class="scene reveal d1" aria-hidden="true">
+        <div class="arch-frame"></div>
         <div class="orb3d" id="orb3d">
-          <span class="ring"></span><span class="ring r2"></span><span class="core"></span>
+          <span class="ring"></span><span class="ring r2"></span><span class="ring r3"></span><span class="core"></span>
         </div>
       </div>
     </div>
 
     <div class="grid" style="margin-top:44px">
-      <div class="glass reveal d1"><p class="stat-label">Mood terakhir</p><div class="stat" id="h-mood">—</div></div>
-      <div class="glass reveal d2"><p class="stat-label">Rata-rata mood 7 hari</p><div class="stat" id="h-avg">—</div></div>
-      <div class="glass reveal d3"><p class="stat-label">Obat hari ini</p><div class="stat" id="h-meds">—</div><div class="bar-wrap"><div class="bar" id="h-meds-bar"></div></div></div>
-      <div class="glass reveal d4"><p class="stat-label">Entri jurnal</p><div class="stat" id="h-journal">0</div></div>
+      <div class="glass organic reveal d1"><p class="stat-label">Mood terakhir</p><div class="stat" id="h-mood">—</div></div>
+      <div class="glass organic reveal d2"><p class="stat-label">Rata-rata mood 7 hari</p><div class="stat" id="h-avg">—</div></div>
+      <div class="glass organic reveal d3">
+        <div class="row" style="align-items:center;flex-wrap:nowrap">
+          <div><p class="stat-label">Obat hari ini</p><div class="stat" id="h-meds">—</div></div>
+          <div class="gauge" id="g-meds" aria-hidden="true"><span id="g-meds-t">0%</span></div>
+        </div>
+      </div>
+      <div class="glass organic reveal d4"><p class="stat-label">Entri jurnal</p><div class="stat" id="h-journal">0</div></div>
     </div>
 
     <div class="grid-2" style="margin-top:18px">
-      <div class="glass reveal d1">
+      <div class="glass arch reveal d1">
         <p class="stat-label">Streak mencatat</p>
-        <div class="row" style="justify-content:flex-start;gap:14px;margin-top:8px">
+        <div class="row" style="justify-content:flex-start;gap:16px;margin-top:10px">
           <span class="flame" aria-hidden="true">🔥</span>
           <span class="streak-num" id="streak">0</span>
           <span class="muted">hari berturut-turut</span>
         </div>
         <div class="chips" id="badges"></div>
       </div>
-      <div class="glass reveal d2">
+      <div class="glass organic reveal d2">
         <p class="stat-label">Tren 14 hari</p>
         <div id="spark-wrap"></div>
       </div>
     </div>
 
-    <div class="glass reveal" style="margin-top:18px">
-      <p class="stat-label" style="margin-bottom:12px">Kutipan hari ini</p>
+    <div class="glass pill reveal" style="margin-top:18px;padding:26px 32px">
+      <p class="stat-label" style="margin-bottom:10px">Kutipan hari ini</p>
       <p class="quote" id="quote"></p>
     </div>
   </div>
   <div class="scroll-hint" aria-hidden="true">Gulir</div>
 </section>
+
+<svg class="wave" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true">
+  <path d="M0,64 C240,120 480,0 720,56 C960,112 1200,8 1440,60 L1440,120 L0,120 Z"/>
+  <path class="w2" d="M0,88 C280,40 520,120 760,80 C1000,40 1200,110 1440,74 L1440,120 L0,120 Z"/>
+</svg>
 
 <div class="marquee" aria-hidden="true">
   <div class="marquee-track">
@@ -374,7 +444,7 @@ body.reduce .marquee-track{animation:none}
   <p class="lead reveal">Pilih satu mood, atur intensitas, lalu tambahkan konteks seperlunya.</p>
 
   <div class="grid-2">
-    <div class="glass reveal">
+    <div class="glass arch reveal">
       <h3 id="mood-form-title">Catat mood hari ini</h3>
       <div class="moods" id="mood-buttons"></div>
       <label for="intensity">Intensitas: <output id="int-out">5</output>/10</label>
@@ -395,7 +465,7 @@ body.reduce .marquee-track{animation:none}
       </div>
     </div>
 
-    <div class="glass reveal d1">
+    <div class="glass organic reveal d1">
       <div class="row" style="margin-bottom:14px">
         <button class="btn ghost small" id="cal-prev" type="button" aria-label="Bulan sebelumnya">‹</button>
         <h3 id="cal-title" style="margin:0"></h3>
@@ -409,11 +479,15 @@ body.reduce .marquee-track{animation:none}
     </div>
   </div>
 
-  <div class="glass reveal" style="margin-top:18px">
+  <div class="glass pill reveal" style="margin-top:18px;padding:26px 30px">
     <h3>Riwayat mood</h3>
     <div id="mood-list"></div>
   </div>
 </section>
+
+<svg class="wave" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true" style="transform:scaleY(-1)">
+  <path d="M0,64 C240,120 480,0 720,56 C960,112 1200,8 1440,60 L1440,120 L0,120 Z"/>
+</svg>
 
 <!-- ANALITIK -->
 <section id="analitik">
@@ -428,10 +502,10 @@ body.reduce .marquee-track{animation:none}
   </div>
 
   <div class="grid">
-    <div class="glass reveal"><p class="stat-label">Rata-rata mood</p><div class="stat" id="a-mood">—</div></div>
-    <div class="glass reveal d1"><p class="stat-label">Rata-rata tidur</p><div class="stat" id="a-sleep">—</div></div>
-    <div class="glass reveal d2"><p class="stat-label">Rata-rata aktivitas</p><div class="stat" id="a-act">—</div></div>
-    <div class="glass reveal d3"><p class="stat-label">Korelasi tidur–mood</p><div class="stat" id="a-corr">—</div></div>
+    <div class="glass organic reveal"><p class="stat-label">Rata-rata mood</p><div class="stat" id="a-mood">—</div></div>
+    <div class="glass organic reveal d1"><p class="stat-label">Rata-rata tidur</p><div class="stat" id="a-sleep">—</div></div>
+    <div class="glass organic reveal d2"><p class="stat-label">Rata-rata aktivitas</p><div class="stat" id="a-act">—</div></div>
+    <div class="glass organic reveal d3"><p class="stat-label">Korelasi tidur–mood</p><div class="stat" id="a-corr">—</div></div>
   </div>
 
   <div class="glass reveal" style="margin-top:18px">
@@ -439,7 +513,7 @@ body.reduce .marquee-track{animation:none}
     <div class="cmp" id="cmp"></div>
   </div>
 
-  <div class="glass reveal" style="margin-top:18px">
+  <div class="glass arch reveal" style="margin-top:18px">
     <h3>14 hari terakhir</h3>
     <canvas id="chart" role="img" aria-label="Grafik mood dan tidur 14 hari terakhir"></canvas>
     <p class="muted" style="margin:8px 0 0;font-size:.85rem">Batang: mood rata-rata (skala 1–5). Garis biru: jam tidur.</p>
@@ -451,7 +525,7 @@ body.reduce .marquee-track{animation:none}
       <p class="muted" style="margin:0 0 4px;font-size:.85rem">Rata-rata mood 90 hari terakhir</p>
       <div class="wd" id="wd"></div>
     </div>
-    <div class="glass reveal d1">
+    <div class="glass organic reveal d1">
       <h3>Insight</h3>
       <p id="a-insight" class="muted" style="margin:0"></p>
     </div>
@@ -474,7 +548,7 @@ body.reduce .marquee-track{animation:none}
   <p class="eyebrow reveal">Medication</p>
   <h2 class="sub reveal">Jadwal dan adherence</h2>
   <div class="grid-2" style="margin-top:20px">
-    <div class="glass reveal">
+    <div class="glass arch reveal">
       <h3>Tambah pengingat obat</h3>
       <label for="med-name">Nama obat</label>
       <input id="med-name" maxlength="80">
@@ -484,7 +558,7 @@ body.reduce .marquee-track{animation:none}
       <p class="msg" id="med-msg"></p>
       <button class="btn" id="med-save" type="button" style="margin-top:10px">Tambah</button>
     </div>
-    <div class="glass reveal d1">
+    <div class="glass organic reveal d1">
       <h3>Jadwal hari ini (<span id="med-date"></span>)</h3>
       <p class="muted" id="med-next" style="margin:0 0 8px;font-size:.9rem"></p>
       <div id="med-list"></div>
@@ -508,7 +582,7 @@ body.reduce .marquee-track{animation:none}
 <section id="jurnal">
   <p class="eyebrow reveal">Journal</p>
   <h2 class="sub reveal">Tulis tanpa tekanan</h2>
-  <div class="glass reveal" style="margin-top:20px">
+  <div class="glass organic reveal" style="margin-top:20px">
     <h3 id="j-form-title">Entri baru</h3>
     <label for="j-title">Judul</label>
     <input id="j-title" maxlength="120">
@@ -534,12 +608,16 @@ body.reduce .marquee-track{animation:none}
   </div>
 </section>
 
+<svg class="wave" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true">
+  <path d="M0,64 C240,120 480,0 720,56 C960,112 1200,8 1440,60 L1440,120 L0,120 Z"/>
+</svg>
+
 <!-- REFLEKSI -->
 <section id="refleksi">
   <p class="eyebrow reveal">Guided Reflection</p>
   <h2 class="sub reveal">Berhenti sebentar, lalu tanyakan</h2>
   <div class="grid-2" style="margin-top:20px">
-    <div class="glass reveal">
+    <div class="glass arch reveal">
       <h3>Check-in emosi</h3>
       <label for="r-emotion">Emosi dominan</label>
       <select id="r-emotion"></select>
@@ -548,7 +626,7 @@ body.reduce .marquee-track{animation:none}
       <label for="r-grat">Tiga hal yang kusyukuri hari ini</label>
       <textarea id="r-grat" maxlength="600" placeholder="Hal kecil juga boleh"></textarea>
     </div>
-    <div class="glass reveal d1">
+    <div class="glass organic reveal d1">
       <h3>Pertanyaan hari ini</h3>
       <div id="r-questions" class="stack"></div>
       <p class="msg" id="r-msg"></p>
@@ -569,32 +647,40 @@ body.reduce .marquee-track{animation:none}
 <section id="pengetahuan">
   <p class="eyebrow reveal">Knowledge Space</p>
   <h2 class="sub reveal">Memahami pola suasana hati</h2>
-  <p class="lead reveal">Informasi edukatif, bukan pengganti diagnosis atau perawatan profesional.</p>
+  <p class="lead reveal">Informasi edukatif, bukan pengganti diagnosis atau perawatan profesional. Baca pelan-pelan, dan bicarakan hal yang relevan dengan tenaga kesehatan.</p>
 
-  <div class="glass reveal">
+  <div class="glass organic reveal">
     <h3>Rentang suasana hati (ilustrasi)</h3>
     <div class="spectrum" aria-hidden="true"><div class="marker" id="spec-mark"></div></div>
     <div class="spec-labels"><span>Rendah</span><span>Stabil</span><span>Tinggi</span></div>
     <p class="muted" style="margin:14px 0 0">Naik turun mood dalam rentang yang wajar adalah bagian dari hidup. Pada gangguan bipolar, perubahan mood cenderung lebih intens, berlangsung lebih lama, dan mengganggu fungsi harian. Penilaian hanya bisa dilakukan oleh tenaga profesional.</p>
   </div>
 
-  <div class="grid-2" style="margin-top:18px">
-    <div class="glass reveal">
-      <h3>Siklus harian</h3>
-      <div class="cycle" id="cycle" role="group" aria-label="Pilih topik"></div>
-      <p id="cycle-text" class="muted"></p>
+  <div class="glass reveal" style="margin-top:18px">
+    <h3>Siklus harian</h3>
+    <p class="muted" style="margin:0 0 12px;font-size:.9rem">Pilih topik untuk melihat mengapa kebiasaan ini berpengaruh pada suasana hati.</p>
+    <div class="cycle" id="cycle" role="group" aria-label="Pilih topik"></div>
+    <p id="cycle-text" class="muted"></p>
+  </div>
+
+  <div class="kb-tools reveal" style="margin-top:30px">
+    <div class="chips" id="kb-chips" role="group" aria-label="Filter kategori" style="margin:0"></div>
+    <div class="kb-progress">
+      <div class="row" style="justify-content:space-between"><span class="muted" style="font-size:.85rem" id="kb-count"></span><span class="muted" style="font-size:.85rem" id="kb-read"></span></div>
+      <div class="bar-wrap" style="margin-top:6px"><div class="bar" id="kb-bar"></div></div>
     </div>
-    <div class="glass reveal d1">
-      <h3>Bacaan singkat</h3>
-      <details open><summary>Apa itu gangguan bipolar?</summary>
-        <p>Gangguan bipolar ditandai perubahan suasana hati yang ekstrem, mulai dari episode mania atau hipomania (energi sangat tinggi, dorongan berlebihan, tidur berkurang) hingga episode depresi. Diagnosis dan pengobatan dilakukan oleh tenaga profesional.</p></details>
-      <details><summary>Tidur dan mood</summary>
-        <p>Pola tidur yang tidak teratur sering berkaitan dengan perubahan mood. Menjaga jadwal tidur yang konsisten adalah langkah sederhana yang membantu banyak orang.</p></details>
-      <details><summary>Regulasi emosi</summary>
-        <p>Teknik seperti jeda napas, menamai emosi (“saya sedang merasa cemas”), dan menulis jurnal dapat memberi ruang antara perasaan dan reaksi.</p></details>
-      <details><summary>Self-care dasar</summary>
-        <p>Makan teratur, bergerak ringan, membatasi alkohol dan kafein di malam hari, serta terhubung dengan orang yang dipercaya adalah fondasi perawatan diri.</p></details>
-    </div>
+  </div>
+  <div class="kb-grid" id="kb-grid"></div>
+
+  <svg class="wave" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true" style="margin-top:20px">
+    <path d="M0,64 C240,120 480,0 720,56 C960,112 1200,8 1440,60 L1440,120 L0,120 Z"/>
+  </svg>
+
+  <div class="glass arch reveal" style="margin-top:18px">
+    <h3>Mitos atau fakta?</h3>
+    <p class="muted" style="margin:0 0 14px;font-size:.9rem">Jawab setiap pernyataan. Penjelasan muncul setelah kamu memilih.</p>
+    <p class="muted" id="qz-score" style="margin:0 0 14px;font-weight:700"></p>
+    <div class="kb-quiz" id="quiz"></div>
   </div>
 </section>
 
@@ -603,7 +689,7 @@ body.reduce .marquee-track{animation:none}
   <p class="eyebrow reveal">Safety Space</p>
   <h2 class="sub reveal">Kamu tidak harus menghadapi ini sendirian</h2>
   <div class="grid-2" style="margin-top:20px">
-    <div class="glass emergency reveal">
+    <div class="glass emergency arch reveal">
       <h3>Jika kamu dalam bahaya sekarang</h3>
       <p style="margin:0 0 12px">Hubungi <strong>112</strong> atau pergi ke IGD terdekat. Layanan SEJIWA Kemenkes: <strong>119 ext 8</strong>. Pastikan nomor masih berlaku sebelum digunakan.</p>
       <div class="row" style="justify-content:flex-start">
@@ -611,7 +697,7 @@ body.reduce .marquee-track{animation:none}
         <button class="btn ghost small" id="s-print" type="button">Cetak rencana</button>
       </div>
     </div>
-    <div class="glass reveal d1">
+    <div class="glass organic reveal d1">
       <h3>Latihan napas 1 menit</h3>
       <div class="breath-wrap">
         <div class="breath" id="breath" aria-hidden="true"><span id="breath-text">Mulai</span></div>
@@ -638,7 +724,7 @@ body.reduce .marquee-track{animation:none}
   <p class="eyebrow reveal">Settings</p>
   <h2 class="sub reveal">Sesuaikan ruangmu</h2>
   <div class="grid-2" style="margin-top:20px">
-    <div class="glass reveal">
+    <div class="glass arch reveal">
       <h3>Tampilan dan pengingat</h3>
       <label for="set-theme">Tema</label>
       <select id="set-theme"><option value="dark">Gelap</option><option value="light">Terang</option></select>
@@ -650,7 +736,7 @@ body.reduce .marquee-track{animation:none}
       <label class="check"><input type="checkbox" id="set-backup"> Ingatkan ekspor cadangan tiap 7 hari</label>
       <button class="btn" id="set-save" type="button" style="margin-top:14px">Simpan pengaturan</button>
     </div>
-    <div class="glass reveal d1">
+    <div class="glass organic reveal d1">
       <h3>Data lokal</h3>
       <p class="muted" style="margin-top:0">Data disimpan di perangkat ini (localStorage). Ekspor secara berkala sebagai cadangan.</p>
       <p class="muted" id="backup-info" style="font-size:.88rem"></p>
@@ -673,7 +759,13 @@ body.reduce .marquee-track{animation:none}
 
 /* ---------- konstanta ---------- */
 const KEY = 'mindspace.v1';
-const MOODS = [['sangat-baik','😄 Sangat baik',5],['baik','🙂 Baik',4],['netral','😐 Netral',3],['rendah','😔 Rendah',2],['sangat-rendah','😢 Sangat rendah',1]];
+const MOODS = [
+  ['sangat-baik','😄 Sangat baik',5,'60% 40% 30% 70% / 60% 30% 70% 40%'],
+  ['baik','🙂 Baik',4,'30% 70% 70% 30% / 30% 30% 70% 70%'],
+  ['netral','😐 Netral',3,'50%'],
+  ['rendah','😔 Rendah',2,'40% 60% 60% 40% / 40% 50% 50% 60%'],
+  ['sangat-rendah','😢 Sangat rendah',1,'70% 30% 40% 60% / 50% 70% 30% 50%']
+];
 const EMOTIONS = ['Tenang','Cemas','Sedih','Marah','Bersemangat','Lelah'];
 const POOL = [
   'Apa satu hal yang membuatku merasa sedikit lebih baik hari ini?',
@@ -700,18 +792,182 @@ const CYCLE = [
   ['Terhubung','Berbicara dengan orang yang kamu percaya dapat mengurangi rasa sendirian. Kamu juga bisa mencantumkan kontak itu di Rencana Keselamatan.']
 ];
 const WD = ['Sen','Sel','Rab','Kam','Jum','Sab','Min'];
+
+/* ---------- basis pengetahuan ---------- */
+const KB_CATS = [
+  ['dasar','Dasar'],['tipe','Tipe'],['tanda','Tanda'],['ritme','Tidur & ritme'],
+  ['emosi','Regulasi emosi'],['gaya','Gaya hidup'],['dukungan','Dukungan']
+];
+const KB = [
+  { id:'k1', cat:'dasar', title:'Apa itu gangguan bipolar?',
+    sum:'Kondisi yang ditandai perubahan suasana hati yang lebih ekstrem dan berlangsung lebih lama dari naik turun biasa.',
+    body:[
+      'Gangguan bipolar ditandai episode suasana hati tinggi (mania atau hipomania) dan episode suasana hati rendah (depresi). Di antara episode, sebagian orang bisa kembali berfungsi normal, sementara sebagian lain mengalami gejala yang lebih ringan secara terus-menerus.',
+      'Diagnosis dibuat oleh tenaga profesional berdasarkan riwayat, gejala, dan durasi. Aplikasi seperti ini hanya membantu mencatat pola, bukan menggantikan penilaian klinis.'
+    ],
+    tip:'Jika kamu merasa perubahan mood sering mengganggu sekolah, kerja, atau hubungan, catat polanya lalu bawa catatan itu ke dokter atau psikolog.' },
+  { id:'k2', cat:'dasar', title:'Mood normal dan episode: apa bedanya?',
+    sum:'Perbedaan utama ada pada durasi, intensitas, dan dampaknya terhadap fungsi sehari-hari.',
+    body:[
+      'Perubahan mood yang normal biasanya dipicu peristiwa tertentu dan mereda dalam waktu yang wajar. Episode gangguan mood cenderung muncul tanpa pemicu jelas, bertahan beberapa hari hingga minggu, dan memengaruhi tidur, pekerjaan, atau hubungan.',
+      'Yang membantu adalah membandingkan catatanmu dari waktu ke waktu, bukan hanya satu hari. Pola yang berulang lebih berarti daripada satu hari yang buruk.'
+    ],
+    tip:'Gunakan grafik 30 hari di Analitik untuk melihat apakah ada pola yang terulang setiap beberapa minggu.' },
+  { id:'k3', cat:'tipe', title:'Bipolar I',
+    sum:'Ditandai minimal satu episode mania yang cukup berat, dan sering disertai episode depresi.',
+    body:[
+      'Episode mania pada bipolar I berlangsung cukup lama dan cukup berat sehingga bisa mengganggu pekerjaan, hubungan, atau memerlukan rawat inap. Pada sebagian orang, episode ini disertai gejala psikotik.',
+      'Episode depresi sering muncul, tetapi tidak selalu harus ada untuk diagnosis. Setiap orang memiliki pola yang berbeda, sehingga penilaian profesional sangat penting.'
+    ],
+    tip:'Jika kamu pernah mengalami episode tinggi yang sangat intens, sampaikan itu secara jujur kepada tenaga kesehatanmu.' },
+  { id:'k4', cat:'tipe', title:'Bipolar II',
+    sum:'Ditandai episode hipomania yang lebih ringan dan episode depresi yang berulang.',
+    body:[
+      'Hipomania adalah periode energi dan produktivitas yang meningkat, tetapi tidak seberat mania. Orang di sekitarnya kadang menganggapnya sebagai fase bersemangat, sehingga sering terlewat.',
+      'Karena episode depresinya sering menjadi keluhan utama, bipolar II kadang salah dikenali sebagai depresi saja. Riwayat periode energi tinggi menjadi informasi penting untuk dibahas dengan dokter.'
+    ],
+    tip:'Perhatikan periode ketika kamu merasa sangat bersemangat dan tidur hanya sedikit, lalu catat di jurnal sebagai bahan diskusi.' },
+  { id:'k5', cat:'tipe', title:'Siklotimia',
+    sum:'Naik turun mood yang ringan tetapi berlangsung lama dan sering dalam kurun waktu bertahun-tahun.',
+    body:[
+      'Siklotimia ditandai periode suasana hati tinggi dan rendah yang tidak memenuhi kriteria episode penuh, tetapi berlangsung terus-menerus. Pada orang dewasa, gejalanya perlu bertahan cukup lama untuk dipertimbangkan sebagai diagnosis.',
+      'Karena gejalanya ringan, siklotimia sering dianggap sebagai sifat kepribadian. Mencatat pola selama beberapa bulan dapat membantu membedakannya.'
+    ],
+    tip:'Tidak perlu menilai dirimu sendiri. Cukup catat dan biarkan tenaga profesional yang menafsirkannya.' },
+  { id:'k6', cat:'tanda', title:'Tanda mania atau hipomania',
+    sum:'Energi yang sangat tinggi, tidur berkurang tanpa merasa lelah, dan keputusan yang terburu-buru.',
+    body:[
+      'Tanda yang sering muncul meliputi tidur sangat sedikit tetapi tetap merasa segar, bicara cepat, ide yang berloncatan, mudah teralihkan, rasa percaya diri yang berlebihan, dan dorongan untuk mengambil risiko seperti belanja besar atau keputusan finansial mendadak.',
+      'Jika tanda ini berlangsung beberapa hari dan terasa berbeda dari kebiasaanmu, sebaiknya segera hubungi tenaga kesehatan. Orang terdekat sering lebih cepat menyadarinya daripada diri sendiri.'
+    ],
+    tip:'Catat jam tidur dan tingkat energi harian. Perubahan yang berkelanjutan sering terlihat jelas di catatan.' },
+  { id:'k7', cat:'tanda', title:'Tanda depresi',
+    sum:'Sedih atau hampa berkepanjangan, kehilangan minat, dan perubahan tidur serta nafsu makan.',
+    body:[
+      'Depresi dapat terlihat sebagai rasa sedih atau hampa hampir sepanjang hari, hilangnya minat pada aktivitas yang biasa dinikmati, lelah terus-menerus, sulit berkonsentrasi, serta perubahan tidur dan nafas makan. Sebagian orang juga merasa bersalah atau tidak berharga.',
+      'Jika muncul pikiran untuk menyakiti diri sendiri atau mengakhiri hidup, jangan menunggu. Hubungi layanan darurat atau orang yang kamu percaya sekarang juga.'
+    ],
+    tip:'Jika mood rendah berlangsung lebih dari dua minggu, bicarakan dengan tenaga profesional, meskipun gejalanya terasa ringan.' },
+  { id:'k8', cat:'tanda', title:'Membuat tanda peringatan dini pribadi',
+    sum:'Setiap orang memiliki tanda awal yang khas. Mengenalinya lebih awal memberi lebih banyak pilihan.',
+    body:[
+      'Tanda peringatan dini bisa berupa perubahan kecil: tidur lebih sedikit dari biasanya, menarik diri dari teman, pikiran yang berlomba, atau kebiasaan belanja yang berubah. Tanda ini berbeda untuk setiap orang dan sering terlihat pertama kali oleh orang terdekat.',
+      'Setelah kamu mengenali tanda pribadimu, tuliskan di Rencana Keselamatan beserta langkah yang bisa dilakukan, dan siapa yang akan dihubungi.'
+    ],
+    tip:'Mulai dari tiga tanda awal yang paling sering kamu rasakan, lalu tambahkan seiring waktu.' },
+  { id:'k9', cat:'ritme', title:'Ritme sirkadian dan tidur',
+    sum:'Jam biologis tubuh mengatur tidur, energi, dan mood. Jadwal yang teratur membantu menjaga ritme itu.',
+    body:[
+      'Ritme sirkadian dipengaruhi cahaya, waktu makan, dan jadwal tidur. Pada sebagian orang dengan kondisi mood tertentu, perubahan jadwal tidur yang tiba-tiba dapat memicu perubahan mood.',
+      'Beberapa kebiasaan yang sering membantu: paparan cahaya alami di pagi hari, mengurangi layar terang menjelang tidur, dan menjaga jam bangun yang relatif sama setiap hari, termasuk akhir pekan.'
+    ],
+    tip:'Coba jam bangun yang sama selama 7 hari ke depan, lalu lihat apakah mood pagimu berubah.' },
+  { id:'k10', cat:'ritme', title:'Hubungan tidur dan mood',
+    sum:'Tidur dan mood saling memengaruhi. Kurang tidur sering membuat mood lebih rendah, dan mood yang rendah sering mengganggu tidur.',
+    body:[
+      'Kurang tidur dapat membuat emosi lebih sulit dikendalikan, menurunkan kemampuan berpikir, dan pada sebagian orang meningkatkan risiko perubahan mood. Hubungan ini bekerja dua arah, sehingga pola tidur perlu diperhatikan saat mood berubah.',
+      'Di Analitik, korelasi tidur–mood menunjukkan seberapa searah keduanya dalam catatanmu. Angka mendekati 1 berarti tidur lebih panjang cenderung diikuti mood lebih baik.'
+    ],
+    tip:'Jika rata-rata tidurmu di bawah 6 jam selama beberapa hari, pertimbangkan untuk menyesuaikan jadwal dan bicarakan dengan dokter bila kesulitan tidur berlanjut.' },
+  { id:'k11', cat:'emosi', title:'Menamai emosi',
+    sum:'Memberi nama pada perasaan dapat membuat emosi terasa sedikit lebih terkendali.',
+    body:[
+      'Penelitian tentang "affect labeling" menunjukkan bahwa menyebut perasaan dengan kata-kata dapat mengurangi intensitas respons emosional, terutama saat perasaan terasa membingungkan. Kalimat sederhana seperti "aku sedang merasa cemas" sudah cukup.',
+      'Latihan ini mudah dibawa ke mana saja. Berhenti sejenak, lalu sebutkan satu atau dua kata untuk perasaan yang kamu rasakan saat itu.'
+    ],
+    tip:'Gunakan check-in emosi di Refleksi setiap hari. Lama-kelamaan kosakata perasaanmu akan semakin kaya.' },
+  { id:'k12', cat:'emosi', title:'Pernapasan yang menenangkan',
+    sum:'Napas yang lebih lambat dan ekshalasi yang lebih panjang dapat membantu tubuh kembali tenang.',
+    body:[
+      'Saat cemas, napas biasanya menjadi cepat dan dangkal. Dengan memperpanjang hembusan napas, sistem saraf cenderung bergeser ke kondisi yang lebih tenang. Latihan ini sederhana dan dapat dilakukan di mana saja.',
+      'Latihan napas bukan pengganti pengobatan, tetapi dapat menjadi alat bantu saat perasaan mulai terasa berat.'
+    ],
+    tip:'Gunakan latihan napas di halaman Keselamatan. Ulangi beberapa siklus sampai tubuh terasa lebih rileks.' },
+  { id:'k13', cat:'emosi', title:'Menulis dan membedakan fakta dari tafsiran',
+    sum:'Menulis membantu melihat pikiran dari jarak. Membedakan fakta dan tafsiran membuat pikiran lebih seimbang.',
+    body:[
+      'Terapi kognitif perilaku sering menggunakan latihan sederhana: menuliskan kejadian, pikiran yang muncul, lalu bertanya apa bukti yang mendukung dan apa bukti yang bertentangan. Cara ini membantu melihat situasi dengan lebih utuh.',
+      'Jurnal juga dapat dipakai untuk mencatat apa yang terjadi, apa yang kamu rasakan, dan apa yang kamu lakukan, tanpa harus langsung menilai.'
+    ],
+    tip:'Saat menulis di jurnal, coba pisahkan satu kalimat fakta ("aku tidak membalas pesan") dan satu kalimat tafsiran ("mereka pasti marah").' },
+  { id:'k14', cat:'gaya', title:'Aktivitas fisik dan suasana hati',
+    sum:'Gerak yang teratur sering berkaitan dengan mood yang lebih stabil dan tidur yang lebih baik.',
+    body:[
+      'Aktivitas fisik ringan hingga sedang, seperti jalan kaki, bersepeda, atau berenang, sering dikaitkan dengan peningkatan suasana hati. Efeknya biasanya lebih terasa jika dilakukan secara rutin.',
+      'Hindari memaksakan latihan berat saat sedang dalam episode energi tinggi atau kelelahan ekstrem. Sesuaikan intensitas dengan kondisimu.'
+    ],
+    tip:'Mulai dari 10 menit berjalan kaki setiap hari, lalu catat aktivitasmu di MINDSPACE untuk melihat dampaknya.' },
+  { id:'k15', cat:'gaya', title:'Alkohol, kafein, dan zat lain',
+    sum:'Zat tertentu dapat mengganggu tidur dan memperburuk mood, bahkan jika awalnya terasa membantu.',
+    body:[
+      'Alkohol sering terasa menenangkan di awal, tetapi dapat mengacaukan tidur dan membuat mood lebih rendah keesokan harinya. Kafein dalam jumlah besar atau dikonsumsi sore hari dapat mengurangi kualitas tidur.',
+      'Zat stimulan maupun zat ilegal dapat memicu atau memperburuk episode. Jika kamu merasa perlu menggunakan zat untuk mengatasi perasaan, bicarakan dengan tenaga profesional secara terbuka.'
+    ],
+    tip:'Coba batasi kafein setelah siang hari selama satu minggu dan perhatikan perubahan tidurmu di catatan.' },
+  { id:'k16', cat:'gaya', title:'Obat dan kepatuhan minum obat',
+    sum:'Pengobatan sering menjadi bagian penting dari perawatan. Konsistensi dan komunikasi dengan dokter sama pentingnya.',
+    body:[
+      'Obat untuk menstabilkan mood biasanya diresepkan dan dipantau oleh dokter. Pilihan obat dan dosisnya bersifat sangat personal, sehingga tidak ada satu jawaban yang berlaku untuk semua orang.',
+      'Jangan menghentikan atau mengubah dosis tanpa berkonsultasi, meskipun merasa sudah lebih baik. Jika ada efek samping atau kendala minum obat, sampaikan kepada dokter atau apoteker. Pengingat dan catatan di MINDSPACE dapat membantu.'
+    ],
+    tip:'Tulis pertanyaan tentang obat sebelum kunjungan dokter agar tidak ada yang terlewat.' },
+  { id:'k17', cat:'gaya', title:'Rutinitas yang menopang',
+    sum:'Rutinitas kecil yang konsisten dapat memberi pijakan saat perasaan terasa tidak menentu.',
+    body:[
+      'Beberapa rutinitas yang sering membantu meliputi makan pada jam yang relatif teratur, menyediakan waktu untuk hal yang disukai, dan membatasi komitmen berlebihan pada periode yang sulit.',
+      'Rutinitas tidak harus sempurna. Kembali ke rutinitas setelah terlewat juga bagian dari perawatan diri.'
+    ],
+    tip:'Pilih satu rutinitas kecil untuk minggu ini, misalnya minum air setelah bangun, lalu lihat apakah terasa membantu.' },
+  { id:'k18', cat:'dukungan', title:'Memulai percakapan dengan orang terpercaya',
+    sum:'Tidak perlu kalimat sempurna. Menjelaskan apa yang kamu alami sudah merupakan langkah besar.',
+    body:[
+      'Kamu dapat memulai dengan kalimat sederhana seperti "Aku sedang merasa tidak seperti biasanya dan ingin cerita." Jelaskan apa yang kamu butuhkan: didengarkan, ditemani, atau dibantu mencari bantuan profesional.',
+      'Jika orang tersebut belum memahami, tidak apa-apa. Kamu bisa memberikan bacaan ini atau catatan dari aplikasi sebagai gambaran.'
+    ],
+    tip:'Tentukan satu orang yang bisa dihubungi kapan saja, lalu tuliskan namanya di Rencana Keselamatan.' },
+  { id:'k19', cat:'dukungan', title:'Mendukung orang terdekat',
+    sum:'Kehadiran yang tenang dan pertanyaan yang langsung sering lebih membantu daripada nasihat panjang.',
+    body:[
+      'Dengarkan tanpa langsung menghakimi atau menyalahkan. Tanyakan secara langsung bagaimana keadaannya, termasuk apakah dia merasa aman. Menanyakan hal ini tidak akan menambah risiko.',
+      'Bantu mencari tenaga profesional dan temani jika dia bersedia. Dalam situasi darurat, jangan ditinggal sendirian, dan hubungi layanan darurat.'
+    ],
+    tip:'Tanyakan "Apa yang bisa kulakukan untukmu hari ini?" lebih berguna daripada "Kamu kenapa?"' },
+  { id:'k20', cat:'dukungan', title:'Kapan harus mencari bantuan segera',
+    sum:'Beberapa tanda membutuhkan bantuan sekarang juga, bukan nanti.',
+    body:[
+      'Cari bantuan segera jika muncul pikiran untuk menyakiti diri sendiri atau orang lain, perilaku yang membahayakan, kebingungan yang berat, halusinasi, atau kehilangan kontak dengan kenyataan. Hubungi 112 atau pergi ke IGD terdekat.',
+      'Bantuan darurat tidak harus menunggu sampai keadaan benar-benar parah. Meminta bantuan lebih awal adalah keputusan yang tepat.'
+    ],
+    tip:'Simpan nomor darurat di ponsel dan di Rencana Keselamatan agar mudah diakses saat dibutuhkan.' },
+  { id:'k21', cat:'dukungan', title:'Stigma dan pemulihan',
+    sum:'Banyak orang dengan gangguan mood menjalani hidup yang produktif dan bermakna dengan perawatan yang tepat.',
+    body:[
+      'Stigma sering membuat orang menunda mencari bantuan. Padahal, perawatan yang tepat dapat membantu banyak orang mengenali pemicu, menjaga stabilitas, dan kembali menjalani aktivitas yang mereka pedulikan.',
+      'Pemulihan bukan garis lurus. Ada hari baik dan hari sulit. Yang penting adalah tetap terhubung dengan perawatan dan dukungan.'
+    ],
+    tip:'Ingat bahwa mencatat, mencari informasi, dan bertanya sudah merupakan bagian dari pemulihan.' }
+];
+const QUIZ = [
+  { q:'Gangguan bipolar hanya berupa perubahan suasana hati yang sedikit dan sebentar.', a:false, ex:'Mitos. Episode bisa intens, berlangsung lama, dan mengganggu fungsi harian.' },
+  { q:'Banyak orang dengan gangguan bipolar tetap bisa bekerja atau kuliah dengan perawatan yang tepat.', a:true, ex:'Fakta. Dengan pengobatan, dukungan, dan pengelolaan pemicu, banyak orang menjalani aktivitas sehari-hari dengan baik.' },
+  { q:'Kurang tidur tidak berpengaruh pada suasana hati.', a:false, ex:'Mitos. Tidur dan mood saling memengaruhi, dan kurang tidur dapat memperburuk keduanya.' },
+  { q:'Mencatat mood dapat membantu mengenali pola.', a:true, ex:'Fakta. Catatan membantu melihat pola dari waktu ke waktu, meskipun bukan alat diagnosis.' },
+  { q:'Obat bisa dihentikan begitu merasa sudah lebih baik.', a:false, ex:'Mitos. Hentikan atau ubah obat hanya setelah berkonsultasi dengan dokter.' },
+  { q:'Hanya dengan kemauan keras, mood bisa dikendalikan sepenuhnya tanpa bantuan profesional.', a:false, ex:'Mitos. Kemauan membantu, tetapi perawatan profesional sering tetap diperlukan.' }
+];
+
+/* ---------- state ---------- */
 const DEF = {
   moods:[], journal:[], meds:[], medLogs:{}, medRemSent:{}, reflections:[],
   safety:{warn:'',cope:'',contacts:''},
   settings:{theme:'dark',reminder:false,time:'20:00',reduce:false,fx:true,backup:true},
-  lastReminder:'', lastBackup:'', lastBackupRem:''
+  lastReminder:'', lastBackup:'', lastBackupRem:'', read:{}
 };
-
-/* ---------- state ---------- */
 let S = structuredClone(DEF);
 let selMood = null, editM = null, editJ = null, range = 7, jSort = 'desc';
-let calRef = new Date(), calSel = null;
+let calRef = new Date(), calSel = null, kbCat = 'semua';
 let breathTimer = null, breathPhase = 0, reflQs = [], fxColor = '#d9ccff';
+let quizState = {};
 calRef.setDate(1);
 
 /* ---------- utilitas ---------- */
@@ -727,7 +983,7 @@ const dayStr = (off=0) => { const d = new Date(); d.setDate(d.getDate()-off); re
 const today = () => dayStr(0);
 const moodLabel = k => (MOODS.find(m => m[0] === k) || [0,'—'])[1];
 const moodVal = k => (MOODS.find(m => m[0] === k) || [0,0,0])[2];
-const avg = (arr, f) => arr.length ? arr.reduce((a,m)=>a+f(m),0)/arr.length : null;
+const avg = (arr, f) => arr.length ? arr.reduce((a,m) => a+f(m), 0)/arr.length : null;
 const between = (arr, from, to) => arr.filter(m => m.date >= from && m.date <= to);
 const dayOfYear = () => { const n = new Date(); return Math.floor((n - new Date(n.getFullYear(),0,0)) / 864e5); };
 const dayQs = () => [0,1,2,3].map(i => POOL[(dayOfYear()+i) % POOL.length]);
@@ -736,7 +992,7 @@ const wordsCount = s => (s.trim().match(/\S+/g) || []).length;
 const fmtDate = s => { const [y,m,d] = s.split('-'); return `${d}/${m}/${y}`; };
 const nowHM = () => { const n = new Date(); return pad(n.getHours())+':'+pad(n.getMinutes()); };
 
-function h(tag, attrs={}, ...kids) {
+function h(tag, attrs = {}, ...kids) {
   const e = document.createElement(tag);
   for (const [k,v] of Object.entries(attrs)) {
     if (k.startsWith('on')) e.addEventListener(k.slice(2), v);
@@ -769,7 +1025,7 @@ function load() {
     const raw = localStorage.getItem(KEY);
     if (raw) {
       const p = JSON.parse(raw);
-      if (p && typeof p === 'object') S = {...structuredClone(DEF), ...p, settings:{...DEF.settings,...(p.settings||{})}};
+      if (p && typeof p === 'object') S = {...structuredClone(DEF), ...p, settings:{...DEF.settings, ...(p.settings||{})}};
     }
   } catch (e) { toast('Data lokal rusak dan diabaikan.', true); }
 }
@@ -803,6 +1059,11 @@ function countTo(el, to, dec = 0, suffix = '') {
     if (k < 1) requestAnimationFrame(step);
   };
   requestAnimationFrame(step);
+}
+function setGauge(el, pct, label) {
+  el.style.setProperty('--p', Math.max(0, Math.min(100, pct)));
+  const t = el.querySelector('span');
+  if (t) t.textContent = label;
 }
 function typeInto(el, text) {
   el.classList.remove('done');
@@ -856,8 +1117,7 @@ function applyFx() {
 
 /* ---------- intro & judul ---------- */
 function buildTitles() {
-  const letters = 'MINDSPACE'.split('').map((c,i) => h('span', {style:`--i:${i}`}, c));
-  $('#intro-word').replaceChildren(...letters);
+  $('#intro-word').replaceChildren(...'MINDSPACE'.split('').map((c,i) => h('span', {style:`--i:${i}`}, c)));
   $('#hero-title').replaceChildren(...'MINDSPACE'.split('').map((c,i) => h('span', {style:`--i:${i}`}, c)));
 }
 function runIntro() {
@@ -924,7 +1184,7 @@ function setupKnowledge() {
   io.observe($('#pengetahuan'));
 }
 
-/* ---------- efek pointer: kartu miring, cahaya, tombol magnetis, riak, orb 3D, blob ---------- */
+/* ---------- efek pointer ---------- */
 let lastCard = null, lastBtn = null;
 function resetCard(c) { if (c) { c.style.setProperty('--rx','0deg'); c.style.setProperty('--ry','0deg'); } }
 function resetBtn(b) { if (b) { b.style.setProperty('--mgx','0px'); b.style.setProperty('--mgy','0px'); } }
@@ -986,7 +1246,7 @@ function setupPointer() {
   });
 }
 
-/* ---------- analisis: streak, lencana, sparkline, warna ambient ---------- */
+/* ---------- analisis dasar ---------- */
 function streak() {
   const days = new Set(S.moods.map(m => m.date));
   let n = 0, off = days.has(today()) ? 0 : 1;
@@ -1022,10 +1282,12 @@ function renderHome() {
   const last = S.moods[0];
   $('#h-mood').textContent = last ? moodLabel(last.mood) : 'Belum ada';
   countTo($('#h-avg'), avg(between(S.moods, dayStr(6), today()), m => moodVal(m.mood)), 1, ' / 5');
+
   const n = S.meds.length, log = S.medLogs[today()] || {};
   const taken = S.meds.filter(m => log[m.id]).length;
   $('#h-meds').textContent = n ? `${taken}/${n}` : '—';
-  $('#h-meds-bar').style.width = n ? (taken/n*100)+'%' : '0';
+  setGauge($('#g-meds'), n ? taken/n*100 : 0, n ? Math.round(taken/n*100)+'%' : '—');
+
   countTo($('#h-journal'), S.journal.length, 0);
 
   const st = streak();
@@ -1038,8 +1300,9 @@ function renderHome() {
 
 /* ---------- RENDER: MOOD ---------- */
 function renderMood() {
-  $('#mood-buttons').replaceChildren(...MOODS.map(([k,l]) =>
-    h('button', {class:'mood', type:'button', 'aria-pressed':String(selMood===k), onclick:()=>{ selMood = k; renderMood(); }}, l)));
+  $('#mood-buttons').replaceChildren(...MOODS.map(([k,l,,shape]) =>
+    h('button', {class:'mood', type:'button', style:`--shape:${shape}`, 'aria-pressed':String(selMood===k),
+      onclick:()=>{ selMood = k; renderMood(); }}, l)));
   renderCal();
   const list = $('#mood-list');
   if (!S.moods.length) { list.replaceChildren(h('p', {class:'muted'}, 'Belum ada catatan. Pilih mood di atas untuk memulai.')); return; }
@@ -1207,15 +1470,12 @@ function renderWeekdays() {
     const i = (new Date(y, mo-1, d).getDay() + 6) % 7;
     sum[i] += moodVal(m.mood); cnt[i]++;
   }
-  const hasAny = cnt.some(Boolean);
   const cols = WD.map((label, i) => {
     const v = cnt[i] ? sum[i]/cnt[i] : null;
-    const pct = v == null ? 0 : ((v-1)/4)*100;
-    const bar = h('div', {class:'wd-bar', title: v==null ? 'Belum ada data' : v.toFixed(1)+' / 5'});
-    return h('div', {class:'wd-col'}, bar, label);
+    return h('div', {class:'wd-col'},
+      h('div', {class:'wd-bar', title: v == null ? 'Belum ada data' : v.toFixed(1)+' / 5'}), label);
   });
   $('#wd').replaceChildren(...cols);
-  if (!hasAny) $('#wd').after?.call;
   requestAnimationFrame(() => requestAnimationFrame(() => {
     $$('#wd .wd-bar').forEach((bar, i) => {
       const v = cnt[i] ? sum[i]/cnt[i] : null;
@@ -1242,14 +1502,15 @@ function renderMonthly() {
   const w = between(S.moods, dayStr(29), today());
   if (!w.length) { $('#monthly').replaceChildren(h('p', {style:'margin:0'}, 'Belum ada catatan dalam 30 hari terakhir.')); return; }
   const days = new Set(w.map(m => m.date)).size;
-  const med = S.meds.length ? (() => {
+  let med = null;
+  if (S.meds.length) {
     let total = 0, done = 0;
     for (let i = 0; i < 30; i++) {
-      const d = dayStr(i), l = S.medLogs[d] || {};
+      const l = S.medLogs[dayStr(i)] || {};
       total += S.meds.length; done += S.meds.filter(m => l[m.id]).length;
     }
-    return total ? Math.round(done/total*100) : null;
-  })() : null;
+    med = total ? Math.round(done/total*100) : null;
+  }
   const tags = {};
   for (const m of w) for (const t of m.tags) tags[t] = (tags[t]||0)+1;
   const top = Object.entries(tags).sort((a,b) => b[1]-a[1])[0];
@@ -1474,7 +1735,7 @@ function buildReflect() {
   $('#r-filter').replaceChildren(h('option', {value:''}, 'Semua emosi'), ...EMOTIONS.map(e => h('option', {value:e}, e)));
 }
 
-/* ---------- PENGETAHUAN: siklus interaktif ---------- */
+/* ---------- PENGETAHUAN ---------- */
 function buildCycle() {
   $('#cycle').replaceChildren(...CYCLE.map(([t], i) =>
     h('button', {class:'chip', type:'button', 'aria-pressed':'false', onclick:()=>showCycle(i)}, t)));
@@ -1483,6 +1744,73 @@ function buildCycle() {
 function showCycle(i) {
   $$('#cycle button').forEach((b,j) => { b.classList.toggle('on', i===j); b.setAttribute('aria-pressed', String(i===j)); });
   $('#cycle-text').textContent = CYCLE[i][1];
+}
+function buildKbChips() {
+  const all = [['semua','Semua'], ...KB_CATS];
+  $('#kb-chips').replaceChildren(...all.map(([id,label]) =>
+    h('button', {class:'chip'+(kbCat===id?' on':''), type:'button', 'aria-pressed':String(kbCat===id),
+      onclick:()=>{ kbCat = id; buildKbChips(); renderKb(); }}, label)));
+}
+function renderKb() {
+  const items = KB.filter(k => kbCat === 'semua' || k.cat === kbCat);
+  const catLabel = Object.fromEntries(KB_CATS);
+  const grid = $('#kb-grid');
+  grid.replaceChildren(...items.map(k => {
+    const read = !!S.read[k.id];
+    const det = h('details', {}, 
+      h('summary', {},
+        h('div', {class:'kb-cat'}, catLabel[k.cat]),
+        h('div', {class:'kb-title'}, k.title),
+        h('p', {class:'kb-sum'}, k.sum)),
+      h('div', {class:'kb-body'},
+        ...k.body.map(p => h('p', {}, p)),
+        h('p', {class:'kb-tip'}, h('strong', {}, 'Coba ini: '), k.tip)));
+    det.addEventListener('toggle', () => {
+      if (det.open && !S.read[k.id]) {
+        S.read[k.id] = true; save();
+        det.parentElement.classList.add('read');
+        updateKbProgress();
+      }
+    });
+    return h('article', {class:'glass kb reveal'+(read?' read':'')}, det);
+  }));
+  if (!items.length) grid.replaceChildren(h('p', {class:'kb-empty'}, 'Belum ada artikel di kategori ini.'));
+  setupReveal();
+  updateKbProgress();
+}
+function updateKbProgress() {
+  const total = KB.length, read = KB.filter(k => S.read[k.id]).length;
+  $('#kb-count').textContent = `${total} artikel`;
+  $('#kb-read').textContent = `${read} dibaca`;
+  $('#kb-bar').style.width = (read/total*100).toFixed(1)+'%';
+}
+function buildQuiz() {
+  $('#quiz').replaceChildren(...QUIZ.map((item, i) => {
+    const box = h('div', {class:'qz', id:'qz'+i},
+      h('p', {}, item.q),
+      h('div', {class:'btns'},
+        h('button', {class:'btn small', type:'button', onclick:()=>answerQuiz(i, true)}, 'Fakta'),
+        h('button', {class:'btn ghost small', type:'button', onclick:()=>answerQuiz(i, false)}, 'Mitos')),
+      h('p', {class:'ex', hidden:''}, item.ex));
+    return box;
+  }));
+  updateQuizScore();
+}
+function answerQuiz(i, val) {
+  if (quizState[i] !== undefined) return;
+  const correct = QUIZ[i].a === val;
+  quizState[i] = correct;
+  const box = $('#qz'+i);
+  box.classList.add(correct ? 'right' : 'wrong');
+  box.querySelector('.btns').replaceChildren();
+  const ex = box.querySelector('.ex'); ex.hidden = false;
+  ex.textContent = (correct ? 'Tepat. ' : 'Belum tepat. ') + QUIZ[i].ex;
+  updateQuizScore();
+}
+function updateQuizScore() {
+  const answered = Object.keys(quizState).length;
+  const right = Object.values(quizState).filter(Boolean).length;
+  $('#qz-score').textContent = answered ? `Skor: ${right} dari ${QUIZ.length} (sudah dijawab ${answered})` : `Belum ada jawaban. Ada ${QUIZ.length} pernyataan.`;
 }
 
 /* ---------- KESELAMATAN ---------- */
@@ -1571,9 +1899,9 @@ async function importData(file) {
 function clearAll() {
   if (!confirm('Hapus semua data MINDSPACE di perangkat ini? Tindakan ini tidak bisa dibatalkan.')) return;
   try { localStorage.removeItem(KEY); } catch (e) {}
-  S = structuredClone(DEF); calSel = null;
+  S = structuredClone(DEF); calSel = null; quizState = {};
   resetMoodForm(); resetJournalForm();
-  renderSettings(); renderAll(); toast('Semua data dihapus');
+  renderSettings(); renderAll(); buildQuiz(); renderKb(); toast('Semua data dihapus');
 }
 
 /* ---------- PENGINGAT ---------- */
@@ -1624,6 +1952,9 @@ function init() {
   buildTitles();
   buildReflect();
   buildCycle();
+  buildKbChips();
+  renderKb();
+  buildQuiz();
   loadSafety();
 
   $('#j-mood').append(...MOODS.map(([k,l]) => h('option', {value:k}, l)));
